@@ -127,7 +127,11 @@ export function ModelMultiselect(props: ModelMultiselectProps) {
 	const loadOptions = useCallback(
 		(query: string, callback: (options: ModelOption[]) => void) => {
 			// Prepend "Allow All Models" when allowAllOption is enabled and query matches (or is empty)
-			const prefix: ModelOption[] = allowAllOption && (!query || "all models".includes(query.toLowerCase())) ? [ALL_MODELS_OPTION] : [];
+			const prefix: ModelOption[] =
+				allowAllOption &&
+				(!query || "all models".includes(query.toLowerCase()) || ALL_MODELS_OPTION.label.toLowerCase().includes(query.toLowerCase()))
+					? [ALL_MODELS_OPTION]
+					: [];
 
 			if (!provider && !shouldLoadOnEmpty) {
 				callback(prefix);

@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n/runtime";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -301,7 +302,7 @@ export default function OnboardingWidget() {
 									<div
 										className={cn("text-muted-foreground px-2 pb-1 text-[10px] font-semibold tracking-wider uppercase", idx > 0 && "pt-3")}
 									>
-										{step.section}
+										{t(step.section)}
 									</div>
 								)}
 								<div

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useBranding } from "@/lib/hooks/useBranding";
+import { displayError } from "@/lib/i18n/errors";
 import { getErrorMessage, useLoginMutation } from "@/lib/store/apis";
 import { BooksIcon, DiscordLogoIcon, GithubLogoIcon } from "@phosphor-icons/react";
 import { useNavigate } from "@tanstack/react-router";
@@ -52,7 +53,7 @@ export default function LoginView() {
 			navigate({ to: "/workspace" });
 		} catch (error) {
 			const message = getErrorMessage(error);
-			setErrorMessage(message);
+			setErrorMessage(displayError(message));
 		} finally {
 			setIsLoading(false);
 		}

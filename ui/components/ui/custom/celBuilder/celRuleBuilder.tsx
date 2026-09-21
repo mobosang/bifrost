@@ -263,6 +263,12 @@ export function CELRuleBuilder({
 								translations={{
 									addRule: { label: "Add Rule" },
 									addGroup: { label: "Add Rule Group" },
+									removeRule: { label: "x", title: "Remove rule" },
+									removeGroup: { label: "x", title: "Remove group" },
+									fields: { title: "Field" },
+									operators: { title: "Operator" },
+									value: { title: "Value" },
+									combinators: { title: "Match conditions" },
 								}}
 							/>
 						</QueryBuilderWrapper>

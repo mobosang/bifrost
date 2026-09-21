@@ -21,6 +21,8 @@ import { ModelLimitsPage } from "../../features/model-limits/pages/model-limits.
  * Custom test fixtures type
  */
 type BifrostFixtures = {
+	uiLanguage: "en-US" | "zh-CN" | "default";
+	initializeUiLanguage: void;
 	closeDevProfiler: void;
 	handleLoginRedirect: void;
 	skipAutoLogin: boolean;
@@ -46,6 +48,17 @@ type BifrostFixtures = {
  * Extended test with Bifrost-specific fixtures
  */
 export const test = base.extend<BifrostFixtures>({
+	// Keep upstream English selectors stable; localization tests use the product default.
+	uiLanguage: ["en-US", { option: true }],
+	initializeUiLanguage: [
+		async ({ context, uiLanguage }, use) => {
+			if (uiLanguage !== "default") {
+				await context.addInitScript(language => localStorage.setItem("bifrost.locale", language), uiLanguage);
+			}
+			await use();
+		},
+		{ auto: true },
+	],
 	closeDevProfiler: [
 		async ({ page }, use) => {
 			// Keep the development profiler from stealing focus or blocking assertions when

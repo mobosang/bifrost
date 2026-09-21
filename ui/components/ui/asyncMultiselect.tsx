@@ -24,6 +24,7 @@ import {
 	ValueContainerProps,
 } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
+import { t } from "@/lib/i18n/runtime";
 import { useDebouncedFunction } from "../../hooks/useDebounce";
 import { Icons } from "./icons";
 import { Label } from "./label";
@@ -388,7 +389,9 @@ export function AsyncMultiSelect<T>(props: AsyncMultiSelectProps<T>) {
 
 					props.onChange && props.onChange(normalizedSelection);
 				}}
-				formatCreateLabel={props.formatCreateLabel}
+				formatCreateLabel={props.formatCreateLabel ?? ((input) => t('Create "{0}"', [input]))}
+				loadingMessage={() => t("Loading...")}
+				screenReaderStatus={({ count }) => t("{0} results available", [count])}
 				controlShouldRenderValue={props.controlShouldRenderValue ?? true}
 				menuPlacement={props.menuPlacement}
 				blurInputOnSelect={false}

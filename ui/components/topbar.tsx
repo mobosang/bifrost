@@ -1,4 +1,6 @@
 import NotificationCenter from "@/components/notificationCenter";
+import LanguageSwitcher from "@/components/languageSwitcher";
+import { t } from "@/lib/i18n/runtime";
 import { ThemeToggle } from "@/components/themeToggle";
 import { deriveTitleFromPathname, TOPBAR_MENU_SIDE_OFFSET } from "@/components/topbar.utils";
 import {
@@ -84,7 +86,7 @@ function usePageTitle() {
  * against that variable.
  */
 export default function Topbar() {
-	const title = usePageTitle();
+	const title = t(usePageTitle());
 	const setDescriptionSlot = useDescriptionSlotRef();
 	const setMobileFilterSlot = useMobileFilterSlotRef();
 	const navigate = useNavigate();
@@ -138,6 +140,7 @@ export default function Topbar() {
 			<span ref={setMobileFilterSlot} className="flex shrink-0 items-center md:hidden" />
 			<NotificationCenter />
 			<ThemeToggle />
+			<LanguageSwitcher />
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>

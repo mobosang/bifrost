@@ -5,12 +5,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { localization } from "./lib/i18n/plugin.mts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isEnterpriseBuild = fs.existsSync(path.join(__dirname, "app", "enterprise"));
 
 export default defineConfig({
 	plugins: [
+		localization(__dirname),
 		tanstackRouter({
 			target: "react",
 			routesDirectory: "./app",

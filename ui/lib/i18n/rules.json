@@ -1,0 +1,64 @@
+{
+	"containers": {
+		"components/topbar.utils.ts": ["routeTitleOverrides"],
+		"lib/constants/config.ts": ["ModelPlaceholders"],
+		"lib/constants/governance.ts": ["resetDurationLabels", "MONTH_ABBREVIATIONS"],
+		"lib/constants/logs.ts": ["RequestTypeLabels", "RoutingEngineUsedLabels"],
+		"lib/budgetOutline.ts": ["SHORT_PERIOD"],
+		"app/workspace/logs/page.tsx": ["COLUMN_LABELS"],
+		"app/workspace/mcp-logs/page.tsx": ["MCP_COLUMN_LABELS"],
+		"app/workspace/logs/sheets/logDetailView.tsx": ["messageRoleLabel"],
+		"app/workspace/mcp-registry/views/mcpHeadersAuthorizer.tsx": ["titles", "subtitles"],
+		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["titles", "subtitles"],
+		"app/workspace/model-catalog/views/attributeSheet.tsx": ["SCOPE_CAVEATS"],
+		"components/ui/entityAssociationSelect.tsx": ["defaultPlaceholders", "defaultNoOptionsMessages", "entityTypeLabels"],
+		"app/workspace/webhooks/views/webhookDetailsSheet.tsx": ["OUTCOME_LABELS"],
+		"components/ui/providerConfigCard.tsx": ["headerSummary", "keysSummary", "modelsSummary", "rlSummary"]
+	},
+	"propertyContainers": {
+		"lib/store/apis/providersApi.ts": ["DEFAULT_MODEL_PARAMETERS"],
+		"hooks/useOnboardingChecklist.ts": ["common", "enterprise"],
+		"lib/utils/routingRules.ts": ["operatorPatterns"],
+		"lib/utils/validation.ts": ["PASSWORD_REQUIREMENTS"]
+	},
+	"functions": {
+		"lib/constants/governance.ts": ["fiscalQuarterNote"],
+		"lib/budgetOutline.ts": ["budgetLinesLabel"],
+		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["authorizationHost"],
+		"app/workspace/providers/views/providerKeyForm.tsx": ["getTooltipContent"]
+	},
+	"textArrays": {
+		"app/workspace/docs/page.tsx": ["items"]
+	},
+	"variables": {
+		"app/workspace/observability/fragments/prometheusFormFragment.tsx": ["tooltipMsg"],
+		"app/workspace/custom-pricing/overrides/pricingOverrideSheet.tsx": ["errors", "errs"],
+		"lib/budgetOutline.ts": ["fallback"],
+		"app/workspace/mcp-sessions/auth/page.tsx": ["body"],
+		"lib/validators/skills.ts": ["warning"]
+	},
+	"literals": {
+		"app/workspace/config/views/modelSettingsView.tsx": ["URL must start with http://, https://, or file://"],
+		"app/workspace/config/views/pricingConfigView.tsx": ["URL must start with http:// or https://"],
+		"app/workspace/logs/views/logsHeaderView.tsx": ["Failed to recalculate costs"],
+		"app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx": ["Invalid date"],
+		"components/ui/providerConfigCard.tsx": ["No cap"],
+		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key"],
+		"lib/utils/celConverterRouting.ts": ["Rules using rate limits or budget must have a \"model\" or \"provider\" condition"],
+		"app/oauth/consent/page.tsx": ["MCP Client"],
+		"app/workspace/dashboard/components/exportPopover.tsx": ["Powered by"],
+		"app/workspace/governance/views/teamsTable.tsx": ["Unknown Customer"],
+		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["Authorization failed", "OAuth flow failed"],
+		"app/workspace/mcp-sessions/auth/page.tsx": ["MCP server", "this MCP server"],
+		"app/workspace/observability/views/observabilityView.tsx": ["Coming soon"],
+		"app/workspace/routing-rules/views/routingRuleInfoSheet.tsx": ["Incoming provider", "Incoming model"],
+		"app/workspace/routing-rules/views/routingRulesTable.tsx": ["Any model"],
+		"components/ui/custom/celBuilder/celRuleBuilder.tsx": ["No rules defined yet"],
+		"lib/validators/skills.ts": ["SKILL.md body is required"],
+		"app/workspace/virtual-keys/views/virtualKeysTable.tsx": ["customer filter", "team filter", "user filter"]
+	},
+	"templatePrefixes": {
+		"app/workspace/logs/views/columns.tsx": ["Tool Result: ", "Assistant Tool Call: "],
+		"app/workspace/skills-repo/forms/skillEditForm.tsx": ["Full path: "]
+	}
+}

@@ -5,6 +5,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CombinatorSelectorProps } from "react-querybuilder";
+import { t } from "@/lib/i18n/runtime";
 
 export function CombinatorSelector({ value, handleOnChange, options }: CombinatorSelectorProps) {
 	return (
@@ -20,7 +21,7 @@ export function CombinatorSelector({ value, handleOnChange, options }: Combinato
 						onClick={() => handleOnChange(option.name)}
 						className="px-3"
 					>
-						{option.label.toUpperCase()}
+						{option.name === "and" ? t("AND") : option.name === "or" ? t("OR") : option.label.toUpperCase()}
 					</Button>
 				);
 			})}
