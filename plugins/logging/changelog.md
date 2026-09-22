@@ -1,7 +1,7 @@
-- feat: make log recalculation task cancellable backend (#5801)
-- feat: add `roots_only` filter to collapse fallback chains with child aggregates (#5737)
-- feat: add plugin logs in mcp logs (#5746)
-- feat(mcp-guardrails): add MCP log redaction changes (#5744)
-- feat: video requests info in logs ui (#5946)
-- feat: cost for prompt guardrails (#4931)
-- chore: upgraded core to v1.7.11 and framework to v1.5.9
+- chore: upgraded core to v1.9.1 and framework to v1.7.1
+- feat: MCP tool log rows carry governance entity names alongside their IDs, written from the request context at ingestion, so nothing is resolved on read (#7154)
+- feat: endpoint-attributed MCP observations are written onto both the pending and the final MCP tool log entry, with the observation snapshotted so it cannot alias across async entries (#6959)
+- feat: cost recalculation honours time-of-day peak and off-peak pricing, scaling usage-based charges by `off_peak_cost_multiplier` when a request falls outside every declared peak window (#6575)
+- feat: GA realtime transcription sessions are logged and priced through the standard pipeline with transcription-aware pricing (#7089)
+- fix: a request whose caller disconnected before the upstream finished is logged and finalized deterministically rather than roughly half the time, so abandoned requests no longer leave a log row stuck in its pending state (#6972)
+- docs: clarified that `CountRecalcTargets` reads a materialized view that can lag, so its `Total` is an approximation rather than an exact count (#7078)

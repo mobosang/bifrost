@@ -1,89 +1,43 @@
 ## ✨ Features
 
-- **MCP Per-User OAuth** - MCP clients can hold per-user OAuth credentials and per-user headers, configurable from `config.json` as well as the UI, with a documented shared vs per-identity token lookup contract and VK/Users filters on the OAuth Grants and MCP Auth Sessions sidebars
-- **Token Exchange IDP Credentials** - New `use_idp_credentials` on `token_exchange` reuses SSO login app credentials for providers that require it, such as Microsoft Entra ID; `client_id` becomes optional when it is set (#6068, #6069)
-- **Bedrock VPC Endpoints** - AWS Bedrock keys can target VPC endpoints (#6064)
-- **Per-Request Flat-Fee Pricing** - New `cost_per_request` field flows through datasheet sync, the cost engine, custom overrides and the UI override form (#6079)
-- **Pricing Overrides in the Model Catalog** - `/api/models/details` exposes resolved pricing overrides, and catalog rows resolve overrides server-side (#6055, #6056)
-- **MCP Tool Discovery Persistence** - Discovered MCP tools persist and resync uniformly across all client types through a hash-gated core callback, surviving restarts and propagating across a cluster
-- **W3C Trace ID Propagation** - Requests carry a W3C trace ID on the context (#5945)
-- **Cancellable Log Cost Recalculation** - Log cost recalculation tasks can be cancelled from the backend (#5801)
-- **Separate OTEL Metrics Pipeline** - The OTEL collector supports a metrics tab independent of traces, plus separate headers for traces and metrics (#5939, #5940)
-- **Roots-Only Log Filter** - New `roots_only` filter collapses fallback chains into their root entry with child aggregates (#5737)
-- **MCP Log Redaction and Plugin Logs** - MCP tool logs carry redaction mappings and plugin logs (#5744, #5746)
-- **User Agent and App Attribution in Logs** - Logs and MCP tool logs record user agent, app, source, decision, app key and device ID
-- **S3 Log Export Metadata** - Additional metadata is written alongside S3 log exports (#6070)
-- **Matview Maintenance Off Switch** - `matview_refresh_interval` accepts `"off"` to disable logstore matview maintenance entirely (thanks [@jeremym-tanium](https://github.com/jeremym-tanium)!) (#5693)
-- **Video Request Info in Logs UI** - Video requests surface their details in the logs UI (#5946)
-- **Shell Rewriter Hook** - The UI handler exposes a `ShellRewriter` hook for pre-hydration HTML rewriting (#5807)
-- **Auth Skip Path** - Adds a context path letting trusted internal callers bypass auth resolution
-- - **Runware passthrough** - Adds `runware_passthrough` path for handling passthrough mode for Runware provider
+- **Virtual Key Assignees and Expanded Search** - The virtual key list resolves `assigned_user` for every row via a single batch lookup, and VK search matches team, customer and user names in addition to key fields, so keys can be found by who owns them (#7225, #7226)
+- **User Attribution in Prometheus Metrics** - The telemetry plugin's metrics export includes user id and user name labels, so per-user usage and error rates can be graphed and alerted on directly (#7267)
+- **Prompt Cache Breakpoints Capability** - A `SupportsPromptCacheBreakpoints` model cap with a name-based fallback for OpenRouter gates `prompt_cache_breakpoint` forwarding, so OpenRouter's non-Claude models stop rejecting requests that carry it (#7261, #7262)
+- **MCP Observed Latency** - Native (observed) MCP tool-call latency from `observed_latency_ms` is surfaced in the logs duration column and detail sheet, kept clearly distinct from true execution time and never fabricating a synthetic start timestamp on the timeline (#7271)
 
 ## 🐞 Fixed
 
-- **GenAI SSE Heartbeats** - GenAI streams delimit heartbeat comments so Google SDK clients preserve the following event (thanks [@dani29](https://github.com/dani29)!) (#6240)
-- **Path Normalization Auth Bypass** - Fixed a path normalization flaw that allowed auth to be bypassed (#5763)
-- **Minimal Reasoning Effort on GPT-5 Models** - `reasoning_effort: "minimal"` is preserved for GPT-5-family OpenAI models instead of being downgraded to `low` (thanks [@jitokim](https://github.com/jitokim)!) (#6046)
-- **Gemini Truncated Response Finish Reason** - Truncated Gemini responses report `MAX_TOKENS` instead of `OTHER` (thanks [@AdityaPainuli](https://github.com/AdityaPainuli)!) (#5979)
-- **Null Tool-Call Function Name on Streaming** - Streaming continuation deltas no longer materialize an absent tool-call function name as `null` (thanks [@AdityaPainuli](https://github.com/AdityaPainuli)!) (#5966)
-- **Bedrock Document Uploads** - Fixed Bedrock file handling in inference so office and PDF documents sent as OpenAI `type: "file"` are accepted (#5947)
-- **xAI Usage Cost** - Fixed USD cost ticks for xAI usage (#5950)
-- **Anthropic Encrypted Reasoning** - Added an Anthropic error branch when stripping encrypted reasoning content
-- **MCP Reconnect and Lock Ordering** - Broke a lock-order inversion in `ConnectionCheckerManager`, rebuilt ephemeral clients across the whole connect+init retry, preserved last-known tool maps across close-first reconnects, bound connect attempts to entry identity, deduped background reconnects and gated SSE `OnConnectionLost` on connection identity
-- **MCP OAuth Session Correctness** - Restricted `Reauthorize` to shared OAuth clients, rejected inactive tokens in `ValidateToken`, made the OAuth flow claim atomic against concurrent reauth, stopped dropping stored scopes on decode failure, and closed a verify-headers double-submit race that also dropped TLS, timeout and per-user-header fields
-- **Session Stickiness Reconciliation** - `needs_session_stickiness` is pinned across `config.json` reconciliation, so an unrelated file edit can no longer silently revert a client to per-call
-- **Credential Cache Cancellation** - `headerCredentialCache.Fill` and `userTokenCache.Fill` propagate context so a cancelled request unblocks instead of waiting on an unrelated leader; LRU entries carry a version so a rejected stale `Get` cannot evict a concurrently-updated value
-- **Governance List-Models Call** - Budgets and rate limits no longer trigger a list-models call (#6051)
-- **Realtime Response Create Input** - Guarded `response.create` input (#6050)
-- **HTTP Server Timeouts** - Configured bounded `http.Server` timeouts and a request-body limit
-- **MCP Client State Badges** - State badges render with spaces instead of underscores, and the state filter bucket was renamed from `disconnected` to `unstable`
-- **Entra OBO Scope** - `offline_access` is combined with `<audience>/.default` for Entra OBO instead of replacing it (#6078)
-
-## 🔧 Maintenance
-
-- **Governance Route Families** - Editions can override governance route families (#5839)
-- **Dependency Upgrades** - Dependabot updates across all modules, plus module path fixes (#6040, #5864)
-- **Documentation** - config.schema.json doc fixes and Datadog env var reference fixes in the helm chart docs (#5938, #6019)
+- **Resource ID Path Injection** - Caller-supplied resource IDs (batch, file, video, container, response IDs, cached content names) were interpolated into outbound URL paths unvalidated; a crafted ID with `../`, `?`, `#`, percent-encoded bytes or control characters could redirect the request to an unintended upstream endpoint. A central `EscapeResourceID` helper validates and escapes every such ID (#7307, #7310)
+- **Bedrock S3 SSRF** - A caller-supplied `s3://` file ID or `s3_bucket` param could control the upstream host, since S3 virtual-hosted URLs are built as `https://{bucket}.{s3host}/{key}`; a bucket like `127.0.0.1:PORT#` opened a SigV4-signed TLS connection to a caller-chosen host. Bucket names are now validated with a DNS-compatible regex (#7315)
+- **Caller-Forged Billing Idempotency** - The billing-idempotency key was `(RequestID, AttemptNumber)`, and `RequestID` may come from the caller's `x-request-id` header, so two unrelated requests sharing a deliberately chosen ID collided and the second was silently never charged. An internally minted `BillingNonce` is mixed into the key, making it unforgeable (#7303)
+- **Abandoned Non-Streaming Request Hung Forever** - The worker kept a `ctx.Done()` arm on an already-claimed delivery send, a regression from the #6972 delivery fix, so a non-streaming caller could hang indefinitely (#7313)
+- **Repeated Empty Thinking Blocks** - Streaming chat chunks emitted empty reasoning/message fields on every content delta, which clients rendered as repeated empty thinking blocks (#7318)
+- **Claude Code Thread Continuations Failed Behind Key Rotation** - Claude Code's server-side conversation threads are bound to the upstream account that creates them, and Bifrost's per-request key selection, retries and fallbacks cannot keep a continuation on that account, so `thread: {"type": "continue"}` requests failed with `thread_not_found` (about half the time on a two-key config). The Anthropic integration now declares itself stateless: continuations are refused before the provider call with a 400 whose `details.error_code` is `thread_unsupported_request`, which makes the client resend the turn in full and stop sending the thread field for the rest of the session, and the provider raw-body path strips `thread` from create requests so no orphaned thread state accumulates upstream. Token counting is never refused (#7274)
+- **Gemini Flash-Lite Minimal Thinking Promoted to Low** - Normalized `gemini-3.1-flash-lite` requests silently promoted `minimal` thinking to `low` on both Gemini and Vertex; the text model's four supported levels are now registered, preserving the image variant's separate restrictions (#7288) (thanks [@Javtor](https://github.com/Javtor)!)
+- **Config.json Virtual Key Limits Broke Under UI Edits** - VK rate limits and budgets created via the config.json standalone-limits flow and then edited through the UI produced duplicate, conflicting ownership records (standalone budgets owned directly by the VK, plus orphaned UUID rate-limit rows created by the UI). Migration `migrate_vk_standalone_limits_to_model_configs` consolidates ownership into VK-scoped model configs while preserving usage counters, and the write paths stop creating the divergent rows (#7291)
+- **Bedrock Service Tier Rejections** - Service tier forwarding for Bedrock (Converse and Mantle paths) sent whatever tier was requested; it is now gated on explicit model capability metadata, failing closed when none exists, so models that do not support the requested tier stop rejecting the request (#7266)
+- **Anthropic Root-Level Tool Schema Compositions** - Anthropic rejects `oneOf`/`anyOf`/`allOf` at the root of a tool's `input_schema` but accepts them inside properties; root-level compositions are now rewritten into a flat object schema before dispatch, unblocking tools like Codex's `automation_update` (#7265)
+- **GenAI Streaming TTS** - Speech stream chunks routed through the `/genai` integration had no converter registered; `ToGeminiSpeechStreamResponse` now serves streaming TTS, and the streaming router returns a clean error instead of panicking when any stream converter is missing (#7248)
+- **xAI Usage and Cost** - xAI reports visible and reasoning completion tokens separately; `completion_tokens` now folds reasoning in so `prompt_tokens + completion_tokens = total_tokens` holds, and streaming cost normalization preserves xAI's authoritative `cost_in_usd_ticks` to the terminal usage chunk instead of falling back to catalog pricing (#7245, #7250)
+- **OpenAI-Only `search_content_types` Forwarded Everywhere** - `search_content_types` on `web_search` tools is an OpenAI-specific extension; it is now gated behind a per-provider capability check so Bedrock and other OpenAI-compatible backends receive a clean `web_search` tool without the field (#7244)
+- **Claude Code `diagnostics` Field Rejected by Non-Native Providers** - Claude Code sends `diagnostics.previous_message_id` on every request; on the typed-sanitizer path Bedrock, Vertex and Azure returned 400 `diagnostics: Extra inputs are not permitted`. The field is stripped for providers that do not support it (#7243)
+- **Unreadable Bedrock Error Logs** - AWS returns errors in a flat `{"message": ..., "__type": ...}` shape the shared Anthropic/OpenAI parsers never looked at, so Bedrock errors were logged with no human-readable reason; the root-level message now seeds `BifrostError`, and the logs UI falls back to showing the raw provider error body when no message could be extracted (#7221, #7222)
+- **Anthropic `container` Param Dropped** - The string-form `container` param on `/anthropic/v1/messages` was silently dropped, so container reuse provisioned a fresh container every time; it is now carried through the round trip (#5829) (thanks [@AdityaPainuli](https://github.com/AdityaPainuli)!)
+- **Responses API Finish Reason Missing From OTEL Spans** - `gen_ai.response.finish_reason` / `finish_reasons` are now emitted on the `llm.call` span for `/v1/responses` requests, so refusals are visible to OTEL consumers, matching the chat path (#7205) (thanks [@bkfl-notai](https://github.com/bkfl-notai)!)
+- **Cohere Fallback Response Shape** - The Cohere-compatible route returned the raw Bifrost normalized response when a fallback served the request from a non-Cohere provider, which the Cohere SDK failed to parse; responses are now converted to the Cohere v2 shape (`message`, `finish_reason`) (#7198)
+- **Skill Serving Race** - Fixed a race condition in the skill serving handler
+- **Log and Dashboard Label Truncation** - Long model and provider labels in the logs table and dashboard charts truncate from the start so the distinctive suffix stays visible, the logs model column is wider, the search field border and icon spacing are cleaned up, and key picker options are keyed by id so duplicate labels stop highlighting together (#7215, #7216, #7217, #7269, #7297)
 
 ## 🗄️ Database Migrations
 
-**configstore:**
+- **migrate_vk_standalone_limits_to_model_configs** - Consolidates virtual key standalone budgets and rate limits into VK-scoped model configs: standalone budgets are re-pointed to the VK's top-level model config (created if missing, usage preserved), orphaned duplicate UUID rate-limit rows created by the UI are deleted with the model config re-pointed to the canonical config.json row, and `vk.rate_limit_id` is cleared. 
 
-- **add_mcp_client_pending_oauth_config_json_column** - Adds `pending_oauth_config_json` to `config_mcp_clients`. Reversible: drops the added column.
-- **merge_oauth_token_tables** - Consolidates `oauth_tokens` and `oauth_user_tokens` into `mcp_oauth_tokens`. **Non-reversible**: rollback deliberately leaves `mcp_oauth_tokens` in place, because every OAuth read and write targets it from this migration onward and dropping it would destroy any token created or refreshed since, forcing every holder to re-authorize.
-- **create_mcp_oauth_flows_table** - Creates `mcp_oauth_flows` to track in-flight OAuth flows. Reversible: drops the new table.
-- **drop_oauth_config_pkce_columns** - Drops CSRF state, PKCE verifier and `expires_at` from the OAuth config table now that they live on `mcp_oauth_flows`. **Non-reversible**: forward-only, the dropped values were per-flow ephemeral and re-adding empty columns would restore nothing.
-- **drop_oauth_config_token_id_column** - Drops `token_id`. **Non-reversible**: forward-only, it was a pure FK shortcut now reachable via `(oauth_config_id, auth_mode)`.
-- **add_mcp_admin_auth_mode_indexes** - Adds admin partial unique indexes on `mcp_oauth_tokens` and `mcp_per_user_header_credentials`. Reversible: drops both indexes.
-- **add_mcp_client_token_exchange_json_column** - Adds `token_exchange_json` to `config_mcp_clients`. Reversible: drops the added column.
-- **add_needs_session_stickiness_column** - Adds `needs_session_stickiness` to `config_mcp_clients`. Reversible: drops the added column.
-- **add_bedrock_endpoints_columns** - Adds Bedrock VPC endpoint columns to the keys table. Reversible: drops the added columns.
-- **add_cost_per_request_pricing_column** - Adds `cost_per_request` to model pricing. Reversible: drops the added column.
-
-**logstore:**
-
-- **logs_add_guardrail_debug_column** - Adds `guardrail_debug` to logs. Reversible: drops the added column.
-- **mcp_tool_logs_add_redaction_mapping_column** - Adds the redaction mapping column to MCP tool logs. **Non-reversible**: rollback is a no-op because dropping the column would permanently destroy reveal data for already-redacted MCP logs.
-- **logs_add_user_agent_column** - Adds user agent and app columns, their indexes, and a `UserAgentMapping` table. Reversible: drops the indexes and the mapping table.
-- **mcp_tool_logs_add_user_agent_column** - Adds user agent and app columns plus indexes to MCP tool logs. Reversible: drops both indexes and the `app` column.
-- **mcp_tool_logs_add_endpoint_columns** - Adds `source`, `decision`, `app_key` and `device_id` to MCP tool logs. Reversible: drops all four columns.
-- **mcp_tool_logs_add_plugin_logs_column** - Adds `plugin_logs` to MCP tool logs. Reversible: drops the added column.
-- **logs_recreate_matviews_with_user_agent_column** and **logs_recreate_matviews_with_app_column** - Recreate the log materialized views to include the new columns. Rollback is a no-op because `ensureMatViews` recreates them on next startup.
-
-<Warning>
-**High-throughput deployments: run the logstore migrations during a low-activity window.**
-
-Every logstore migration above alters `logs` or `mcp_tool_logs`, the two highest-insert tables in Bifrost, and several also build indexes on them. On a busy instance the index builds hold locks that block concurrent log inserts for the duration of the build, and the matview recreations rebuild against the full table. Schedule the upgrade for a low-traffic period, or expect elevated log-write latency and possible request-path backpressure while the migrations run.
-</Warning>
-
-<Warning>
-`merge_oauth_token_tables`, `drop_oauth_config_pkce_columns` and `drop_oauth_config_token_id_column` transform or remove existing OAuth state and cannot be rolled back. Take a database backup before upgrading, and do not roll the binary back past this release once the migration has run.
-</Warning>
 
 ## 🐙 Closed GitHub Issues
 
 - [#123](https://github.com/maximhq/bifrost/issues/123) - Files API Support
-- [#5472](https://github.com/maximhq/bifrost/issues/5472) - [Bug]: Bedrock rejects office/PDF document uploads via OpenAI `type:"file"` - "The PDF specified was not valid"
-- [#5900](https://github.com/maximhq/bifrost/issues/5900) - [Bug]: Streaming continuation chunks materialize omitted tool-call metadata as null
-- [#5978](https://github.com/maximhq/bifrost/issues/5978) - [Bug]: Gemini egress reports truncated responses as FinishReason OTHER, IncompleteDetails switch matches a string that never occurs
-- [#6044](https://github.com/maximhq/bifrost/issues/6044) - [Bug]: normalizeOpenAIReasoningEffort maps 'minimal' to 'low' for ALL OpenAI models, even ones that natively support 'minimal'
+- [#5707](https://github.com/maximhq/bifrost/issues/5707) - string-form `container` param on /anthropic/v1/messages is silently dropped - container reuse provisions a fresh container
+- [#7204](https://github.com/maximhq/bifrost/issues/7204) - Responses API path never sets gen_ai.response.finish_reason in OTEL traces (refusals invisible to observability)
+- [#7287](https://github.com/maximhq/bifrost/issues/7287) - Gemini 3.1 Flash-Lite minimal thinking is silently promoted to low
+- [#7294](https://github.com/maximhq/bifrost/issues/7294) - Streaming chat chunks emit empty reasoning/message fields on every content delta, causing repeated thinking blocks
+- [#7308](https://github.com/maximhq/bifrost/issues/7308) - non-streaming caller hangs forever - worker keeps a ctx.Done() arm on a claimed delivery send (regression from #6972)

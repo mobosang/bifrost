@@ -186,8 +186,9 @@ func ResolveSessionIDFromRequest(h *fasthttp.RequestHeader) string {
 //   - The prefix is stripped and the remainder becomes the dimension key.
 //   - Example: 'x-bf-dim-environment' with value 'production' stores {"environment": "production"}.
 //
-// 1a. Prometheus Headers (x-bf-prom-*) [DEPRECATED — use x-bf-dim-* instead]:
-//   - All headers prefixed with 'x-bf-prom-' are still accepted for backward compatibility.
+// 1a. Prometheus Headers (x-bf-prom-*) [REMOVED — use x-bf-dim-* instead]:
+//   - No longer consumed by anything. Still swallowed here so they neither leak
+//     into unified dimensions nor get forwarded to the provider.
 //
 // 2. Maxim Tracing Headers (x-bf-maxim-*):
 //   - Specifically handles 'x-bf-maxim-traceID' and 'x-bf-maxim-generationID'
@@ -212,7 +213,9 @@ func ResolveSessionIDFromRequest(h *fasthttp.RequestHeader) string {
 //
 // 6. Cancellable Context:
 //   - Creates a cancellable context that can be used to cancel upstream requests when clients disconnect
-//   - This is critical for streaming requests where write errors indicate client disconnects
+//   - A watcher peeks at the client socket and cancels the context when the client closes it
+//     before anything was written back (silent upstream, retry backoff), see clientdisconnect.go
+//   - Streaming handlers additionally cancel when an SSE write fails
 //   - Also useful for non-streaming requests to allow provider-level cancellation
 //
 // 7. Extra Headers (x-bf-eh-*):
@@ -228,6 +231,7 @@ func ResolveSessionIDFromRequest(h *fasthttp.RequestHeader) string {
 //
 // 9. Raw Capture Headers (per-request override of provider config; accepts "true" or "false"):
 //   - x-bf-send-back-raw-request: include raw provider request in the BifrostResponse returned to the caller
+//   - x-bf-prompt-cache-auto-inject: override prompt_cache.auto_inject for this request
 //   - x-bf-send-back-raw-response: include raw provider response in the BifrostResponse returned to the caller
 //   - x-bf-store-raw-request-response: capture raw request/response for logging only (stripped from client response)
 
@@ -249,6 +253,18 @@ func ResolveSessionIDFromRequest(h *fasthttp.RequestHeader) string {
 //	// session stickiness, and extra headers
 
 func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*schemas.BifrostContext, context.CancelFunc) {
+	// "transport-context" overhead phase: building the request-scoped BifrostContext —
+	// child-context alloc, request-id resolution, and the full request-header iteration
+	// that populates dimensions/tags/mcp-header maps. It runs inside the root http.request
+	// span but on no phase span, so it would otherwise fold into the residual "core"
+	// bucket. The tracer + root span live on the fasthttp ctx (set by TracingMiddleware),
+	// so this parents to the root span. Nil-safe when no trace is active.
+	if t, ok := ctx.UserValue(schemas.BifrostContextKeyTracer).(schemas.Tracer); ok && t != nil {
+		if _, h := t.StartSpanID(ctx, "transport-context", schemas.SpanKindInternal); h != nil {
+			defer t.EndSpan(h, schemas.SpanStatusOk, "")
+		}
+	}
+
 	var matcher *HeaderMatcher
 	mcpHeaderCombinedAllowlist := schemas.WhiteList{}
 	allowPerRequestStorageOverride := false
@@ -268,7 +284,11 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			cancel = existingCancel
 		} else {
 			// Create one cancellable child context and promote it as the shared context.
+			// A context seeded by a transport hook (large-payload detection) takes this
+			// path, so the client socket is watched here too; the branch above, where a
+			// cancel func already exists, means a watcher is already running.
 			bifrostCtx, cancel = schemas.NewBifrostContextWithCancel(existing)
+			startClientDisconnectWatcher(ctx.Conn(), bifrostCtx, cancel)
 			ctx.SetUserValue(FastHTTPUserValueBifrostContext, bifrostCtx)
 			ctx.SetUserValue(FastHTTPUserValueBifrostCancel, cancel)
 		}
@@ -286,6 +306,9 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			_ = ctx.Done()
 		}()
 		bifrostCtx, cancel = schemas.NewBifrostContextWithCancel(parent)
+		// Cancel the request when the client closes its socket while the handler
+		// is still waiting on core; fasthttp offers no per-request Done (#7035).
+		startClientDisconnectWatcher(ctx.Conn(), bifrostCtx, cancel)
 		ctx.SetUserValue(FastHTTPUserValueBifrostContext, bifrostCtx)
 		ctx.SetUserValue(FastHTTPUserValueBifrostCancel, cancel)
 	}
@@ -298,6 +321,16 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			requestID = uuid.New().String()
 		}
 		bifrostCtx.SetValue(schemas.BifrostContextKeyRequestID, requestID)
+	}
+	// The request-id above may be caller-supplied (x-request-id), so it cannot be
+	// trusted as a billing-idempotency identity: two unrelated requests sharing a
+	// chosen ID would collide on the billing key and the second would settle for
+	// free. The nonce is minted here, never read from any header, and mixed into
+	// the governance billing key so that key is unforgeable. Preserved when
+	// already present so both terminal paths of one physical call (success vs
+	// cancellation) read the same value and still dedupe against each other.
+	if existingNonce, ok := bifrostCtx.Value(schemas.BifrostContextKeyBillingNonce).(string); !ok || existingNonce == "" {
+		bifrostCtx.SetValue(schemas.BifrostContextKeyBillingNonce, uuid.New().String())
 	}
 	// Populating all user values from the request context
 	ctx.VisitUserValuesAll(func(key, value any) {
@@ -363,8 +396,8 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			return true
 		}
 		if labelName, ok := strings.CutPrefix(keyStr, "x-bf-prom-"); ok && labelName != "" {
-			// x-bf-prom-* is Prometheus-only and must not flow into unified dimensions
-			// (logs/OTEL/Maxim/etc). Prometheus plugin reads headers directly.
+			// x-bf-prom-* is a removed legacy prefix. Swallow it so it neither flows
+			// into unified dimensions (logs/OTEL/Maxim/etc) nor is forwarded upstream.
 			return true
 		}
 		// Checking for maxim headers
@@ -619,6 +652,16 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			}
 			return true
 		}
+		// Per-request override of prompt_cache.auto_inject. Fully overrides the
+		// provider config for this request in both directions, so a caller can opt a
+		// single request in without changing config, or opt one out when the provider
+		// has it on. The model capability gate still applies.
+		if keyStr == "x-bf-prompt-cache-auto-inject" {
+			if b, err := strconv.ParseBool(string(value)); err == nil {
+				bifrostCtx.SetValue(schemas.BifrostContextKeyPromptCacheAutoInject, b)
+			}
+			return true
+		}
 		if keyStr == "x-bf-send-back-raw-response" {
 			if b, err := strconv.ParseBool(string(value)); err == nil {
 				bifrostCtx.SetValue(schemas.BifrostContextKeySendBackRawResponse, b)
@@ -659,12 +702,14 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			bifrostCtx.ClearValue(schemas.BifrostContextKeyCompatConvertChatToResponses)
 			bifrostCtx.ClearValue(schemas.BifrostContextKeyCompatShouldDropParams)
 			bifrostCtx.ClearValue(schemas.BifrostContextKeyCompatShouldConvertParams)
+			bifrostCtx.ClearValue(schemas.BifrostContextKeyCompatAzureDeepseek)
 			valueStr := strings.TrimSpace(string(value))
 			if valueStr == "true" {
 				bifrostCtx.SetValue(schemas.BifrostContextKeyCompatConvertTextToChat, true)
 				bifrostCtx.SetValue(schemas.BifrostContextKeyCompatConvertChatToResponses, true)
 				bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldDropParams, true)
 				bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldConvertParams, true)
+				bifrostCtx.SetValue(schemas.BifrostContextKeyCompatAzureDeepseek, true)
 			} else if strings.HasPrefix(valueStr, "[") {
 				var features []string
 				if err := json.Unmarshal([]byte(valueStr), &features); err == nil {
@@ -673,6 +718,7 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 						bifrostCtx.SetValue(schemas.BifrostContextKeyCompatConvertChatToResponses, true)
 						bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldDropParams, true)
 						bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldConvertParams, true)
+						bifrostCtx.SetValue(schemas.BifrostContextKeyCompatAzureDeepseek, true)
 					} else {
 						for _, f := range features {
 							switch f {
@@ -684,6 +730,8 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 								bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldDropParams, true)
 							case "should_convert_params":
 								bifrostCtx.SetValue(schemas.BifrostContextKeyCompatShouldConvertParams, true)
+							case "azure_deepseek":
+								bifrostCtx.SetValue(schemas.BifrostContextKeyCompatAzureDeepseek, true)
 							}
 						}
 					}
@@ -806,6 +854,10 @@ func ConvertToBifrostContext(ctx *fasthttp.RequestCtx, store HandlerStore) (*sch
 			bifrostCtx.SetValue(schemas.BifrostContextKeyDirectKey, key)
 		}
 	}
+
+	// Everything the middlewares and the headers can say about who this request is now sits on the
+	// context, so this is where it is settled onto the request's grant.
+	SettleIdentity(bifrostCtx)
 
 	return bifrostCtx, cancel
 }

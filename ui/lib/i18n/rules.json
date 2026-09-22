@@ -13,19 +13,24 @@
 		"app/workspace/model-catalog/views/attributeSheet.tsx": ["SCOPE_CAVEATS"],
 		"components/ui/entityAssociationSelect.tsx": ["defaultPlaceholders", "defaultNoOptionsMessages", "entityTypeLabels"],
 		"app/workspace/webhooks/views/webhookDetailsSheet.tsx": ["OUTCOME_LABELS"],
-		"components/ui/providerConfigCard.tsx": ["headerSummary", "keysSummary", "modelsSummary", "rlSummary"]
+		"components/ui/providerConfigCard.tsx": ["headerSummary", "keysSummary", "modelsSummary", "rlSummary"],
+		"app/workspace/complexity-router/views/classifierStatusBadge.tsx": ["LABELS"],
+		"lib/types/complexityRouter.ts": ["SEMANTIC_STATUS_LABELS"],
+		"lib/utils/mcpConnectionFailure.ts": ["STAGE_LABELS"]
 	},
 	"propertyContainers": {
 		"lib/store/apis/providersApi.ts": ["DEFAULT_MODEL_PARAMETERS"],
 		"hooks/useOnboardingChecklist.ts": ["common", "enterprise"],
 		"lib/utils/routingRules.ts": ["operatorPatterns"],
-		"lib/utils/validation.ts": ["PASSWORD_REQUIREMENTS"]
+		"lib/utils/validation.ts": ["PASSWORD_REQUIREMENTS"],
+		"lib/utils/databricksMigration.ts": ["", "steps"]
 	},
 	"functions": {
 		"lib/constants/governance.ts": ["fiscalQuarterNote"],
 		"lib/budgetOutline.ts": ["budgetLinesLabel"],
 		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["authorizationHost"],
-		"app/workspace/providers/views/providerKeyForm.tsx": ["getTooltipContent"]
+		"app/workspace/providers/views/providerKeyForm.tsx": ["getTooltipContent"],
+		"lib/utils/databricksMigration.ts": ["errorText"]
 	},
 	"textArrays": {
 		"app/workspace/docs/page.tsx": ["items"]
@@ -35,13 +40,19 @@
 		"app/workspace/custom-pricing/overrides/pricingOverrideSheet.tsx": ["errors", "errs"],
 		"lib/budgetOutline.ts": ["fallback"],
 		"app/workspace/mcp-sessions/auth/page.tsx": ["body"],
-		"lib/validators/skills.ts": ["warning"]
+		"lib/validators/skills.ts": ["warning"],
+		"lib/utils/databricksMigration.ts": ["message"]
 	},
 	"literals": {
 		"app/workspace/config/views/modelSettingsView.tsx": ["URL must start with http://, https://, or file://"],
 		"app/workspace/config/views/pricingConfigView.tsx": ["URL must start with http:// or https://"],
-		"app/workspace/logs/views/logsHeaderView.tsx": ["Failed to recalculate costs"],
-		"app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx": ["Invalid date"],
+		"app/workspace/logs/views/logsHeaderView.tsx": [
+			"Failed to recalculate costs",
+			"Search logs or paste a request ID",
+			"Search by request ID",
+			"Search log content"
+		],
+		"app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx": ["Invalid date", "Business Unit", "Business Units", "Not recorded"],
 		"components/ui/providerConfigCard.tsx": ["No cap"],
 		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key"],
 		"lib/utils/celConverterRouting.ts": ["Rules using rate limits or budget must have a \"model\" or \"provider\" condition"],
@@ -55,10 +66,171 @@
 		"app/workspace/routing-rules/views/routingRulesTable.tsx": ["Any model"],
 		"components/ui/custom/celBuilder/celRuleBuilder.tsx": ["No rules defined yet"],
 		"lib/validators/skills.ts": ["SKILL.md body is required"],
-		"app/workspace/virtual-keys/views/virtualKeysTable.tsx": ["customer filter", "team filter", "user filter"]
+		"app/workspace/virtual-keys/views/virtualKeysTable.tsx": [
+			"customer filter",
+			"team filter",
+			"user filter",
+			"This virtual key is managed by an access profile. Enable or disable it from the profile.",
+			"You don't have permission to update virtual keys.",
+			"name, user, team, or customer",
+			"name, team, or customer"
+		],
+		"app/workspace/complexity-router/views/classifierStatusBadge.tsx": [
+			"Classifier off",
+			"Classifier not configured",
+			"Classifier not saved",
+			"Checking classifier…",
+			"Classifier status unavailable",
+			"No embedding provider is selected, so requests carry no complexity tier and rules targeting one never match.",
+			"No embedding-capable provider is configured, so requests carry no complexity tier and rules targeting one never match.",
+			"Save this configuration to embed the reference phrases and activate classification.",
+			"Reading the classifier's warmup state…",
+			"Embedding the reference phrases. Classification starts once every phrase is loaded.",
+			"Warmup failed.",
+			"Classification is off.",
+			"Bifrost could not report whether the saved classifier is ready. Routing may still be working."
+		],
+		"app/workspace/complexity-router/views/classifierStatusBadge.utils.ts": [
+			"Authentication failed for the selected embedding provider. Update its API key to restart warmup.",
+			"The selected embedding model could not be used. Choose a supported embedding model and save the configuration again.",
+			"The embedding provider's rate limit prevented warmup. Wait for capacity, then save the configuration again.",
+			"The embedding provider did not respond during warmup. Check provider availability, then save the configuration again.",
+			"The embedding provider is unavailable. Updating its configuration or API key restarts warmup.",
+			"The vector store could not prepare the classifier index. Check its connectivity and configuration, then save again.",
+			"The selected model returned an invalid embedding response. Choose a model that supports embeddings and save again.",
+			"The classifier could not prepare the reference phrases. Review the embedding provider, model, and vector store settings, then save again.",
+			"The previous classifier is still routing requests. Your latest phrase or embedding changes will become active after warmup succeeds.",
+			"Complexity-tier rules are paused until the classifier is ready. Other routing rules continue normally."
+		],
+		"app/workspace/logs/sheets/logDetailView.tsx": [
+			"Input tokens include cached tokens.",
+			"Request parse",
+			"Request encode",
+			"Response parse",
+			"Response encode",
+			"Schema conversion",
+			"Stream convert (inbound)",
+			"Stream convert (outbound)",
+			"Key pool",
+			"Request setup",
+			"Worker setup",
+			"Worker handoff",
+			"Uncaptured glue",
+			"Provider processing",
+			"Request context building",
+			"Response headers",
+			"Response read",
+			"Request signing",
+			"Credential fetch",
+			"Client backpressure",
+			"Client write",
+			"Scheduling residual",
+			"Adaptive Load Balancer",
+			"Model Catalog Resolver",
+			"Complexity analysis skipped",
+			"duration billed"
+		],
+		"app/workspace/logs/views/metricStrip.tsx": [
+			"Of all requests in this window",
+			"Previous period",
+			"Of user-facing requests only",
+			"Token split"
+		],
+		"app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx": [
+			"Refresh admin credential",
+			"Re-verify as me",
+			"No credential yet. Complete the one-time authorization from the server's actions menu to connect this server.",
+			"Needs re-auth",
+			"Needs update"
+		],
+		"app/workspace/mcp-registry/views/mcpClientFormFields.tsx": [
+			"Invalid resource URI",
+			"OAuth resource must be an absolute URI without a fragment.",
+			"Header keys required",
+			"Declare at least one header name users must supply."
+		],
+		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": [
+			"The admin credential Bifrost keeps on file to refresh this server's tool list needs repair. Callers' tool calls are unaffected. Use Re-verify as me from the server's actions menu to fix it.",
+			"Bifrost's last connection check failed. Tool calls are still attempted normally; the next check runs within about 10 seconds.",
+			"Instances of this deployment disagree about this server's state. Tool calls are still attempted on every instance."
+		],
+		"app/workspace/providers/dialogs/databricksMigrationDialog.tsx": [
+			"Model Serving",
+			"AI Gateway",
+			"Migrating requires create, update and delete access to providers.",
+			"Save or discard your unsaved provider changes first.",
+			"Fill in the missing values above."
+		],
+		"app/workspace/skills-repo/components/skillListView.tsx": [
+			"Copy Claude Desktop and Cowork marketplace Git URL",
+			"Copy Claude Code command",
+			"Copy Codex command"
+		],
+		"app/workspace/virtual-keys/views/virtualKeysTable.utils.ts": ["Unknown (not resolved)"],
+		"app/workspace/virtual-mcps/views/virtualMcpsTable.tsx": [
+			"tool comes",
+			"tools come",
+			"server is",
+			"servers are",
+			"tool is",
+			"tools are"
+		],
+		"app/workspace/webhooks/deliveries/views/columns.tsx": [
+			"Invalid Date",
+			"You do not have permission to redeliver",
+			"Still retrying automatically - redelivery is available once it settles",
+			"Delivery ID",
+			"Request ID"
+		],
+		"app/workspace/webhooks/views/deliveries.utils.tsx": ["retries exhausted"],
+		"app/workspace/webhooks/views/webhookDetailsSheet.tsx": [
+			"Enable this webhook to redeliver",
+			"Still retrying automatically - redelivery is available once it settles"
+		],
+		"components/filters/mcpFilterSidebar.tsx": ["Business units"],
+		"components/mcp/virtualMcpAssignmentsEditor.tsx": ["Virtual MCP Server Configurations"],
+		"components/modelAccess/utils.ts": [
+			"All models",
+			"All models blocked",
+			"Deny all",
+			"No blocked models",
+			"All models allowed",
+			"No models (deny all)",
+			"Add model…",
+			"Search models..."
+		],
+		"lib/types/complexityRouter.ts": ["Warming up", "LLM classifier"],
+		"lib/utils/logSearch.ts": ["Request ID"],
+		"lib/utils/mcpConnectionFailure.ts": ["Listing tools", "Discovering tools", "Connection dropped", "needs reauth"]
 	},
 	"templatePrefixes": {
 		"app/workspace/logs/views/columns.tsx": ["Tool Result: ", "Assistant Tool Call: "],
-		"app/workspace/skills-repo/forms/skillEditForm.tsx": ["Full path: "]
+		"app/workspace/skills-repo/forms/skillEditForm.tsx": ["Full path: "],
+		"app/workspace/logs/sheets/logDetailView.tsx": ["Uncached input: ", "Cache read: ", "Cache write: ", "Input tokens: ", "Batch item "],
+		"app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx": [
+			"No admin credential on file, so the tool list is not refreshed automatically. Use ",
+			"The provider rejected the refresh token. Use ",
+			"This provider did not return a refresh token. Use ",
+			"The identity provider rejected the refresh token. Use ",
+			"The identity provider did not return a refresh token. Add offline_access to the exchange scopes where it is supported so the credential renews itself, then use "
+		],
+		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": ["Bifrost's last connection check failed "],
+		"app/workspace/virtual-keys/views/virtualKeysTable.tsx": [" Previous keys remain valid until "],
+		"components/mcp/virtualMcpAssignmentsEditor.tsx": ["Virtual MCP #"],
+		"lib/utils/mcpConnectionFailure.ts": ["Last failed "]
+	},
+	"calls": {
+		"lib/utils/databricksMigration.ts": {
+			"warnings.push": [0],
+			"portableSecret": [1],
+			"attempt": [0],
+			"skip": [1],
+			"done": [1],
+			"fail": [1],
+			"partialNotes.push": [0]
+		},
+		"components/modelAccess/utils.ts": {
+			"parts.push": [0]
+		}
 	}
 }

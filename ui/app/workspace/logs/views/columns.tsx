@@ -1,7 +1,10 @@
 import { formatCost, formatLatency } from "@/app/workspace/dashboard/utils/chartUtils";
+import { AttributionCell } from "@/components/logAttributionCell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdownMenu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TruncatedLabel } from "@/components/ui/truncatedLabel";
 import { ProviderIconType, RenderProviderIcon } from "@/lib/constants/icons";
 import {
 	getProviderLabel,
@@ -14,7 +17,7 @@ import {
 	Status,
 	StatusBarColors,
 } from "@/lib/constants/logs";
-import { ChatMessageContent, DisplayLogEntry, LogEntry, ResponsesMessageContentBlock } from "@/lib/types/logs";
+import { ChatMessageContent, DisplayLogEntry, LLMUsage, LogEntry, ResponsesMessageContentBlock } from "@/lib/types/logs";
 import { cn } from "@/lib/utils";
 import { formatCompactNumber } from "@/lib/utils/numbers";
 import { ColumnDef } from "@tanstack/react-table";
@@ -28,6 +31,28 @@ export interface LogsTableMeta {
 	expandedChainIds: Set<string>;
 	loadingChainIds: Set<string>;
 	onToggleChain: (log: LogEntry) => void;
+}
+
+function batchAccountingDisplay(log: LogEntry): { model: string; usage: LLMUsage } | null {
+	const breakdowns = log.batch_debug?.accounting?.model_breakdowns;
+	if (!breakdowns) {
+		return null;
+	}
+	const entries = Object.values(breakdowns);
+	if (entries.length === 0) {
+		return null;
+	}
+	const model = entries.length === 1 ? entries[0].model : "mixed";
+	const usage: LLMUsage = { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+	for (const entry of entries) {
+		usage.prompt_tokens = (usage.prompt_tokens ?? 0) + (entry.usage?.prompt_tokens ?? 0);
+		usage.completion_tokens = (usage.completion_tokens ?? 0) + (entry.usage?.completion_tokens ?? 0);
+		usage.total_tokens = (usage.total_tokens ?? 0) + (entry.usage?.total_tokens ?? 0);
+	}
+	if ((usage.total_tokens ?? 0) === 0) {
+		return null;
+	}
+	return { model, usage };
 }
 
 function LogActionsMenu({ log, onDelete }: { log: LogEntry; onDelete: (log: LogEntry) => void }) {
@@ -61,6 +86,10 @@ function LogActionsMenu({ log, onDelete }: { log: LogEntry; onDelete: (log: LogE
 
 function getAssistantToolCallSummary(log?: LogEntry): string {
 	const toolCalls = log?.output_message?.tool_calls || [];
+	if (toolCalls.length === 0) {
+		// Hybrid list rows carry only the denormalized names; the full calls live in the offloaded payload.
+		return (log?.tool_call_names || []).join("\n");
+	}
 	return toolCalls
 		.map((toolCall) => {
 			const name = toolCall?.function?.name;
@@ -217,43 +246,6 @@ export function LogMessageCell({ log, contentClassName = "max-w-full" }: { log: 
 	);
 }
 
-const MAX_ATTRIBUTION_LINES = 1;
-
-// AttributionCell resolves an attribution value using a plural-first fallback:
-// plural names -> singular name -> plural ids -> singular id. When a plural
-// (array) source is used, values render one per line, capped at
-// MAX_ATTRIBUTION_LINES with a "+N more" indicator for the remainder.
-function AttributionCell({ names, name, ids, id }: { names?: string[]; name?: string | null; ids?: string[]; id?: string | null }) {
-	let values: string[] = [];
-	if (Array.isArray(names) && names.filter(Boolean).length > 0) {
-		values = names.filter(Boolean);
-	} else if (name) {
-		values = [name];
-	} else if (Array.isArray(ids) && ids.filter(Boolean).length > 0) {
-		values = ids.filter(Boolean);
-	} else if (id) {
-		values = [id];
-	}
-
-	if (values.length === 0) {
-		return <div className="max-w-[180px] truncate font-mono text-xs">-</div>;
-	}
-
-	const visible = values.slice(0, MAX_ATTRIBUTION_LINES);
-	const remaining = values.length - visible.length;
-
-	return (
-		<div className="flex max-w-[180px] flex-col gap-0.5 font-mono text-xs leading-tight" title={values.join("\n")}>
-			{visible.map((value, index) => (
-				<span key={index} className="truncate">
-					{value}
-				</span>
-			))}
-			{remaining > 0 && <span className="text-muted-foreground">+{remaining} more</span>}
-		</div>
-	);
-}
-
 export const createColumns = (
 	onDelete: (log: LogEntry) => void,
 	hasDeleteAccess = true,
@@ -283,7 +275,9 @@ export const createColumns = (
 							<button
 								type="button"
 								data-testid="log-chain-expand-btn"
-								aria-label={isExpanded ? "Collapse fallback chain" : `Expand fallback chain (${childCount} attempts)`}
+								// Not always a fallback chain: a settled async job nests its cost row
+								// here too, and calling that an "attempt" misreads what it is.
+								aria-label={isExpanded ? "Collapse linked rows" : `Expand ${childCount} linked row${childCount === 1 ? "" : "s"}`}
 								aria-expanded={isExpanded}
 								className="text-muted-foreground hover:text-foreground absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center gap-1 rounded-sm transition-colors"
 								onClick={(event) => {
@@ -366,15 +360,19 @@ export const createColumns = (
 		{
 			accessorKey: "model",
 			header: "Model",
-			size: 190,
+			size: 280,
 			cell: ({ row }) => {
 				const provider = row.original.provider as ProviderName | undefined;
-				const model = row.original.model;
+				const model = row.original.model || batchAccountingDisplay(row.original)?.model;
+				const canonicalModel = row.original.canonical_model_name;
+				const modelLabel = canonicalModel && canonicalModel !== model ? `${canonicalModel} (${model})` : model;
 				return (
 					<div className="flex min-w-0 items-center gap-2">
 						{provider ? <RenderProviderIcon provider={provider as ProviderIconType} size="xs" /> : null}
 						<div className="flex min-w-0 flex-col leading-tight">
-							<span className="truncate font-mono text-[12px]">{model || "N/A"}</span>
+							<TruncatedLabel truncateFrom="start" className="font-mono text-[12px]">
+								{modelLabel || "N/A"}
+							</TruncatedLabel>
 							<span className="text-muted-foreground truncate text-[10.5px]">{provider ? getProviderLabel(provider) : "N/A"}</span>
 						</div>
 					</div>
@@ -412,7 +410,7 @@ export const createColumns = (
 				if (latency === undefined || latency === null) {
 					return <div className="pl-4 font-mono text-xs">N/A</div>;
 				}
-				const tone = latency >= 5000 ? "bg-red-500" : latency >= 2000 ? "bg-amber-500" : "bg-emerald-500";
+				const tone = latency >= 5000 ? "bg-chart-error" : latency >= 2000 ? "bg-chart-warning" : "bg-chart-success";
 				const pct = Math.min(100, (latency / 5000) * 100);
 				return (
 					<div className="flex items-center gap-2 pl-4">
@@ -434,7 +432,7 @@ export const createColumns = (
 			),
 			size: 190,
 			cell: ({ row }) => {
-				const tokenUsage = row.original.token_usage;
+				const tokenUsage = row.original.token_usage ?? batchAccountingDisplay(row.original)?.usage;
 				if (!tokenUsage) {
 					return <div className="pl-4 font-mono text-xs">N/A</div>;
 				}
@@ -477,6 +475,37 @@ export const createColumns = (
 			size: 120,
 			cell: ({ row }) => {
 				if (row.original.cost == null) {
+					const batchCost = row.original.batch_debug?.accounting?.cost;
+					if (batchCost != null) {
+						return (
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<div className="text-muted-foreground pl-4 font-mono text-sm tabular-nums">{formatCost(batchCost)}</div>
+								</TooltipTrigger>
+								<TooltipContent>Settled cost of this batch, billed once.</TooltipContent>
+							</Tooltip>
+						);
+					}
+					// A settled async job writes its cost to a child row rather than back
+					// onto the request, so the request itself has no cost of its own.
+					// children_cost is that rollup, computed per page.
+					const settledCost = row.original.children_cost;
+					if (settledCost != null && settledCost > 0) {
+						return (
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<div className="text-muted-foreground pl-4 font-mono text-sm tabular-nums">{formatCost(settledCost)}</div>
+								</TooltipTrigger>
+								{/* The expand chevron only exists in the grouped view, so pointing at
+								    it anywhere else sends people looking for a control that is not there. */}
+								<TooltipContent>
+									{groupedView
+										? "Settled after this request completed. Expand the row to see it."
+										: "Settled after this request completed, on its own row."}
+								</TooltipContent>
+							</Tooltip>
+						);
+					}
 					return <div className="pl-4 font-mono text-[12px]">N/A</div>;
 				}
 				return <div className="pl-4 font-mono text-sm tabular-nums">{formatCost(row.original.cost)}</div>;
@@ -495,7 +524,7 @@ export const createColumns = (
 					return <div className="font-mono text-xs">-</div>;
 				}
 				return (
-					<Badge variant="outline" className="font-mono text-[11px] py-0.5 px-1.5 uppercase">
+					<Badge variant="outline" className="px-1.5 py-0.5 font-mono text-[11px] uppercase">
 						{tier}
 					</Badge>
 				);
@@ -557,6 +586,12 @@ export const createColumns = (
 					id={row.original.business_unit_id}
 				/>
 			),
+		},
+		{
+			id: "project",
+			header: "Project",
+			size: 150,
+			cell: ({ row }) => <AttributionCell name={row.original.project_name} id={row.original.project_id} />,
 		},
 	];
 

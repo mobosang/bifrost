@@ -251,6 +251,9 @@ export function analyze(source, filename) {
 		return false;
 	}
 	function visit(node, raw = false) {
+		// Display maps can carry indexed-access types containing protocol keys.
+		// Type annotations are never executable presentation text.
+		if (ts.isTypeNode(node)) return;
 		if (ts.isJsxElement(node) || ts.isJsxSelfClosingElement(node)) {
 			const opening = ts.isJsxElement(node) ? node.openingElement : node;
 			raw ||=
@@ -269,7 +272,8 @@ export function analyze(source, filename) {
 			ts.forEachChild(node, (child) => visit(child, true));
 			return;
 		}
-		if (ts.isStringLiteralLike(node) && (rules.literals?.[filename] ?? []).includes(node.text)) record(node, "reviewed-literal");
+		if (ts.isStringLiteralLike(node) && (rules.literals?.[filename] ?? []).includes(node.text))
+			record(node, "reviewed-literal", ts.isJsxAttribute(node.parent));
 		if (ts.isTemplateExpression(node) && (rules.templatePrefixes?.[filename] ?? []).includes(node.head.text))
 			record(node, "reviewed-template");
 		if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
@@ -332,6 +336,7 @@ export function analyze(source, filename) {
 			value(node.initializer, "documentation-card");
 		if (ts.isCallExpression(node)) {
 			const name = node.expression.getText(file);
+			for (const index of rules.calls?.[filename]?.[name] ?? []) value(node.arguments[index], "reviewed-call");
 			if (name === "t") record(node.arguments[0], "explicit");
 			if (displayCalls.test(name)) value(node.arguments[0], `call:${name}`);
 			if (/^set\w+(?:Error|ErrorMessage|SuccessMessage)$/.test(name)) value(node.arguments[0], "message-setter");

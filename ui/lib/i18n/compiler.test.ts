@@ -10,6 +10,35 @@ function parse(source: string) {
 }
 
 describe("localization compiler", () => {
+	it("keeps indexed type annotations unchanged inside reviewed display maps", () => {
+		const source = 'const SEMANTIC_STATUS_LABELS: Record<SemanticStatusInfo["state"], string> = { ready: "Ready" };';
+		const result = transform(source, "lib/types/complexityRouter.ts")!;
+		expect(result).toContain('SemanticStatusInfo["state"]');
+		expect(result).toContain('ready: (__bfTranslate("Ready"');
+		expect(parse(result)).toEqual([]);
+	});
+	it("wraps reviewed custom JSX attribute literals in a JSX expression", () => {
+		const result = transform('<TooltipBody heading="Of all requests in this window" />', "app/workspace/logs/views/metricStrip.tsx")!;
+		expect(parse(result)).toEqual([]);
+		expect(result).toContain("heading={__bfTranslate(");
+	});
+	it("extracts reviewed migration warnings without translating API arguments or step IDs", () => {
+		const source =
+			'warnings.push(`${label} is stored as a literal secret and cannot be copied; re-enter it on the Databricks provider after migrating.`); skip(STEP_IDS.createProvider, "Already configured"); api.createProvider({ name: "Already configured" });';
+		const result = transform(source, "lib/utils/databricksMigration.ts")!;
+		expect(analyze(source, "lib/utils/databricksMigration.ts").messages.map((item) => item.key)).toContain(
+			"{0} is stored as a literal secret and cannot be copied; re-enter it on the Databricks provider after migrating.",
+		);
+		expect(result).toContain('api.createProvider({ name: "Already configured" })');
+		expect(result).toContain('skip(STEP_IDS.createProvider, (__bfTranslate("Already configured"');
+		expect(parse(result)).toEqual([]);
+	});
+	it("translates classifier status values while preserving status identifiers", () => {
+		const source = 'const STATUS_LABELS = { disabled: "Classifier off", "not-configured": "Classifier not configured" };';
+		const result = transform(source, "app/workspace/complexity-router/views/classifierStatusBadge.tsx")!;
+		expect(result).toContain('"not-configured": (__bfTranslate("Classifier not configured"');
+		expect(parse(result)).toEqual([]);
+	});
 	it("does not apply overlapping edits to plural templates in reviewed containers", () => {
 		const source = 'const keysSummary = `${count} key${count > 1 ? "s" : ""}`;';
 		expect(parse(transform(source, "components/ui/providerConfigCard.tsx")!)).toEqual([]);
