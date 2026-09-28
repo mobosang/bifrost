@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import ts from "typescript";
 import { analyze, transform } from "./compiler.mjs";
+import { localization } from "./plugin.mjs";
+import { readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
 
 function parse(source: string) {
 	return (
@@ -10,6 +13,22 @@ function parse(source: string) {
 }
 
 describe("localization compiler", () => {
+	it("localizes boot recovery scripts with either upstream quote style", () => {
+		const hook = localization("").transformIndexHtml as { handler: (html: string) => string };
+		for (const quote of ['"', "'"]) {
+			const html = `<head><script>window.markup = ${quote}<h1>Bifrost is upgrading</h1><button>Reload now</button>${quote};</script>`;
+			const output = hook.handler(html);
+			const context = {
+				window: {} as { markup: string },
+				document: { documentElement: { lang: "" }, cookie: "" },
+				localStorage: { getItem: () => null },
+			};
+			for (const script of output.matchAll(/<script>([\s\S]*?)<\/script>/g)) runInNewContext(script[1], context);
+			expect(context.window.markup).toBe("<h1>Bifrost 正在升级</h1><button>立即刷新</button>");
+		}
+		const current = hook.handler(readFileSync(new URL("../../index.html", import.meta.url), "utf8"));
+		for (const script of current.matchAll(/<script>([\s\S]*?)<\/script>/g)) expect(parse(script[1])).toEqual([]);
+	});
 	it("keeps indexed type annotations unchanged inside reviewed display maps", () => {
 		const source = 'const SEMANTIC_STATUS_LABELS: Record<SemanticStatusInfo["state"], string> = { ready: "Ready" };';
 		const result = transform(source, "lib/types/complexityRouter.ts")!;

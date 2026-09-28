@@ -4,9 +4,11 @@
 
 ## 上游版本基线
 
-截至 2026-09-22，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.1](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.1)。对应 Git 标签为 `transports/v2.2.1`，提交为 `6493abd3d1422c9bfde95f242fd57b38e73ce881`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.1。
+截至 2026-09-28，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.3](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.3)。对应 Git 标签为 `transports/v2.2.3`，提交为 `411d62b28b03b03bd3b4025b2cfab50af45f05f4`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.3。
 
-本次使用正常 merge 保留上游历史。汉化只扩展界面翻译层和测试；`core`、`framework`、`plugins`、`transports` 中的受跟踪文件与该官方标签一致。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
+本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
+
+版本构建回归可在仓库根目录执行 `node --test transports/docker-version.test.mjs`，需要 Node.js 和 POSIX shell（Windows 使用 Git Bash）。该测试执行 Dockerfile 中实际的构建命令并捕获传给 Go 编译器的参数，不会构建完整 Docker 镜像。
 
 ### Docker 部署
 
@@ -16,10 +18,12 @@
 git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
 cd bifrost-zh
 git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.1-zh -t bifrost-zh:2.2.1 .
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.3-zh -t bifrost-zh:2.2.3 .
 ```
 
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.1`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
+已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.3`；以上显式传参会显示 `v2.2.3-zh`。
+
+已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.3`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
 
 ```sh
 docker compose stop bifrost

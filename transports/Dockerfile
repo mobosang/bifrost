@@ -40,7 +40,9 @@
   # Build the binary with CGO enabled and static SQLite linking
   ENV GOWORK=off
   ARG VERSION=unknown
-  RUN go build \
+  RUN { if [ -z "$VERSION" ] || [ "$VERSION" = unknown ]; then VERSION="$(tr -d '\r\n' < version)"; fi; } && \
+    VERSION="${VERSION#v}" && test -n "$VERSION" && \
+    go build \
     -ldflags="-w -s -X main.Version=v${VERSION} -extldflags '-static'" \
     -a -trimpath \
     -tags "sqlite_static" \
