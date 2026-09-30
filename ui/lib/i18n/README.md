@@ -4,7 +4,7 @@
 
 ## 上游版本基线
 
-截至 2026-09-28，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.3](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.3)。对应 Git 标签为 `transports/v2.2.3`，提交为 `411d62b28b03b03bd3b4025b2cfab50af45f05f4`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.3。
+截至 2026-09-30，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.4](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.4)。对应 Git 标签为 `transports/v2.2.4`，提交为 `ed8371a9779bfbc8aa689d4d77964cf8ce9308bf`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.4。
 
 本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
 
@@ -18,12 +18,12 @@
 git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
 cd bifrost-zh
 git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.3-zh -t bifrost-zh:2.2.3 .
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.4-zh -t bifrost-zh:2.2.4 .
 ```
 
-已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.3`；以上显式传参会显示 `v2.2.3-zh`。
+已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.4`；以上显式传参会显示 `v2.2.4-zh`。
 
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.3`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
+已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.4`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
 
 ```sh
 docker compose stop bifrost

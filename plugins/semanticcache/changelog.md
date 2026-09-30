@@ -1,2 +1,1 @@
-- fix: read both string and object forms of conversation for cache metadata (#7241)
-- chore: upgraded core to v1.10.2 and framework to v1.7.4
+- chore: upgraded core to v1.11.0 and framework to v1.7.5

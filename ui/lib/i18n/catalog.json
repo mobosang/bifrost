@@ -3,7 +3,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryDeleteDialog.tsx:33 (jsx-text)"
   ],
   "\". The key ID, budgets, rate limits, provider permissions, MCP access, and assignments stay the same. The previous key value stops working immediately unless a rotation cooldown is configured, in which case it remains valid until the cooldown ends.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1628 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1654 (jsx-text)"
   ],
   "\"? This action cannot be undone.": [
     "app/workspace/custom-pricing/overrides/scopedPricingOverridesView.tsx:504 (jsx-text)",
@@ -238,10 +238,10 @@
     "components/ui/budgetUsageResetDialog.tsx:46 (jsx-text)"
   ],
   ". Set a name and description; providers, budgets, rate limits, and MCP access are applied from the profile on creation.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1131 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1157 (jsx-text)"
   ],
   ". Team assignment is pre-set; all other fields are editable.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1145 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1171 (jsx-text)"
   ],
   ". The current quarter ends": [
     "components/ui/quarterStartSelect.tsx:75 (jsx-text)"
@@ -417,7 +417,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:3545 (jsx-expression)"
   ],
   "A virtual key can be assigned to only one user. If that user has an access profile, the key is adopted into it: it keeps working, but its providers, budgets, rate limits and MCP access are discarded and replaced by the profile's. This cannot be undone: a key inside a profile can be deleted, never released.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1613 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1639 (jsx-text)"
   ],
   "A {0} phrase exceeds the {1}-character limit.": [
     "app/workspace/complexity-router/formSchema.ts:161 (property:message)"
@@ -796,7 +796,7 @@
     "components/ui/entityAssociationSelect.tsx:69 (reviewed-container)"
   ],
   "Add temporary capacity without changing the configured base budgets above.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1272 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1298 (jsx-text)"
   ],
   "Add the request headers Bifrost should send with each tool call.": [
     "app/workspace/mcp-registry/library/views/mcpLibraryInstallSheet.tsx:85 (display-return)"
@@ -925,7 +925,7 @@
     "app/workspace/governance/views/customerSheet.tsx:370 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:532 (jsx-text)",
     "app/workspace/providers/fragments/governanceFormFragment.tsx:224 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1416 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1442 (jsx-text)"
   ],
   "All Customers": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:830 (attribute:placeholder)"
@@ -1369,13 +1369,13 @@
     "components/mcp/virtualMcpAssignmentsEditor.tsx:14 (jsx-text)"
   ],
   "Assign to Customer": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1480 (property:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1506 (property:label)"
   ],
   "Assign to Team": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1477 (property:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1503 (property:label)"
   ],
   "Assign to User": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1484 (property:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1510 (property:label)"
   ],
   "Assign to a customer or leave independent.": [
     "app/workspace/governance/views/teamSheet.tsx:432 (jsx-text)"
@@ -1397,7 +1397,7 @@
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:230 (jsx-text)"
   ],
   "Assignment Type": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1473 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1499 (jsx-text)"
   ],
   "Assistant": [
     "app/workspace/logs/sheets/logDetailView.tsx:858 (reviewed-container)",
@@ -1782,7 +1782,7 @@
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:341 (jsx-text)",
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:452 (jsx-text)",
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:591 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1283 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1309 (jsx-text)",
     "components/budgetDisplay.tsx:69 (jsx-text)"
   ],
   "Base Format": [
@@ -2079,7 +2079,7 @@
     "app/workspace/providers/fragments/governanceFormFragment.tsx:274 (jsx-text)"
   ],
   "Budget Configuration": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1258 (attribute:label)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1284 (attribute:label)",
     "components/ui/multibudgets.tsx:31 (display-variable)"
   ],
   "Budget Information": [
@@ -2089,7 +2089,7 @@
     "app/workspace/governance/views/customerSheet.tsx:341 (attribute:label)"
   ],
   "Budget Overrides": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1270 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1296 (jsx-text)"
   ],
   "Budget Used (%)": [
     "lib/config/celFieldsRouting.ts:115 (property:label)"
@@ -2444,10 +2444,10 @@
     "app/workspace/skills-repo/forms/skillEditForm.tsx:460 (attribute:aria-label)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:462 (jsx-text)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:837 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1320 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1446 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1634 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1691 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1346 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1472 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1660 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1717 (jsx-text)",
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:294 (jsx-text)",
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:767 (jsx-text)",
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:797 (jsx-text)",
@@ -2500,7 +2500,7 @@
     "app/workspace/webhooks/views/webhookSheet.tsx:61 (property:description)"
   ],
   "Carry usage into the new quarter?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1648 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1674 (jsx-expression)"
   ],
   "Category": [
     "app/workspace/mcp-registry/library/views/mcpLibraryAddServerSheet.tsx:406 (jsx-text)",
@@ -3587,6 +3587,9 @@
   "Couldn't cancel the recalculation": [
     "app/workspace/logs/views/logsHeaderView.tsx:200 (call:toast.error)"
   ],
+  "Couldn't check whether an access profile governs the keys you create. You can still create one — if a profile does govern it, the profile's providers, budgets, rate limits and MCP access replace what you set here.": [
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1129 (jsx-text)"
+  ],
   "Couldn't load virtual MCPs.": [
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1839 (jsx-text)"
   ],
@@ -3627,7 +3630,7 @@
   "Create": [
     "app/workspace/mcp-registry/views/mcpClientForm.tsx:217 (jsx-text)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:840 (jsx-expression)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1702 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1728 (jsx-expression)",
     "app/workspace/virtual-mcps/views/virtualMcpSheet.tsx:250 (jsx-expression)",
     "components/prompts/sheets/folderSheet.tsx:124 (jsx-expression)",
     "components/prompts/sheets/promptSheet.tsx:111 (jsx-expression)"
@@ -3674,7 +3677,7 @@
     "app/workspace/governance/views/teamSheet.tsx:675 (jsx-expression)"
   ],
   "Create Virtual Key": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1101 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1113 (jsx-expression)"
   ],
   "Create Virtual MCP": [
     "app/workspace/virtual-mcps/views/virtualMcpWizard.tsx:200 (jsx-text)"
@@ -3701,7 +3704,7 @@
     "app/workspace/governance/views/teamSheet.tsx:379 (jsx-expression)"
   ],
   "Create a new virtual key with specific permissions, budgets, and rate limits.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1105 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1117 (jsx-expression)"
   ],
   "Create customer accounts to manage multi-tenant usage, assign teams, and set spending and rate limits per customer.": [
     "app/workspace/governance/views/customersEmptyState.tsx:21 (jsx-text)"
@@ -3768,7 +3771,7 @@
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:229 (jsx-text)"
   ],
   "Creating this virtual key under team": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1145 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1171 (jsx-text)"
   ],
   "Creating...": [
     "app/workspace/skills-repo/forms/skillEditForm.tsx:486 (jsx-expression)",
@@ -4247,7 +4250,7 @@
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:378 (jsx-text)",
     "app/workspace/skills-repo/components/skillListView.tsx:563 (jsx-text)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:655 (attribute:title)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1172 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1198 (jsx-text)",
     "app/workspace/virtual-mcps/views/virtualMcpGeneralTab.tsx:85 (jsx-text)",
     "app/workspace/virtual-mcps/views/virtualMcpWizard.tsx:237 (property:label)"
   ],
@@ -4722,7 +4725,7 @@
   "Enable Calendar Alignment": [
     "app/workspace/governance/views/customerSheet.tsx:406 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:570 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1456 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1482 (jsx-text)"
   ],
   "Enable Logs": [
     "app/workspace/config/views/loggingView.tsx:109 (jsx-text)"
@@ -4822,7 +4825,7 @@
   "Enabling calendar alignment will reset budget usage to": [
     "app/workspace/governance/views/customerSheet.tsx:391 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:555 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1439 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1465 (jsx-text)"
   ],
   "Enabling…": [
     "components/loggingDisabledView.tsx:40 (jsx-expression)"
@@ -4975,7 +4978,7 @@
     "components/sidebar.tsx:1079 (property:description)"
   ],
   "Entity Assignment": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1465 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1491 (jsx-text)"
   ],
   "Entra ID (Service Principal)": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:520 (jsx-text)"
@@ -5369,10 +5372,10 @@
     "app/workspace/logs/views/speechView.tsx:32 (jsx-text)"
   ],
   "Failed to load available keys: {0}": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:513 (call:toast.error)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:525 (call:toast.error)"
   ],
   "Failed to load available providers: {0}": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:520 (call:toast.error)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:532 (call:toast.error)"
   ],
   "Failed to load configuration": [
     "app/workspace/config/views/cachingView.tsx:280 (jsx-text)"
@@ -6791,7 +6794,7 @@
     "lib/types/schemas.ts:861 (property:message)"
   ],
   "Is this key active?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1189 (attribute:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1215 (attribute:label)"
   ],
   "Issuer URL": [
     "app/workspace/config/views/mcpView.tsx:521 (jsx-text)"
@@ -7752,7 +7755,7 @@
     "app/workspace/governance/views/teamSheet.tsx:507 (attribute:label)",
     "app/workspace/model-limits/views/modelLimitSheet.tsx:648 (attribute:label)",
     "app/workspace/providers/fragments/governanceFormFragment.tsx:257 (attribute:label)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1393 (attribute:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1419 (attribute:label)"
   ],
   "Maximum Spend (USD)": [
     "components/ui/multibudgets.tsx:118 (attribute:label)"
@@ -7762,7 +7765,7 @@
     "app/workspace/governance/views/teamSheet.tsx:496 (attribute:label)",
     "app/workspace/model-limits/views/modelLimitSheet.tsx:628 (attribute:label)",
     "app/workspace/providers/fragments/governanceFormFragment.tsx:248 (attribute:label)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1367 (attribute:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1393 (attribute:label)"
   ],
   "Maximum depth for MCP agent execution.": [
     "app/workspace/config/views/mcpView.tsx:268 (jsx-text)"
@@ -8230,7 +8233,7 @@
     "components/ui/headersTable.tsx:217 (jsx-text)"
   ],
   "Name *": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1158 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1184 (jsx-text)"
   ],
   "Name cannot be changed after creation.": [
     "app/workspace/skills-repo/forms/skillEditForm.tsx:231 (jsx-text)"
@@ -8386,7 +8389,7 @@
     "components/ui/entityAssociationSelect.tsx:83 (reviewed-container)"
   ],
   "No Assignment": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1476 (property:label)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1502 (property:label)"
   ],
   "No Authorization header was found on the custom provider; enter the personal access token below.": [
     "lib/utils/databricksMigration.ts:300 (reviewed-call)"
@@ -8472,7 +8475,7 @@
     "app/workspace/observability/fragments/otelFormFragment.tsx:301 (jsx-expression)",
     "app/workspace/providers/fragments/networkFormFragment.tsx:641 (jsx-expression)",
     "app/workspace/providers/views/providerKeyForm.tsx:79 (display-return)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1714 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1740 (jsx-expression)"
   ],
   "No changes made and validation errors present": [
     "app/workspace/observability/fragments/maximFormFragment.tsx:205 (jsx-expression)",
@@ -9954,14 +9957,14 @@
     "components/refreshTokenStatus.tsx:31 (jsx-text)"
   ],
   "Preserve Anyway": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1659 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1685 (jsx-expression)"
   ],
   "Preserve Usage": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1659 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1685 (jsx-expression)",
     "components/ui/budgetUsageResetDialog.tsx:52 (jsx-text)"
   ],
   "Preserve over-limit usage?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1646 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1672 (jsx-expression)"
   ],
   "Press enter to add new model": [
     "components/ui/modelMultiselect.tsx:291 (attribute:createOptionText)"
@@ -10479,7 +10482,7 @@
   ],
   "Rate Limiting Configuration": [
     "app/workspace/providers/fragments/governanceFormFragment.tsx:244 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1344 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1370 (jsx-text)"
   ],
   "Rate Limits": [
     "app/workspace/model-limits/views/modelLimitSheet.tsx:375 (jsx-text)",
@@ -10650,10 +10653,10 @@
     "app/workspace/logs/sheets/logDetailView.tsx:2396 (attribute:label)"
   ],
   "Reassign": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1335 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1361 (jsx-text)"
   ],
   "Reassign to a different team?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1312 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1338 (jsx-text)"
   ],
   "Reauthorization failed": [
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:441 (property:title)",
@@ -11175,7 +11178,7 @@
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:234 (jsx-text)",
     "app/workspace/plugins/views/pluginsView.tsx:325 (jsx-text)",
     "app/workspace/providers/fragments/apiStructureFormFragment.tsx:245 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1354 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1380 (jsx-text)",
     "components/filters/logsFilterSidebar.tsx:93 (jsx-text)",
     "components/filters/mcpFilterSidebar.tsx:79 (jsx-text)",
     "components/filters/webhookDeliveriesFilterSidebar.tsx:95 (jsx-text)",
@@ -11185,22 +11188,22 @@
     "components/ui/numberAndSelect.tsx:101 (jsx-text)"
   ],
   "Reset Usage": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1662 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1688 (jsx-text)",
     "components/ui/budgetUsageResetDialog.tsx:55 (jsx-text)"
   ],
   "Reset budget and rate-limit usage?": [
     "app/workspace/governance/views/customerSheet.tsx:389 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:553 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1437 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1463 (jsx-text)"
   ],
   "Reset budget usage?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1649 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1675 (jsx-expression)",
     "components/ui/budgetUsageResetDialog.tsx:44 (jsx-text)"
   ],
   "Reset budgets and rate limits at the start of each period (e.g. 1st of month) instead of rolling from creation date. Quarterly budgets always align to fiscal quarter starts. Applies to durations of a day or longer.": [
     "app/workspace/governance/views/customerSheet.tsx:373 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:535 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1419 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1445 (jsx-text)"
   ],
   "Reset budgets at the start of each period (e.g. 1st of month) instead of rolling from creation date. Quarterly budgets always align to fiscal quarter starts.": [
     "app/workspace/providers/fragments/governanceFormFragment.tsx:227 (jsx-text)"
@@ -11380,6 +11383,7 @@
     "app/workspace/model-catalog/views/attributesTab.tsx:116 (jsx-text)",
     "app/workspace/model-catalog/views/overviewTab.tsx:189 (jsx-text)",
     "app/workspace/skills-repo/components/skillListView.tsx:376 (jsx-text)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1133 (jsx-text)",
     "app/workspace/virtual-mcps/views/virtualMcpAccessTab.tsx:42 (jsx-text)",
     "app/workspace/webhooks/views/webhooksView.tsx:338 (jsx-text)",
     "components/prompts/components/messagesView/toolCallView.tsx:473 (jsx-text)"
@@ -11458,8 +11462,8 @@
     "app/workspace/webhooks/views/webhooksView.tsx:533 (jsx-text)"
   ],
   "Rotate Key": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1636 (jsx-expression)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1684 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1662 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1710 (jsx-expression)"
   ],
   "Rotate Selected": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:803 (jsx-expression)"
@@ -11477,7 +11481,7 @@
     "app/workspace/webhooks/views/webhooksView.tsx:524 (jsx-text)"
   ],
   "Rotate virtual key?": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1625 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1651 (jsx-text)"
   ],
   "Rotated {0} virtual keys. {1} failed.{2}": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:476 (call:toast.warning)"
@@ -11486,8 +11490,8 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:478 (call:toast.success)"
   ],
   "Rotating...": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1636 (jsx-expression)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1684 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1662 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1710 (jsx-expression)",
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:803 (jsx-expression)"
   ],
   "Rotation cooldown must be a duration like \"30s\", \"5m\", or \"1h30m\" (leave empty to disable).": [
@@ -11805,8 +11809,8 @@
     "app/workspace/plugins/views/pluginsView.tsx:329 (jsx-expression)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:517 (jsx-expression)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:545 (jsx-expression)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1702 (jsx-expression)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1712 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1728 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1738 (jsx-expression)",
     "app/workspace/webhooks/views/webhookSheet.tsx:352 (jsx-expression)",
     "components/formFooter.tsx:21 (display-return)",
     "components/formFooter.tsx:36 (jsx-expression)",
@@ -12159,13 +12163,13 @@
     "components/prompts/components/apiKeySelectorView.tsx:100 (attribute:placeholder)"
   ],
   "Select Customer": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1554 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1580 (jsx-text)"
   ],
   "Select Team": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1514 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1540 (jsx-text)"
   ],
   "Select User": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1586 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1612 (jsx-text)"
   ],
   "Select a Virtual MCP to add": [
     "components/mcp/virtualMcpAssignmentsEditor.tsx:74 (attribute:placeholder)"
@@ -13539,7 +13543,7 @@
     "app/workspace/mcp-registry/views/mcpHeadersAuthorizer.tsx:182 (jsx-text)"
   ],
   "This MCP client is already configured": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:589 (call:toast.error)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:601 (call:toast.error)"
   ],
   "This MCP server is allowed by default; a virtual key with an explicit assignment uses that instead.": [
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1816 (jsx-text)"
@@ -13672,10 +13676,10 @@
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:254 (jsx-expression)"
   ],
   "This key is currently assigned to another team. Reassigning it will move budget tracking to this team; future requests through this key will count against this team’s budget, not the previous one.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1314 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1340 (jsx-text)"
   ],
   "This key is used for...": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1174 (attribute:placeholder)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1200 (attribute:placeholder)"
   ],
   "This key never expires.": [
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:254 (jsx-expression)"
@@ -13758,7 +13762,7 @@
     "app/workspace/dashboard/components/exportPopover.tsx:141 (jsx-text)"
   ],
   "This virtual key belongs to an access profile. What it can reach, and what it can spend, are the profile's: the key itself carries only a name and a description.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1119 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1145 (jsx-text)"
   ],
   "This virtual key is managed by an access profile and can't be deleted here.": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:271 (attribute:title)"
@@ -13767,7 +13771,7 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:182 (reviewed-literal)"
   ],
   "This virtual key will be managed by your access profile": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1124 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1150 (jsx-text)"
   ],
   "This will remove": [
     "app/workspace/skills-repo/components/fileManagerView.tsx:1553 (jsx-text)",
@@ -13787,7 +13791,7 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:791 (jsx-text)"
   ],
   "This will replace the secret value for \"": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1627 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1653 (jsx-text)"
   ],
   "This window can be closed.": [
     "app/workspace/mcp-registry/oauth-callback/page.tsx:45 (jsx-expression)"
@@ -14426,7 +14430,7 @@
     "components/budgetOverrideManagerDialog.tsx:219 (jsx-text)"
   ],
   "Update": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1702 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1728 (jsx-expression)",
     "components/budgetOverrideManagerDialog.tsx:275 (jsx-expression)",
     "components/prompts/sheets/folderSheet.tsx:124 (jsx-expression)",
     "components/prompts/sheets/promptSheet.tsx:111 (jsx-expression)"
@@ -14484,7 +14488,7 @@
     "app/workspace/governance/views/teamSheet.tsx:379 (jsx-expression)"
   ],
   "Update the virtual key configuration and permissions.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1104 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1116 (jsx-expression)"
   ],
   "Update values": [
     "app/workspace/mcp-sessions/views/sessionsTable.tsx:472 (jsx-expression)"
@@ -15093,8 +15097,8 @@
     "app/workspace/mcp-sessions/views/mcpSessionsFilterSidebar.tsx:77 (property:label)",
     "app/workspace/oauth-grants/views/oauthGrantsFilterSidebar.tsx:55 (property:label)",
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:143 (attribute:entityLabel)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:410 (property:label)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:796 (reviewed-literal)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:422 (property:label)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:808 (reviewed-literal)",
     "components/prompts/components/apiKeySelectorView.tsx:87 (jsx-expression)"
   ],
   "Virtual key / API Key": [
@@ -15107,13 +15111,13 @@
     "components/virtualKeyListItem.tsx:40 (property:successMessage)"
   ],
   "Virtual key created successfully": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1058 (call:toast.success)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1070 (call:toast.success)"
   ],
   "Virtual key created, but assigning Virtual MCPs failed": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1054 (call:toast.error)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1066 (call:toast.error)"
   ],
   "Virtual key created, but assigning it to the user failed": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1044 (call:toast.error)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1056 (call:toast.error)"
   ],
   "Virtual key deleted successfully": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:430 (call:toast.success)"
@@ -15131,16 +15135,16 @@
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:156 (validation)"
   ],
   "Virtual key rotated successfully": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:874 (call:toast.success)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:886 (call:toast.success)"
   ],
   "Virtual key rotated successfully. The previous key remains valid until {0}.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:873 (call:toast.success)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:885 (call:toast.success)"
   ],
   "Virtual key updated": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:898 (call:toast.success)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:910 (call:toast.success)"
   ],
   "Virtual key updated successfully": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:995 (call:toast.success)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1007 (call:toast.success)"
   ],
   "Virtual key {0}": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:442 (call:toast.success)"
@@ -15477,7 +15481,7 @@
     "components/ui/budgetUsageResetDialog.tsx:46 (jsx-text)"
   ],
   "You changed a budget amount, reset frequency, or calendar alignment. Reset current budget usage to 0, or preserve the existing usage counters.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1654 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1680 (jsx-expression)"
   ],
   "You do not have permission to create skills.": [
     "app/workspace/skills-repo/components/skillCreatorView.tsx:35 (jsx-text)"
@@ -15501,9 +15505,9 @@
     "app/workspace/model-catalog/views/attributeSheet.tsx:456 (jsx-text)",
     "app/workspace/model-limits/views/modelLimitSheet.tsx:201 (call:toast.error)",
     "app/workspace/model-limits/views/modelLimitSheet.tsx:704 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:865 (call:toast.error)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:885 (call:toast.error)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1710 (jsx-expression)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:877 (call:toast.error)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:897 (call:toast.error)",
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1736 (jsx-expression)",
     "components/formFooter.tsx:20 (display-return)"
   ],
   "You don't have permission to update settings": [
@@ -15617,7 +15621,7 @@
   "and token/request rate-limit counters to": [
     "app/workspace/governance/views/customerSheet.tsx:391 (jsx-text)",
     "app/workspace/governance/views/teamSheet.tsx:555 (jsx-text)",
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1439 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1465 (jsx-text)"
   ],
   "and will be removed from any virtual keys it is assigned to. This cannot be undone.": [
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:187 (jsx-text)"
@@ -15989,7 +15993,7 @@
     "app/workspace/custom-pricing/overrides/pricingOverrideSheet.tsx:596 (attribute:placeholder)"
   ],
   "e.g., Production API Key": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1160 (attribute:placeholder)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1186 (attribute:placeholder)"
   ],
   "e.g., Route GPT-4 to Azure": [
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:367 (attribute:placeholder)"
@@ -16148,7 +16152,7 @@
     "app/workspace/governance/views/teamSheet.tsx:556 (jsx-text)"
   ],
   "for this virtual key, then snap each reset date to the start of its current period (e.g. start of day, week, month, or year). The usage reset cannot be undone, but calendar alignment can be turned off later. This will take effect when you save.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1440 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1466 (jsx-text)"
   ],
   "format with base64 encoding.": [
     "app/_fallbacks/enterprise/components/api-keys/apiKeysIndexView.tsx:68 (jsx-text)",
@@ -17280,7 +17284,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryInstallSheet.tsx:204 (property:description)"
   ],
   "{0} You can preserve usage anyway, or reset usage to 0.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1653 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1679 (jsx-expression)"
   ],
   "{0} added successfully": [
     "app/workspace/providers/dialogs/addNewKeySheet.tsx:23 (display-variable)"
@@ -17382,7 +17386,7 @@
     "app/workspace/complexity-router/page.tsx:565 (property:validate)"
   ],
   "{0} quarterly budget has {1} of usage. Changing the fiscal quarter moves the reset date and carries that spend into the new quarter.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:759 (property:message)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:771 (property:message)"
   ],
   "{0} results available": [
     "components/ui/asyncMultiselect.tsx:398 (explicit)"
@@ -17413,10 +17417,10 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:191 (attribute:aria-label)"
   ],
   "{0} {1} budget has {2} usage, which meets or exceeds the new {3} limit.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:749 (property:message)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:761 (property:message)"
   ],
   "{0} {1} budget will inherit {2} from the {3} budget, which meets or exceeds the new {4} limit.": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:782 (property:message)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:794 (property:message)"
   ],
   "{0} {1} successfully": [
     "app/workspace/providers/views/modelProviderKeysTableView.tsx:370 (call:toast.success)"
@@ -17489,13 +17493,13 @@
     "app/workspace/logs/sheets/logDetailView.tsx:1916 (jsx-text)"
   ],
   "· effective {0}": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1284 (jsx-expression)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1310 (jsx-expression)"
   ],
   "· refreshed {0}": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:92 (jsx-expression)"
   ],
   "· resets every": [
-    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1280 (jsx-text)"
+    "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1306 (jsx-text)"
   ],
   "· tool_choice =": [
     "app/workspace/logs/sheets/logDetailView.tsx:3654 (jsx-text)"

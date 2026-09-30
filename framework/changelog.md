@@ -1,4 +1,3 @@
-- feat: RoutingFallback type accepting the legacy provider/model string or an object with a pinned key_id or provider_key_name (#7470)
-- fix: keep a routing rule's stored enabled value when an update or config sync omits it
-- fix: deep copy the async flag and union tool error in streaming Responses messages (#7241, #7242)
-- chore: upgraded core to v1.10.2
+- fix: routing fallbacks in the legacy provider/model string form are re-parsed at route time, so custom providers registered after the rules were decoded at boot are no longer dropped; object-form fields are trimmed on decode (#7543)
+- fix: model histogram queries exclude rows with an empty model, so list_models, file and batch operations no longer appear as an unnamed series (#7632)
+- chore: upgraded core to v1.11.0

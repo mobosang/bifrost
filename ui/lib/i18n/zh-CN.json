@@ -1096,6 +1096,7 @@
 	"Could not rename: {0}": "无法重命名：{0}",
 	"Could not save settings: configuration not loaded.": "无法保存设置:配置未加载.",
 	"Couldn't cancel the recalculation": "不能取消重新计算.",
+	"Couldn't check whether an access profile governs the keys you create. You can still create one — if a profile does govern it, the profile's providers, budgets, rate limits and MCP access replace what you set here.": "无法检查你创建的密钥是否受访问配置管理。你仍可创建密钥；如果存在管理该密钥的访问配置，其中的提供商、预算、速率限制和 MCP 访问设置将替换你在此处填写的设置。",
 	"Couldn't load virtual MCPs.": "无法加载虚拟 MCP。",
 	"Couldn’t load models.": "无法加载模型。",
 	"Couldn’t load the Complexity Router configuration.": "无法加载复杂度路由配置。",

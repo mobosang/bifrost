@@ -60,7 +60,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await page.route("**/session/is-auth-enabled", (route) =>
     route.fulfill({ json: { is_auth_enabled: false, has_valid_token: true } }),
   );
-  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.2.3" }));
+  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.2.4" }));
   await page.route("**/api/config?*", (route) =>
     route.fulfill({ json: { is_db_connected: true, metadata: { onboarding_dismissed: true } } }),
   );
@@ -70,7 +70,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await expect(page.getByText("模型提供商", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "添加提供商", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "打开菜单", exact: true }).click();
-  await expect(page.getByText("v2.2.3", { exact: true })).toBeVisible();
+  await expect(page.getByText("v2.2.4", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.screenshot({ path: testInfo.outputPath("workspace-zh-CN.png"), fullPage: true });
 });
