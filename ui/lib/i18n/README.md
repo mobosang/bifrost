@@ -4,11 +4,21 @@
 
 ## 上游版本基线
 
-截至 2026-09-30，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.4](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.4)。对应 Git 标签为 `transports/v2.2.4`，提交为 `ed8371a9779bfbc8aa689d4d77964cf8ce9308bf`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.4。
+截至 2026-10-09，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.6](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.6)。对应 Git 标签为 `transports/v2.2.6`，提交为 `8b4fce4f1709d66f9208d02f50552da522535f9e`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.6。
 
 本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
 
 版本构建回归可在仓库根目录执行 `node --test transports/docker-version.test.mjs`，需要 Node.js 和 POSIX shell（Windows 使用 Git Bash）。该测试执行 Dockerfile 中实际的构建命令并捕获传给 Go 编译器的参数，不会构建完整 Docker 镜像。
+
+### v2.2.6 升级前检查
+
+此版本包含上游认证行为变化，保留数据挂载并不意味着访问方式完全不变：
+
+- OSS 管理界面未启用认证（没有管理员，或认证被禁用）时，管理 API 现在要求设置令牌。升级前在 Compose 的 environment 中加入 `BIFROST_SETUP_TOKEN=你自行生成的高强度随机令牌`，或在 config.json 顶层配置 setup_token。重启后在中文设置页面输入令牌，创建并启用管理员账户。启用管理界面认证后，设置令牌失效。未启用认证的脚本需通过 X-Bifrost-Setup-Token 请求头传入令牌。
+- 已启用 MCP OAuth 发现（mcp_server_auth_mode 为 oauth 或 both）时，升级前必须配置非空 oauth2_server_config.issuer_url，否则上游会拒绝启动。
+- 新部署未明确配置时，推理认证默认开启；数据库中已保存的设置和显式 false 保留。创建首个管理员也可能开启推理认证，应按自己的访问策略确认虚拟密钥及 enforce_auth_on_inference 设置。
+
+上述行为来自官方版本，汉化不绕过认证。完整 Docker 镜像及真实后端部署应在自己的环境中验证，前端 mock 测试不能替代它们。
 
 ### Docker 部署
 
@@ -18,12 +28,12 @@
 git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
 cd bifrost-zh
 git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.4-zh -t bifrost-zh:2.2.4 .
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.6-zh -t bifrost-zh:2.2.6 .
 ```
 
-已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.4`；以上显式传参会显示 `v2.2.4-zh`。
+已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.6`；以上显式传参会显示 `v2.2.6-zh`。
 
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.4`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
+已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.6`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
 
 ```sh
 docker compose stop bifrost

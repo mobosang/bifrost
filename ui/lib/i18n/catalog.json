@@ -103,7 +103,7 @@
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:638 (jsx-text)"
   ],
   "(or the": [
-    "app/workspace/config/views/securityView.tsx:345 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:372 (jsx-text)"
   ],
   "(pinned)": [
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:658 (jsx-text)"
@@ -125,7 +125,7 @@
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:852 (jsx-text)"
   ],
   ") and a virtual key (": [
-    "app/workspace/config/views/securityView.tsx:392 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:430 (jsx-text)"
   ],
   ") and still must be allowed by the virtual key MCP configuration.": [
     "app/workspace/config/views/mcpView.tsx:329 (jsx-text)"
@@ -161,7 +161,7 @@
     "app/workspace/config/views/clientSettingsView.tsx:448 (jsx-text)"
   ],
   ", and": [
-    "app/workspace/config/views/securityView.tsx:533 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:550 (jsx-text)"
   ],
   ", disabled": [
     "components/ui/multiSelect.tsx:920 (template-value)",
@@ -182,8 +182,7 @@
   ],
   ", or": [
     "app/workspace/config/views/cachingView.tsx:373 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:428 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:448 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:466 (jsx-text)"
   ],
   ", or keep using your custom provider as is.": [
     "app/workspace/providers/dialogs/firstPartyProviderAvailableDialog.tsx:37 (jsx-text)"
@@ -217,7 +216,7 @@
     "app/workspace/providers/dialogs/firstPartyProviderAvailableDialog.tsx:35 (jsx-text)"
   ],
   ". Bifrost will use that key directly, bypassing the registered key pool.": [
-    "app/workspace/config/views/securityView.tsx:429 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:467 (jsx-text)"
   ],
   ". Cache keys isolate entries: same key ↔ shared cache pool. Leave blank to": [
     "app/workspace/config/views/cachingView.tsx:549 (jsx-text)"
@@ -231,8 +230,8 @@
   ". IDs, budgets, rate limits, provider permissions, MCP access, and assignments stay the same. Previous key values stop working immediately unless a rotation cooldown is configured, in which case they remain valid until the cooldown ends.": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:791 (jsx-text)"
   ],
-  ". Leave empty (or 0) to have the old value stop working immediately. Maximum 30 days.": [
-    "app/workspace/config/views/securityView.tsx:448 (jsx-text)"
+  ". It accepts a literal value, an": [
+    "app/login/views/setupTokenView.tsx:33 (jsx-text)"
   ],
   ". Reset current usage to 0, or preserve the existing counters. The reset window keeps its current start and end either way.": [
     "components/ui/budgetUsageResetDialog.tsx:46 (jsx-text)"
@@ -274,9 +273,6 @@
   "1M context window (beta for Sonnet 4.5/4)": [
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:84 (property:description)"
   ],
-  "1h": [
-    "app/workspace/config/views/securityView.tsx:448 (jsx-text)"
-  ],
   "24 hours": [
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:236 (property:label)"
   ],
@@ -289,18 +285,11 @@
   "30min": [
     "lib/budgetOutline.ts:21 (reviewed-container)"
   ],
-  "30s": [
-    "app/workspace/config/views/securityView.tsx:448 (jsx-text)"
-  ],
   "4xx client error": [
     "lib/types/webhooks.ts:131 (property:label)"
   ],
   "5K RPS Test Results": [
     "app/workspace/docs/page.tsx:50 (reviewed-text-array)"
-  ],
-  "5m": [
-    "app/workspace/config/views/securityView.tsx:448 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:456 (attribute:placeholder)"
   ],
   "5min": [
     "lib/budgetOutline.ts:19 (reviewed-container)"
@@ -468,11 +457,14 @@
   ],
   "API Keys": [
     "components/prompts/components/apiKeySelectorView.tsx:109 (jsx-text)",
-    "components/sidebar.tsx:1046 (property:title)",
+    "components/sidebar.tsx:1050 (property:title)",
     "components/ui/entityAssociationSelect.tsx:93 (reviewed-container)"
   ],
   "API Structure": [
     "app/workspace/providers/dialogs/providerConfigSheet.tsx:32 (property:label)"
+  ],
+  "API clients send the same value in the": [
+    "app/login/views/setupTokenView.tsx:40 (jsx-text)"
   ],
   "API key is required": [
     "lib/types/schemas.ts:1197 (property:message)"
@@ -487,7 +479,7 @@
     "app/workspace/config/views/cachingView.tsx:426 (jsx-text)"
   ],
   "API keys management": [
-    "components/sidebar.tsx:1049 (property:description)"
+    "components/sidebar.tsx:1053 (property:description)"
   ],
   "API tokens are excluded from the export.": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:762 (jsx-text)"
@@ -545,7 +537,7 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1539 (jsx-text)"
   ],
   "Access Profiles": [
-    "components/sidebar.tsx:869 (property:title)"
+    "components/sidebar.tsx:873 (property:title)"
   ],
   "Access token TTL (seconds)": [
     "app/workspace/config/views/mcpView.tsx:563 (jsx-text)"
@@ -614,18 +606,19 @@
     "app/workspace/logs/sheets/logDetailView.tsx:668 (reviewed-literal)"
   ],
   "Adaptive Routing": [
-    "components/sidebar.tsx:959 (property:title)"
+    "components/sidebar.tsx:963 (property:title)"
   ],
   "Adaptive Routing Settings": [
     "components/topbar.utils.ts:39 (reviewed-container)"
   ],
   "Adaptive routing metrics": [
-    "components/sidebar.tsx:969 (property:description)"
+    "components/sidebar.tsx:973 (property:description)"
   ],
   "Adaptive routing settings": [
-    "components/sidebar.tsx:976 (property:description)"
+    "components/sidebar.tsx:980 (property:description)"
   ],
   "Add": [
+    "app/login/views/setupTokenView.tsx:33 (jsx-text)",
     "app/workspace/config/views/userAgentMappingsView.tsx:132 (jsx-text)",
     "app/workspace/model-catalog/views/attributeSheet.tsx:413 (jsx-text)",
     "app/workspace/providers/dialogs/addNewCustomProviderSheet.tsx:352 (jsx-text)",
@@ -873,9 +866,6 @@
   "Affects the logs dashboard only. Governance budgets and usage tracking remain unchanged.": [
     "app/workspace/logs/views/recalculateCostDialog.tsx:96 (jsx-text)"
   ],
-  "After rotating a virtual key, the previous value keeps authenticating for this long, giving callers time to switch to the new key. Use a duration like": [
-    "app/workspace/config/views/securityView.tsx:447 (jsx-text)"
-  ],
   "After saving, restoring this file requires re-adding or re-uploading it again.": [
     "app/workspace/skills-repo/components/fileManagerView.tsx:1567 (jsx-text)"
   ],
@@ -910,7 +900,7 @@
     "components/topbar.utils.ts:42 (reviewed-container)"
   ],
   "Alerting": [
-    "components/sidebar.tsx:783 (property:title)"
+    "components/sidebar.tsx:787 (property:title)"
   ],
   "Alias": [
     "app/workspace/logs/sheets/logDetailView.tsx:1796 (attribute:label)"
@@ -1008,6 +998,9 @@
   "All logs in the current window already have a cost.": [
     "app/workspace/logs/views/recalculateCostDialog.tsx:85 (jsx-expression)"
   ],
+  "All management APIs accept the setup token in the": [
+    "components/sidebar.tsx:1358 (jsx-text)"
+  ],
   "All models": [
     "components/modelAccess/utils.ts:108 (reviewed-literal)",
     "components/ui/providerConfigCard.tsx:546 (property:description)",
@@ -1090,7 +1083,7 @@
     "components/mcp/mcpClientConfigsEditor.tsx:210 (property:label)"
   ],
   "Allow Direct API Keys": [
-    "app/workspace/config/views/securityView.tsx:425 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:463 (jsx-text)"
   ],
   "Allow Per-Request Content Storage Override": [
     "app/workspace/config/views/loggingView.tsx:231 (jsx-text)"
@@ -1138,7 +1131,7 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1174 (attribute:title)"
   ],
   "Allowed Headers": [
-    "app/workspace/config/views/securityView.tsx:489 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:506 (jsx-text)"
   ],
   "Allowed Keys": [
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:308 (jsx-text)"
@@ -1148,7 +1141,7 @@
     "app/workspace/virtual-keys/views/virtualKeyDetailsSheet.tsx:290 (jsx-text)"
   ],
   "Allowed Origins": [
-    "app/workspace/config/views/securityView.tsx:467 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:484 (jsx-text)"
   ],
   "Allowed Request Types": [
     "app/workspace/providers/fragments/allowedRequestsFields.tsx:199 (jsx-text)"
@@ -1214,7 +1207,7 @@
     "app/workspace/config/views/cachingView.tsx:282 (jsx-expression)"
   ],
   "Annotation / page": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:691 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:721 (property:label)"
   ],
   "Annotations": [
     "app/workspace/logs/views/logChatMessageView.tsx:295 (attribute:title)"
@@ -1309,10 +1302,10 @@
     "lib/utils/databricksMigration.ts:510 (property:label)"
   ],
   "Approvals": [
-    "components/sidebar.tsx:936 (property:title)"
+    "components/sidebar.tsx:940 (property:title)"
   ],
   "Approve apps and MCP servers": [
-    "components/sidebar.tsx:939 (property:description)"
+    "components/sidebar.tsx:943 (property:description)"
   ],
   "Apr": [
     "lib/constants/governance.ts:40 (reviewed-container)"
@@ -1439,7 +1432,7 @@
     "lib/types/webhooks.ts:9 (property:label)"
   ],
   "Async job webhook endpoints": [
-    "components/sidebar.tsx:918 (property:description)"
+    "components/sidebar.tsx:922 (property:description)"
   ],
   "At least one API key is required": [
     "lib/schemas/providerForm.ts:304 (property:message)"
@@ -1538,10 +1531,10 @@
     "app/workspace/logs/views/logChatMessageView.tsx:321 (jsx-text)"
   ],
   "Audit Logs": [
-    "components/sidebar.tsx:883 (property:title)"
+    "components/sidebar.tsx:887 (property:title)"
   ],
   "Audit logs and compliance": [
-    "components/sidebar.tsx:886 (property:description)"
+    "components/sidebar.tsx:890 (property:description)"
   ],
   "Aug": [
     "lib/constants/governance.ts:40 (reviewed-container)"
@@ -1561,7 +1554,7 @@
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:963 (jsx-text)"
   ],
   "Auth Sessions": [
-    "components/sidebar.tsx:753 (property:title)"
+    "components/sidebar.tsx:757 (property:title)"
   ],
   "Auth Type": [
     "app/workspace/mcp-registry/library/views/mcpLibraryFilterSidebar.tsx:143 (attribute:title)",
@@ -1613,7 +1606,7 @@
     "app/workspace/mcp-sessions/auth-success/page.tsx:10 (jsx-text)"
   ],
   "Authorization": [
-    "app/workspace/config/views/securityView.tsx:428 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:466 (jsx-text)"
   ],
   "Authorization Server URL": [
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1356 (attribute:authServerUrlLabel)"
@@ -1652,7 +1645,7 @@
     "app/workspace/mcp-registry/views/oauth2Authorizer.tsx:244 (reviewed-literal)"
   ],
   "Authorization: Bearer": [
-    "app/workspace/config/views/securityView.tsx:392 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:430 (jsx-text)"
   ],
   "Authorize": [
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:157 (jsx-text)"
@@ -1666,6 +1659,9 @@
   ],
   "Authorized": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:112 (attribute:label)"
+  ],
+  "Authorized with the setup token entered on the setup screen. Saving creates the admin account, after which the setup token stops working.": [
+    "app/workspace/config/views/securityView.tsx:355 (jsx-text)"
   ],
   "Auto": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:885 (attribute:placeholder)"
@@ -1702,7 +1698,7 @@
     "app/pprof/page.tsx:856 (jsx-text)"
   ],
   "Automatic fallback when primary endpoints fail": [
-    "components/sidebar.tsx:704 (property:description)"
+    "components/sidebar.tsx:708 (property:description)"
   ],
   "Automatic reload paused": [
     "index.html (pre-boot upgrade screen)",
@@ -1745,7 +1741,7 @@
     "app/workspace/providers/fragments/deploymentsTable.tsx:177 (attribute:title)"
   ],
   "BETA": [
-    "app/workspace/config/views/securityView.tsx:288 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:305 (jsx-text)",
     "app/workspace/observability/fragments/otelFormFragment.tsx:779 (jsx-text)",
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:375 (jsx-text)",
     "components/betaBadge.tsx:4 (jsx-text)"
@@ -1903,7 +1899,7 @@
     "app/workspace/complexity-router/views/embeddingConfigSheet.tsx:259 (jsx-text)"
   ],
   "Bifrost": [
-    "components/sidebar.tsx:1392 (attribute:alt)"
+    "components/sidebar.tsx:1428 (attribute:alt)"
   ],
   "Bifrost Agent sign-in": [
     "app/_fallbacks/enterprise/components/agent/agentHandoverView.tsx:14 (jsx-expression)"
@@ -1939,6 +1935,9 @@
   "Bifrost renews the access token automatically on the next request after expiry.": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:168 (jsx-text)"
   ],
+  "Bifrost returned {0} while checking the token": [
+    "app/login/views/setupTokenView.tsx:83 (property:message)"
+  ],
   "Bifrost runs this command to start the server on the machine it's deployed on.": [
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:937 (attribute:description)"
   ],
@@ -1946,7 +1945,7 @@
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:936 (attribute:description)"
   ],
   "Bifrost settings": [
-    "components/sidebar.tsx:1003 (property:description)"
+    "components/sidebar.tsx:1007 (property:description)"
   ],
   "Bifrost uses this name internally when routing MCP tool calls.": [
     "app/workspace/mcp-registry/library/views/mcpLibraryInstallSheet.tsx:288 (jsx-text)"
@@ -2034,7 +2033,7 @@
     "app/workspace/oauth-grants/views/grantsTable.tsx:48 (attribute:label)"
   ],
   "Branding": [
-    "components/sidebar.tsx:1069 (property:title)"
+    "components/sidebar.tsx:1073 (property:title)"
   ],
   "Breadcrumb": [
     "app/workspace/skills-repo/components/shared.tsx:187 (attribute:aria-label)",
@@ -2121,11 +2120,11 @@
   ],
   "Budgets & Limits": [
     "app/workspace/model-limits/views/modelLimitsTable.tsx:230 (attribute:title)",
-    "components/sidebar.tsx:680 (property:title)"
+    "components/sidebar.tsx:684 (property:title)"
   ],
   "Budgets and rate limits": [
     "app/workspace/model-limits/views/modelLimitsEmptyState.tsx:19 (jsx-text)",
-    "components/sidebar.tsx:683 (property:description)"
+    "components/sidebar.tsx:687 (property:description)"
   ],
   "Buffer Size": [
     "app/workspace/providers/fragments/performanceFormFragment.tsx:116 (jsx-text)"
@@ -2191,7 +2190,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:2018 (attribute:label)",
     "app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx:245 (reviewed-literal)",
     "components/filters/logsFilterSidebar.tsx:1243 (attribute:title)",
-    "components/sidebar.tsx:841 (property:title)"
+    "components/sidebar.tsx:845 (property:title)"
   ],
   "Business units": [
     "components/filters/mcpFilterSidebar.tsx:103 (reviewed-literal)"
@@ -2290,73 +2289,82 @@
     "app/workspace/config/views/cachingView.tsx:257 (call:toast.success)"
   ],
   "Cache creation / audio token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:400 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:430 (property:label)"
   ],
   "Cache creation / token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:195 (property:label)"
-  ],
-  "Cache creation / token (>1hr)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:219 (property:label)"
-  ],
-  "Cache creation / token (>1hr, >200k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:225 (property:label)"
-  ],
-  "Cache creation / token (>1hr, fast)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:255 (property:label)"
-  ],
-  "Cache creation / token (>200k)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:207 (property:label)"
   ],
-  "Cache creation / token (>272k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:309 (property:label)"
-  ],
-  "Cache creation / token (>272k, flex)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:315 (property:label)"
-  ],
-  "Cache creation / token (fast)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:249 (property:label)"
-  ],
-  "Cache creation / token (flex)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:303 (property:label)"
-  ],
-  "Cache creation / token (priority)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:291 (property:label)"
-  ],
-  "Cache creation / token (ultrafast)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:297 (property:label)"
-  ],
-  "Cache read / image token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:629 (property:label)"
-  ],
-  "Cache read / token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:201 (property:label)"
-  ],
-  "Cache read / token (>200k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:213 (property:label)"
-  ],
-  "Cache read / token (>200k, priority)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:267 (property:label)"
-  ],
-  "Cache read / token (>272k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:273 (property:label)"
-  ],
-  "Cache read / token (>272k, flex)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:285 (property:label)"
-  ],
-  "Cache read / token (>272k, priority)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:279 (property:label)"
-  ],
-  "Cache read / token (fast)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:261 (property:label)"
-  ],
-  "Cache read / token (flex)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:243 (property:label)"
-  ],
-  "Cache read / token (priority)": [
+  "Cache creation / token (>1hr)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:231 (property:label)"
   ],
-  "Cache read / token (ultrafast)": [
+  "Cache creation / token (>1hr, >200k)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:237 (property:label)"
+  ],
+  "Cache creation / token (>1hr, fast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:267 (property:label)"
+  ],
+  "Cache creation / token (>200k)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:219 (property:label)"
+  ],
+  "Cache creation / token (>272k)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:327 (property:label)"
+  ],
+  "Cache creation / token (>272k, flex)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:333 (property:label)"
+  ],
+  "Cache creation / token (>272k, priority)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:345 (property:label)"
+  ],
+  "Cache creation / token (>272k, ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:339 (property:label)"
+  ],
+  "Cache creation / token (fast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:261 (property:label)"
+  ],
+  "Cache creation / token (flex)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:321 (property:label)"
+  ],
+  "Cache creation / token (priority)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:309 (property:label)"
+  ],
+  "Cache creation / token (ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:315 (property:label)"
+  ],
+  "Cache read / image token": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:659 (property:label)"
+  ],
+  "Cache read / token": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:213 (property:label)"
+  ],
+  "Cache read / token (>200k)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:225 (property:label)"
+  ],
+  "Cache read / token (>200k, priority)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:279 (property:label)"
+  ],
+  "Cache read / token (>272k)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:285 (property:label)"
+  ],
+  "Cache read / token (>272k, flex)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:297 (property:label)"
+  ],
+  "Cache read / token (>272k, priority)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:291 (property:label)"
+  ],
+  "Cache read / token (>272k, ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:303 (property:label)"
+  ],
+  "Cache read / token (fast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:273 (property:label)"
+  ],
+  "Cache read / token (flex)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:255 (property:label)"
+  ],
+  "Cache read / token (priority)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:243 (property:label)"
+  ],
+  "Cache read / token (ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:249 (property:label)"
   ],
   "Cache read: {0}": [
     "app/workspace/logs/sheets/logDetailView.tsx:417 (reviewed-template)"
@@ -2375,13 +2383,13 @@
     "app/workspace/dashboard/components/charts/externalCacheTokenMeterChart.tsx:99 (jsx-text)"
   ],
   "Caching": [
-    "components/sidebar.tsx:1021 (property:title)"
+    "components/sidebar.tsx:1025 (property:title)"
   ],
   "Caching Details ({0})": [
     "app/workspace/logs/sheets/logDetailView.tsx:2557 (attribute:title)"
   ],
   "Caching configuration": [
-    "components/sidebar.tsx:1024 (property:description)"
+    "components/sidebar.tsx:1028 (property:description)"
   ],
   "Call stacks currently holding memory on the heap right now. Expand a row to see the full stack.": [
     "app/pprof/page.tsx:1079 (jsx-text)"
@@ -2539,7 +2547,7 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1127 (attribute:tooltip)"
   ],
   "Channels": [
-    "components/sidebar.tsx:790 (property:title)"
+    "components/sidebar.tsx:794 (property:title)"
   ],
   "Chat": [
     "lib/constants/logs.ts:275 (reviewed-container)",
@@ -2582,7 +2590,7 @@
     "app/workspace/mcp-registry/views/mcpHeadersAuthorizer.tsx:222 (jsx-expression)"
   ],
   "Checking authentication...": [
-    "app/login/layout.tsx:40 (jsx-text)"
+    "app/login/layout.tsx:41 (jsx-text)"
   ],
   "Checking classifier…": [
     "app/workspace/complexity-router/views/classifierStatusBadge.tsx:25 (reviewed-literal)"
@@ -2615,7 +2623,7 @@
     "app/workspace/observability/sheets/pluginTracingSheet.tsx:129 (jsx-text)"
   ],
   "Circuit Breaker": [
-    "components/sidebar.tsx:701 (property:title)"
+    "components/sidebar.tsx:705 (property:title)"
   ],
   "Classification is off.": [
     "app/workspace/complexity-router/views/classifierStatusBadge.tsx:116 (reviewed-literal)"
@@ -2742,13 +2750,13 @@
   ],
   "Client Settings": [
     "app/workspace/config/views/clientSettingsView.tsx:291 (attribute:title)",
-    "components/sidebar.tsx:1007 (property:title)"
+    "components/sidebar.tsx:1011 (property:title)"
   ],
   "Client backpressure": [
     "app/workspace/logs/sheets/logDetailView.tsx:599 (reviewed-literal)"
   ],
   "Client configuration settings": [
-    "components/sidebar.tsx:1010 (property:description)"
+    "components/sidebar.tsx:1014 (property:description)"
   ],
   "Client delivery": [
     "app/workspace/logs/sheets/logDetailView.tsx:557 (property:label)"
@@ -2782,7 +2790,7 @@
   ],
   "Close": [
     "app/workspace/complexity-router/views/embeddingConfigSheet.tsx:687 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:561 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:578 (jsx-text)",
     "app/workspace/logs/sheets/logDetailView.tsx:1496 (attribute:aria-label)",
     "app/workspace/mcp-registry/views/mcpHeadersAuthorizer.tsx:226 (jsx-text)",
     "app/workspace/mcp-registry/views/oauth2Authorizer.tsx:366 (jsx-text)",
@@ -2799,7 +2807,7 @@
     "components/onboardingWidget.tsx:277 (attribute:aria-label)"
   ],
   "Cluster Config": [
-    "components/sidebar.tsx:952 (property:title)",
+    "components/sidebar.tsx:956 (property:title)",
     "components/topbar.utils.ts:43 (reviewed-container)"
   ],
   "Code Conventions": [
@@ -2817,7 +2825,7 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:841 (jsx-text)"
   ],
   "Code interpreter / session": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:333 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:363 (property:label)"
   ],
   "Codex": [
     "app/workspace/mcp-registry/views/mcpUsageGuide/harnesses/index.tsx:49 (property:label)",
@@ -2847,7 +2855,7 @@
     "app/workspace/webhooks/deliveries/views/columns.tsx:76 (attribute:aria-label)"
   ],
   "Collapse sidebar": [
-    "components/sidebar.tsx:1471 (attribute:aria-label)"
+    "components/sidebar.tsx:1508 (attribute:aria-label)"
   ],
   "Collector address is required": [
     "lib/types/schemas.ts:1140 (property:message)"
@@ -2875,16 +2883,16 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1125 (attribute:description)"
   ],
   "Comma-separated list of allowed headers for CORS.": [
-    "app/workspace/config/views/securityView.tsx:491 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:508 (jsx-text)"
   ],
   "Comma-separated list of allowed origins for CORS and WebSocket connections. Localhost origins are always allowed. Each origin must be a complete URL with protocol (e.g., https://app.example.com, http://10.0.0.100:3000). Wildcards are supported for subdomains (e.g., https://*.example.com) or use \"*\" to allow all origins.": [
-    "app/workspace/config/views/securityView.tsx:470 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:487 (jsx-text)"
   ],
   "Comma-separated list of custom labels to add to the Prometheus metrics.": [
     "app/workspace/config/views/observabilityView.tsx:81 (jsx-text)"
   ],
   "Comma-separated list of headers that must be present on every request. Requests missing any of these headers will be rejected with a 400 error. Header names are case-insensitive.": [
-    "app/workspace/config/views/securityView.tsx:510 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:527 (jsx-text)"
   ],
   "Comma-separated list of hosts that should bypass the proxy.": [
     "app/workspace/config/views/proxyView.tsx:206 (jsx-text)"
@@ -2899,7 +2907,7 @@
     "app/workspace/config/views/loggingView.tsx:325 (jsx-text)"
   ],
   "Comma-separated list of routes that bypass the auth middleware. Requests to these routes will not require authentication. System routes like": [
-    "app/workspace/config/views/securityView.tsx:532 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:549 (jsx-text)"
   ],
   "Comma-separated scopes to request on exchanged tokens. Include": [
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:852 (jsx-text)"
@@ -2961,10 +2969,10 @@
     "app/workspace/config/views/compatibilityView.tsx:62 (attribute:title)",
     "app/workspace/skills-repo/components/shared.tsx:245 (attribute:label)",
     "app/workspace/skills-repo/forms/skillEditForm.tsx:690 (jsx-text)",
-    "components/sidebar.tsx:1014 (property:title)"
+    "components/sidebar.tsx:1018 (property:title)"
   ],
   "Compatibility conversion settings": [
-    "components/sidebar.tsx:1017 (property:description)"
+    "components/sidebar.tsx:1021 (property:description)"
   ],
   "Compatibility settings updated successfully.": [
     "app/workspace/config/views/compatibilityView.tsx:54 (call:toast.success)"
@@ -3004,7 +3012,7 @@
   ],
   "Complexity Router": [
     "app/workspace/complexity-router/page.tsx:466 (attribute:title)",
-    "components/sidebar.tsx:694 (property:title)"
+    "components/sidebar.tsx:698 (property:title)"
   ],
   "Complexity Score": [
     "app/workspace/logs/sheets/logDetailView.tsx:2159 (attribute:label)"
@@ -3018,7 +3026,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:894 (reviewed-literal)"
   ],
   "Complexity tier routing": [
-    "components/sidebar.tsx:697 (property:description)"
+    "components/sidebar.tsx:701 (property:description)"
   ],
   "Complexity-tier rules are paused until the classifier is ready. Other routing rules continue normally.": [
     "app/workspace/complexity-router/views/classifierStatusBadge.utils.ts:27 (reviewed-literal)"
@@ -3096,7 +3104,7 @@
     "app/workspace/docs/page.tsx:50 (reviewed-text-array)"
   ],
   "Configuration changes require a server restart to take effect.": [
-    "components/sidebar.tsx:1352 (jsx-expression)"
+    "components/sidebar.tsx:1388 (jsx-expression)"
   ],
   "Configuration must be valid JSON": [
     "app/workspace/plugins/sheets/addNewPluginSheet.tsx:46 (property:message)"
@@ -3169,11 +3177,11 @@
     "app/workspace/config/views/loggingView.tsx:101 (jsx-text)"
   ],
   "Configure models": [
-    "components/sidebar.tsx:662 (property:description)",
-    "components/sidebar.tsx:676 (property:description)"
+    "components/sidebar.tsx:666 (property:description)",
+    "components/sidebar.tsx:680 (property:description)"
   ],
   "Configure notification channels": [
-    "components/sidebar.tsx:793 (property:description)"
+    "components/sidebar.tsx:797 (property:description)"
   ],
   "Configure performance-related settings.": [
     "app/workspace/config/views/performanceTuningView.tsx:91 (jsx-text)"
@@ -3185,7 +3193,7 @@
     "app/workspace/config/views/compatibilityView.tsx:63 (jsx-text)"
   ],
   "Configure security and access control settings.": [
-    "app/workspace/config/views/securityView.tsx:263 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:279 (jsx-text)"
   ],
   "Configure sync": [
     "app/workspace/mcp-registry/library/page.tsx:276 (jsx-text)"
@@ -3300,7 +3308,7 @@
     "app/workspace/mcp-registry/views/mcpHeadersAuthorizer.tsx:48 (reviewed-container)"
   ],
   "Connectors": [
-    "components/sidebar.tsx:643 (property:title)"
+    "components/sidebar.tsx:647 (property:title)"
   ],
   "Consecutive failures": [
     "app/workspace/webhooks/views/webhookDetailsSheet.tsx:138 (attribute:label)"
@@ -3363,6 +3371,7 @@
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:60 (property:description)"
   ],
   "Continue": [
+    "app/login/views/setupTokenView.tsx:137 (jsx-text)",
     "app/workspace/mcp-registry/library/views/mcpLibraryInstallSheet.tsx:220 (display-variable)",
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:802 (jsx-text)",
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:897 (jsx-text)",
@@ -3430,9 +3439,6 @@
   ],
   "Converts model parameter values that are not supported by the model.": [
     "app/workspace/config/views/compatibilityView.tsx:134 (jsx-text)"
-  ],
-  "Cooldown After Virtual Key Rotation": [
-    "app/workspace/config/views/securityView.tsx:444 (jsx-text)"
   ],
   "Copied": [
     "app/workspace/logs/sheets/logDetailView.tsx:823 (property:successMessage)",
@@ -3560,7 +3566,7 @@
     "lib/utils/databricksMigration.ts:736 (reviewed-call)"
   ],
   "Could not load authentication type. Dashboard password settings are hidden until this request succeeds.": [
-    "app/workspace/config/views/securityView.tsx:277 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:294 (jsx-text)"
   ],
   "Could not load file contents.": [
     "app/workspace/skills-repo/components/filePreview.tsx:207 (jsx-text)",
@@ -3574,6 +3580,9 @@
   ],
   "Could not load virtual keys.": [
     "app/workspace/virtual-mcps/views/virtualMcpAccessTab.tsx:40 (jsx-text)"
+  ],
+  "Could not reach Bifrost. Check that the server is running.": [
+    "app/login/views/setupTokenView.tsx:75 (property:message)"
   ],
   "Could not read the custom provider": [
     "app/workspace/providers/dialogs/databricksMigrationDialog.tsx:259 (jsx-text)"
@@ -3705,6 +3714,9 @@
   ],
   "Create a new virtual key with specific permissions, budgets, and rate limits.": [
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1117 (jsx-expression)"
+  ],
+  "Create admin": [
+    "components/sidebar.tsx:1363 (jsx-text)"
   ],
   "Create customer accounts to manage multi-tenant usage, assign teams, and set spending and rate limits per customer.": [
     "app/workspace/governance/views/customersEmptyState.tsx:21 (jsx-text)"
@@ -3844,7 +3856,7 @@
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:317 (jsx-text)"
   ],
   "Custom logo and icon": [
-    "components/sidebar.tsx:1072 (property:description)"
+    "components/sidebar.tsx:1076 (property:description)"
   ],
   "Custom plugins extend Bifrost with your own business logic": [
     "app/workspace/plugins/views/pluginsEmptyState.tsx:21 (jsx-text)"
@@ -3921,7 +3933,7 @@
     "app/workspace/governance/views/customerTable.tsx:200 (attribute:title)",
     "app/workspace/logs/sheets/logDetailView.tsx:1993 (attribute:label)",
     "components/filters/logsFilterSidebar.tsx:1184 (attribute:title)",
-    "components/sidebar.tsx:848 (property:title)",
+    "components/sidebar.tsx:852 (property:title)",
     "components/ui/entityAssociationSelect.tsx:90 (reviewed-container)"
   ],
   "Customers have their own teams, budgets, and access controls": [
@@ -3966,9 +3978,15 @@
     "components/themeToggle.tsx:8 (property:label)"
   ],
   "Dashboard": [
-    "components/sidebar.tsx:622 (property:title)",
-    "components/sidebar.tsx:625 (property:description)",
-    "components/sidebar.tsx:966 (property:title)"
+    "components/sidebar.tsx:626 (property:title)",
+    "components/sidebar.tsx:629 (property:description)",
+    "components/sidebar.tsx:970 (property:title)"
+  ],
+  "Dashboard auth not configured": [
+    "components/sidebar.tsx:1354 (property:title)"
+  ],
+  "Dashboard authentication is not configured, so the API is locked. Enter the setup token to continue and create an admin account.": [
+    "app/login/views/setupTokenView.tsx:101 (jsx-text)"
   ],
   "Data URL": [
     "app/workspace/skills-repo/components/fileManagerView.tsx:56 (property:shortLabel)",
@@ -4045,7 +4063,7 @@
     "app/workspace/config/views/clientSettingsView.tsx:365 (jsx-text)"
   ],
   "Define alerting rules": [
-    "components/sidebar.tsx:800 (property:description)"
+    "components/sidebar.tsx:804 (property:description)"
   ],
   "Define custom per-token prices for specific providers, keys, or virtual keys to accurately reflect your negotiated rates.": [
     "app/workspace/custom-pricing/overrides/pricingOverridesEmptyState.tsx:22 (jsx-text)"
@@ -4297,7 +4315,7 @@
     "app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx:453 (attribute:label)"
   ],
   "Devices": [
-    "components/sidebar.tsx:929 (property:title)"
+    "components/sidebar.tsx:933 (property:title)"
   ],
   "Dimension": [
     "app/workspace/config/views/cachingView.tsx:430 (jsx-text)"
@@ -4402,7 +4420,7 @@
   ],
   "Dismiss": [
     "components/devProfiler.tsx:492 (attribute:title)",
-    "components/ui/promoCardStack.tsx:123 (attribute:aria-label)"
+    "components/ui/promoCardStack.tsx:125 (attribute:aria-label)"
   ],
   "Dismiss {0}": [
     "components/notificationCenter.tsx:181 (attribute:aria-label)"
@@ -4417,7 +4435,8 @@
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:339 (jsx-text)"
   ],
   "Docs": [
-    "app/workspace/complexity-router/page.tsx:513 (jsx-text)"
+    "app/workspace/complexity-router/page.tsx:513 (jsx-text)",
+    "components/sidebar.tsx:1372 (jsx-text)"
   ],
   "Docs URL": [
     "app/workspace/mcp-registry/library/views/mcpLibraryAddServerSheet.tsx:460 (jsx-text)"
@@ -4466,7 +4485,7 @@
     "app/workspace/skills-repo/components/skillListView.tsx:543 (jsx-expression)"
   ],
   "Downstream OAuth grants": [
-    "components/sidebar.tsx:763 (property:description)"
+    "components/sidebar.tsx:767 (property:description)"
   ],
   "Drag plugins above or below the built-in plugins block to control execution order.": [
     "app/workspace/plugins/sheets/pluginSequenceSheet.tsx:140 (jsx-text)"
@@ -4494,7 +4513,7 @@
     "components/ui/multiSelect.tsx:626 (display-message)"
   ],
   "Dual Credential Conflict Behavior": [
-    "app/workspace/config/views/securityView.tsx:389 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:427 (jsx-text)"
   ],
   "Dump Errors in Console Logs": [
     "app/workspace/config/views/clientSettingsView.tsx:343 (jsx-text)"
@@ -4551,20 +4570,20 @@
     "components/topbar.utils.ts:48 (reviewed-container)"
   ],
   "Edge Control": [
-    "components/sidebar.tsx:922 (property:title)"
+    "components/sidebar.tsx:926 (property:title)"
   ],
   "Edge Devices": [
     "components/topbar.utils.ts:47 (reviewed-container)"
   ],
   "Edge Settings": [
-    "components/sidebar.tsx:943 (property:title)",
+    "components/sidebar.tsx:947 (property:title)",
     "components/topbar.utils.ts:46 (reviewed-container)"
   ],
   "Edge device management": [
-    "components/sidebar.tsx:924 (property:description)"
+    "components/sidebar.tsx:928 (property:description)"
   ],
   "Edge settings": [
-    "components/sidebar.tsx:946 (property:description)"
+    "components/sidebar.tsx:950 (property:description)"
   ],
   "Edit": [
     "app/workspace/config/views/userAgentMappingsView.tsx:234 (jsx-text)",
@@ -4717,7 +4736,7 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:191 (template-value)"
   ],
   "Enable Auth on Inference": [
-    "app/workspace/config/views/securityView.tsx:358 (jsx-expression)"
+    "app/workspace/config/views/securityView.tsx:385 (jsx-expression)"
   ],
   "Enable Caching": [
     "app/workspace/config/views/cachingView.tsx:301 (jsx-text)"
@@ -4886,7 +4905,7 @@
     "app/workspace/providers/fragments/networkFormFragment.tsx:446 (jsx-text)"
   ],
   "Enforce Virtual Keys on Inference": [
-    "app/workspace/config/views/securityView.tsx:358 (jsx-expression)"
+    "app/workspace/config/views/securityView.tsx:385 (jsx-expression)"
   ],
   "Enforce auth on inference": [
     "hooks/useOnboardingChecklist.ts:98 (property:title)"
@@ -4911,10 +4930,10 @@
     "app/workspace/webhooks/views/webhookSheet.tsx:32 (validation)"
   ],
   "Enter admin password or env.VAR_NAME": [
-    "app/workspace/config/views/securityView.tsx:317 (attribute:placeholder)"
+    "app/workspace/config/views/securityView.tsx:339 (attribute:placeholder)"
   ],
   "Enter admin username or env.VAR_NAME": [
-    "app/workspace/config/views/securityView.tsx:303 (attribute:placeholder)"
+    "app/workspace/config/views/securityView.tsx:321 (attribute:placeholder)"
   ],
   "Enter an embedding timeout": [
     "app/workspace/complexity-router/formSchema.ts:48 (validation)"
@@ -4949,8 +4968,14 @@
   "Enter the endpoint's DNS name from the VPC console, not its ID": [
     "lib/schemas/providerForm.ts:113 (validation)"
   ],
+  "Enter the setup token": [
+    "app/login/views/setupTokenView.tsx:120 (attribute:placeholder)"
+  ],
   "Enter the setup token configured by your operator to create the first admin account. It's set via setup_token in config.json or the BIFROST_SETUP_TOKEN environment variable.": [
-    "app/workspace/config/views/securityView.tsx:222 (message-setter)"
+    "app/workspace/config/views/securityView.tsx:239 (message-setter)"
+  ],
+  "Enter the setup token configured for this Bifrost instance": [
+    "lib/types/schemas.ts:1545 (validation)"
   ],
   "Enter tool result...": [
     "components/prompts/components/messagesView/toolCallResultView.tsx:135 (jsx-text)"
@@ -4975,7 +5000,7 @@
     "app/workspace/config/views/proxyView.tsx:301 (jsx-text)"
   ],
   "Enterprise license information": [
-    "components/sidebar.tsx:1079 (property:description)"
+    "components/sidebar.tsx:1083 (property:description)"
   ],
   "Entity Assignment": [
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1491 (jsx-text)"
@@ -5184,7 +5209,7 @@
     "components/onboardingWidget.tsx:160 (attribute:aria-label)"
   ],
   "Expand sidebar": [
-    "components/sidebar.tsx:1565 (attribute:aria-label)"
+    "components/sidebar.tsx:1602 (attribute:aria-label)"
   ],
   "Expand {0} linked row{1}": [
     "app/workspace/logs/views/columns.tsx:280 (attribute:aria-label)"
@@ -5612,7 +5637,7 @@
   ],
   "Feature Flags": [
     "app/workspace/config/views/featureFlagsView.tsx:31 (attribute:title)",
-    "components/sidebar.tsx:1060 (property:title)"
+    "components/sidebar.tsx:1064 (property:title)"
   ],
   "Feb": [
     "lib/constants/governance.ts:40 (reviewed-container)"
@@ -5721,6 +5746,9 @@
   "Find your installation ID": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1117 (jsx-text)"
   ],
+  "Finish setting up Bifrost": [
+    "app/login/views/setupTokenView.tsx:99 (jsx-text)"
+  ],
   "Finish the selections first": [
     "app/workspace/mcp-registry/views/mcpUsageGuide/harnessCommandSection.tsx:60 (jsx-expression)",
     "app/workspace/mcp-registry/views/mcpUsageGuide/harnessCommandSection.tsx:80 (jsx-expression)"
@@ -5758,7 +5786,7 @@
     "app/workspace/config/views/featureFlagsView.tsx:44 (jsx-text)"
   ],
   "Flat fee / request": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:345 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:375 (property:label)"
   ],
   "Flat key-value pairs nested under": [
     "app/workspace/skills-repo/forms/skillEditForm.tsx:716 (jsx-text)"
@@ -5962,7 +5990,7 @@
   ],
   "Governance": [
     "app/workspace/providers/dialogs/providerConfigSheet.tsx:50 (property:label)",
-    "components/sidebar.tsx:813 (property:title)",
+    "components/sidebar.tsx:817 (property:title)",
     "lib/constants/logs.ts:455 (reviewed-container)"
   ],
   "Governance Plugin": [
@@ -6041,16 +6069,16 @@
     "components/topbar.utils.ts:50 (reviewed-container)"
   ],
   "Guardrail providers configuration": [
-    "components/sidebar.tsx:909 (property:description)"
+    "components/sidebar.tsx:913 (property:description)"
   ],
   "Guardrail rules": [
-    "components/sidebar.tsx:902 (property:description)"
+    "components/sidebar.tsx:906 (property:description)"
   ],
   "Guardrails": [
-    "components/sidebar.tsx:892 (property:title)"
+    "components/sidebar.tsx:896 (property:title)"
   ],
   "Guardrails configuration": [
-    "components/sidebar.tsx:895 (property:description)"
+    "components/sidebar.tsx:899 (property:description)"
   ],
   "HH": [
     "components/ui/timePicker.tsx:59 (attribute:placeholder)"
@@ -6249,7 +6277,7 @@
     "components/headersForm.tsx:177 (attribute:aria-label)"
   ],
   "History": [
-    "components/sidebar.tsx:804 (property:title)"
+    "components/sidebar.tsx:808 (property:title)"
   ],
   "Hit": [
     "app/workspace/logs/sheets/logDetailView.tsx:2557 (template-value)"
@@ -6293,7 +6321,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryAddServerSheet.tsx:184 (attribute:description)"
   ],
   "How to handle inference requests that present both an identity provider access token (": [
-    "app/workspace/config/views/securityView.tsx:392 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:430 (jsx-text)"
   ],
   "How tools are exposed in the VFS: server-level (all tools per server) or tool-level (individual tools).": [
     "app/workspace/config/views/mcpView.tsx:369 (jsx-text)"
@@ -6505,7 +6533,7 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:877 (jsx-text)"
   ],
   "Inference geo US multiplier": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:339 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:369 (property:label)"
   ],
   "Inference profile ARN": [
     "app/workspace/providers/fragments/deploymentsTable.tsx:271 (attribute:label)"
@@ -6553,31 +6581,31 @@
     "app/workspace/model-catalog/views/attributesTab.tsx:167 (jsx-text)"
   ],
   "Input / audio second": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:370 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:400 (property:label)"
   ],
   "Input / audio second (>128k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:376 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:406 (property:label)"
   ],
   "Input / audio token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:364 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:394 (property:label)"
   ],
   "Input / character": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:358 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:388 (property:label)"
   ],
   "Input / image": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:413 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:443 (property:label)"
   ],
   "Input / image (>128k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:419 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:449 (property:label)"
   ],
   "Input / image token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:407 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:437 (property:label)"
   ],
   "Input / pixel": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:425 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:455 (property:label)"
   ],
   "Input / second": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:382 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:412 (property:label)"
   ],
   "Input / token": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:51 (property:label)"
@@ -6600,6 +6628,9 @@
   "Input / token (>272k, priority)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:165 (property:label)"
   ],
+  "Input / token (>272k, ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:195 (property:label)"
+  ],
   "Input / token (batch)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:63 (property:label)"
   ],
@@ -6616,10 +6647,10 @@
     "app/workspace/custom-pricing/overrides/pricingFields.ts:87 (property:label)"
   ],
   "Input / video second": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:636 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:666 (property:label)"
   ],
   "Input / video second (>128k)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:642 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:672 (property:label)"
   ],
   "Input Audio Tokens": [
     "app/workspace/logs/sheets/logDetailView.tsx:2340 (attribute:label)",
@@ -6681,7 +6712,7 @@
     "app/workspace/plugins/fragments/pluginFormFragments.tsx:31 (jsx-expression)"
   ],
   "Install curated MCP servers": [
-    "components/sidebar.tsx:741 (property:description)"
+    "components/sidebar.tsx:745 (property:description)"
   ],
   "Install {0}": [
     "app/workspace/mcp-registry/library/views/mcpLibraryServersTable.tsx:160 (attribute:aria-label)"
@@ -6721,7 +6752,7 @@
     "app/workspace/docs/page.tsx:39 (property:title)"
   ],
   "Intelligent routing rules": [
-    "components/sidebar.tsx:690 (property:description)"
+    "components/sidebar.tsx:694 (property:description)"
   ],
   "Interleaved Thinking": [
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:71 (property:label)"
@@ -6762,7 +6793,7 @@
     "components/ui/custom/number.tsx:154 (call:setErrorMessage)"
   ],
   "Invalid origins: {0}. Origins must be valid URLs like https://example.com, wildcard patterns like https://*.example.com, or \"*\" to allow all origins": [
-    "app/workspace/config/views/securityView.tsx:198 (call:toast.error)"
+    "app/workspace/config/views/securityView.tsx:215 (call:toast.error)"
   ],
   "Invalid redirect URL": [
     "app/oauth/consent/page.tsx:97 (property:description)"
@@ -6781,6 +6812,9 @@
   ],
   "Invalid rule configuration: {0}": [
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:279 (call:toast.error)"
+  ],
+  "Invalid setup token": [
+    "app/login/views/setupTokenView.tsx:79 (property:message)"
   ],
   "Invalid version": [
     "app/workspace/skills-repo/components/skillDetailsView.tsx:113 (call:toast.error)"
@@ -6830,7 +6864,7 @@
     "lib/constants/governance.ts:40 (reviewed-container)"
   ],
   "K": [
-    "components/sidebar.tsx:1519 (jsx-text)"
+    "components/sidebar.tsx:1556 (jsx-text)"
   ],
   "KB": [
     "app/workspace/logs/views/ocrView.tsx:82 (jsx-text)"
@@ -6922,7 +6956,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:2709 (jsx-expression)"
   ],
   "LLM Logs": [
-    "components/sidebar.tsx:629 (property:title)",
+    "components/sidebar.tsx:633 (property:title)",
     "components/topbar.utils.ts:52 (reviewed-container)"
   ],
   "LLM Request": [
@@ -6936,7 +6970,7 @@
     "lib/types/complexityRouter.ts:290 (reviewed-literal)"
   ],
   "LLM request logs & monitoring": [
-    "components/sidebar.tsx:632 (property:description)"
+    "components/sidebar.tsx:636 (property:description)"
   ],
   "LOG PROBABILITIES": [
     "app/workspace/logs/views/transcriptionView.tsx:133 (jsx-text)"
@@ -7129,7 +7163,7 @@
     "app/workspace/skills-repo/forms/skillEditForm.tsx:680 (jsx-text)"
   ],
   "License Info": [
-    "components/sidebar.tsx:1076 (property:title)",
+    "components/sidebar.tsx:1080 (property:title)",
     "components/topbar.utils.ts:45 (reviewed-container)"
   ],
   "Lifetime of issued JWT Bearer tokens. Clients silently refresh when expired (default: 600 = 10 min). Also bounds how long a revoked grant keeps working before it is cut off.": [
@@ -7218,7 +7252,7 @@
     "app/workspace/mcp-registry/views/mcpUsageGuide/mcpUsageGuideSheet.tsx:383 (attribute:placeholder)"
   ],
   "Loading authentication settings": [
-    "app/workspace/config/views/securityView.tsx:270 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:287 (jsx-text)"
   ],
   "Loading configuration…": [
     "app/workspace/config/views/loggingView.tsx:156 (attribute:placeholder)"
@@ -7313,7 +7347,7 @@
     "app/workspace/mcp-logs/views/columns.tsx:236 (attribute:aria-label)"
   ],
   "Log connectors": [
-    "components/sidebar.tsx:646 (property:description)"
+    "components/sidebar.tsx:650 (property:description)"
   ],
   "Log in instead": [
     "app/workspace/mcp-sessions/auth/page.tsx:199 (jsx-text)"
@@ -7349,10 +7383,10 @@
   ],
   "Logs Settings": [
     "app/workspace/config/views/loggingView.tsx:101 (attribute:title)",
-    "components/sidebar.tsx:650 (property:title)"
+    "components/sidebar.tsx:654 (property:title)"
   ],
   "Logs configuration": [
-    "components/sidebar.tsx:653 (property:description)"
+    "components/sidebar.tsx:657 (property:description)"
   ],
   "Logs in the current window that don't have a cost yet will be recalculated.": [
     "app/workspace/logs/views/recalculateCostDialog.tsx:83 (jsx-expression)"
@@ -7389,7 +7423,7 @@
     "app/workspace/mcp-sessions/views/sessionsTable.tsx:143 (attribute:title)"
   ],
   "MCP Catalog": [
-    "components/sidebar.tsx:731 (property:title)"
+    "components/sidebar.tsx:735 (property:title)"
   ],
   "MCP Client": [
     "app/oauth/consent/page.tsx:129 (reviewed-literal)",
@@ -7403,10 +7437,10 @@
     "app/workspace/docs/page.tsx:56 (property:title)"
   ],
   "MCP Gateway": [
-    "components/sidebar.tsx:724 (property:title)"
+    "components/sidebar.tsx:728 (property:title)"
   ],
   "MCP Library": [
-    "components/sidebar.tsx:738 (property:title)"
+    "components/sidebar.tsx:742 (property:title)"
   ],
   "MCP Library Settings": [
     "app/workspace/mcp-registry/library/views/mcpLibrarySettingsSheet.tsx:114 (jsx-text)"
@@ -7418,7 +7452,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibrarySettingsSheet.tsx:104 (call:toast.success)"
   ],
   "MCP Logs": [
-    "components/sidebar.tsx:636 (property:title)"
+    "components/sidebar.tsx:640 (property:title)"
   ],
   "MCP Server": [
     "app/workspace/mcp-sessions/views/mcpSessionsFilterSidebar.tsx:451 (attribute:title)",
@@ -7440,7 +7474,7 @@
   ],
   "MCP Settings": [
     "app/workspace/config/views/mcpView.tsx:260 (attribute:title)",
-    "components/sidebar.tsx:767 (property:title)"
+    "components/sidebar.tsx:771 (property:title)"
   ],
   "MCP Tool": [
     "app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx:367 (jsx-expression)"
@@ -7477,8 +7511,8 @@
     "app/workspace/config/views/mcpView.tsx:613 (jsx-text)"
   ],
   "MCP configuration": [
-    "components/sidebar.tsx:726 (property:description)",
-    "components/sidebar.tsx:770 (property:description)"
+    "components/sidebar.tsx:730 (property:description)",
+    "components/sidebar.tsx:774 (property:description)"
   ],
   "MCP connector support": [
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:42 (property:description)"
@@ -7526,10 +7560,10 @@
     "app/workspace/config/views/mcpView.tsx:252 (call:toast.success)"
   ],
   "MCP tool catalog": [
-    "components/sidebar.tsx:734 (property:description)"
+    "components/sidebar.tsx:738 (property:description)"
   ],
   "MCP tool execution logs": [
-    "components/sidebar.tsx:639 (property:description)"
+    "components/sidebar.tsx:643 (property:description)"
   ],
   "MCP usage": [
     "app/workspace/dashboard/page.tsx:518 (jsx-text)"
@@ -7554,7 +7588,7 @@
     "app/workspace/skills-repo/components/skillListView.tsx:426 (jsx-text)"
   ],
   "Manage Bifrost cluster": [
-    "components/sidebar.tsx:955 (property:description)"
+    "components/sidebar.tsx:959 (property:description)"
   ],
   "Manage CEL-based routing rules for intelligent request routing across providers": [
     "app/workspace/routing-rules/views/routingRulesView.tsx:118 (jsx-text)"
@@ -7563,37 +7597,37 @@
     "app/workspace/skills-repo/components/skillListView.tsx:395 (jsx-text)"
   ],
   "Manage access profiles for roles": [
-    "components/sidebar.tsx:872 (property:description)"
+    "components/sidebar.tsx:876 (property:description)"
   ],
   "Manage adaptive routing": [
-    "components/sidebar.tsx:962 (property:description)"
+    "components/sidebar.tsx:966 (property:description)"
   ],
   "Manage alert channels, rules, and history": [
-    "components/sidebar.tsx:786 (property:description)"
+    "components/sidebar.tsx:790 (property:description)"
   ],
   "Manage business units": [
-    "components/sidebar.tsx:844 (property:description)"
+    "components/sidebar.tsx:848 (property:description)"
   ],
   "Manage custom plugins": [
-    "components/sidebar.tsx:779 (property:description)"
+    "components/sidebar.tsx:783 (property:description)"
   ],
   "Manage customer accounts with their own teams, budgets, and access controls.": [
     "app/workspace/governance/views/customerTable.tsx:200 (jsx-text)"
   ],
   "Manage customers": [
-    "components/sidebar.tsx:851 (property:description)"
+    "components/sidebar.tsx:855 (property:description)"
   ],
   "Manage edge devices": [
-    "components/sidebar.tsx:932 (property:description)"
+    "components/sidebar.tsx:936 (property:description)"
   ],
   "Manage servers that can connect to the MCP Tools endpoint.": [
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:602 (jsx-text)"
   ],
   "Manage teams": [
-    "components/sidebar.tsx:837 (property:description)"
+    "components/sidebar.tsx:841 (property:description)"
   ],
   "Manage users": [
-    "components/sidebar.tsx:830 (property:description)"
+    "components/sidebar.tsx:834 (property:description)"
   ],
   "Manage users, business units with our enterprise-grade governance. This feature is part of the Bifrost enterprise license.": [
     "app/_fallbacks/enterprise/components/user-groups/businessUnitsView.tsx:12 (attribute:description)"
@@ -7602,7 +7636,7 @@
     "app/_fallbacks/enterprise/components/user-groups/usersView.tsx:11 (attribute:description)"
   ],
   "Manage virtual keys & access": [
-    "components/sidebar.tsx:823 (property:description)"
+    "components/sidebar.tsx:827 (property:description)"
   ],
   "Manage virtual keys, their permissions, budgets, and rate limits.": [
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:812 (jsx-text)"
@@ -7950,7 +7984,7 @@
   ],
   "Model Catalog": [
     "app/workspace/model-catalog/views/modelCatalogTable.tsx:71 (attribute:title)",
-    "components/sidebar.tsx:666 (property:title)",
+    "components/sidebar.tsx:670 (property:title)",
     "lib/constants/logs.ts:457 (reviewed-container)"
   ],
   "Model Catalog Resolver": [
@@ -7980,7 +8014,7 @@
     "app/workspace/config/views/pricingConfigView.tsx:127 (jsx-text)"
   ],
   "Model Providers": [
-    "components/sidebar.tsx:673 (property:title)",
+    "components/sidebar.tsx:677 (property:title)",
     "components/topbar.utils.ts:56 (reviewed-container)"
   ],
   "Model Providers → Budgets & Limits": [
@@ -8002,13 +8036,13 @@
   ],
   "Model Settings": [
     "app/workspace/config/views/modelSettingsView.tsx:136 (attribute:title)",
-    "components/sidebar.tsx:715 (property:title)"
+    "components/sidebar.tsx:719 (property:title)"
   ],
   "Model Usage": [
     "app/workspace/dashboard/components/overviewTab.tsx:366 (attribute:title)"
   ],
   "Model and routing configuration": [
-    "components/sidebar.tsx:718 (property:description)"
+    "components/sidebar.tsx:722 (property:description)"
   ],
   "Model budgets": [
     "components/ui/providerConfigCard.tsx:319 (jsx-text)"
@@ -8049,7 +8083,7 @@
     "app/workspace/model-catalog/views/modelCatalogView.tsx:33 (jsx-text)",
     "components/filters/logsFilterSidebar.tsx:637 (attribute:title)",
     "components/modelAccess/modelAccessSelector.tsx:100 (jsx-text)",
-    "components/sidebar.tsx:659 (property:title)"
+    "components/sidebar.tsx:663 (property:title)"
   ],
   "Models this key must never serve. The denylist always wins - if a model appears in both Allowed Models and here, it is blocked. Select \"All Models\" to block every model on this key. Aliases are matched by their alias name - blocking only the underlying model does not block aliases that point to it.": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:439 (jsx-text)"
@@ -8094,10 +8128,10 @@
     "app/workspace/complexity-router/formSchema.ts:51 (validation)"
   ],
   "Must be >= 0": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:756 (display-return)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:786 (display-return)"
   ],
   "Must be a number": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:748 (display-return)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:778 (display-return)"
   ],
   "Must be a valid HTTP or HTTPS URL": [
     "lib/types/schemas.ts:600 (property:message)",
@@ -8161,7 +8195,7 @@
     "lib/utils/validation.ts:135 (display-variable)"
   ],
   "Must be greater than 0 and at most 1": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:737 (property:message)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:767 (property:message)"
   ],
   "Must be in the format <host>:<port> for gRPC (e.g. {0})": [
     "lib/types/schemas.ts:1118 (property:message)"
@@ -8283,7 +8317,7 @@
     "app/workspace/config/views/loggingView.tsx:353 (jsx-text)",
     "app/workspace/config/views/observabilityView.tsx:104 (jsx-text)",
     "app/workspace/config/views/performanceTuningView.tsx:154 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:579 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:596 (jsx-text)"
   ],
   "Needs re-auth": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:286 (reviewed-literal)",
@@ -8418,8 +8452,8 @@
   "No additional attributes. Add a key-value pair for anything beyond description.": [
     "app/workspace/model-catalog/views/attributeSheet.tsx:418 (jsx-text)"
   ],
-  "No admin account exists yet, so this instance is reachable without a password. To finish setup, ask your operator for the setup token configured via": [
-    "app/workspace/config/views/securityView.tsx:344 (jsx-text)"
+  "No admin account exists yet, so management APIs only accept the setup token. Enter the token configured via": [
+    "app/workspace/config/views/securityView.tsx:371 (jsx-text)"
   ],
   "No admin credential on file, so the tool list is not refreshed automatically. Use {0} from the server's actions menu to add one.": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:130 (reviewed-template)",
@@ -8807,6 +8841,9 @@
   "No sessions yet. Sessions appear here when an inference request or MCP gateway call triggers per-user authentication (OAuth or header submission).": [
     "app/workspace/mcp-sessions/views/sessionsTable.tsx:215 (jsx-text)"
   ],
+  "No setup token is configured on this server, so setup cannot continue yet.": [
+    "app/login/views/setupTokenView.tsx:154 (jsx-text)"
+  ],
   "No skills created yet": [
     "app/workspace/skills-repo/components/skillListView.tsx:580 (jsx-expression)"
   ],
@@ -8993,7 +9030,7 @@
   ],
   "OAuth Grants": [
     "app/workspace/oauth-grants/page.tsx:97 (attribute:title)",
-    "components/sidebar.tsx:760 (property:title)"
+    "components/sidebar.tsx:764 (property:title)"
   ],
   "OAuth M2M (Service Principal)": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:920 (jsx-text)"
@@ -9035,7 +9072,7 @@
     "lib/constants/logs.ts:316 (reviewed-container)"
   ],
   "OCR / page": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:685 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:715 (property:label)"
   ],
   "OCR Input": [
     "app/workspace/logs/views/ocrView.tsx:46 (jsx-text)"
@@ -9060,7 +9097,7 @@
     "app/workspace/observability/fragments/otelFormFragment.tsx:70 (property:label)"
   ],
   "Observability": [
-    "components/sidebar.tsx:615 (property:title)"
+    "components/sidebar.tsx:619 (property:title)"
   ],
   "Observability Connectors": [
     "components/topbar.utils.ts:54 (reviewed-container)"
@@ -9094,7 +9131,7 @@
     "app/workspace/routing-rules/tree/views/node/rfRuleNode.tsx:54 (jsx-text)"
   ],
   "Off-peak multiplier": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:351 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:381 (property:label)"
   ],
   "Official": [
     "app/workspace/providers/dialogs/firstPartyProviderAvailableDialog.tsx:32 (jsx-text)"
@@ -9246,109 +9283,109 @@
     "app/workspace/model-catalog/views/attributesTab.tsx:168 (jsx-text)"
   ],
   "Output / audio token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:388 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:418 (property:label)"
   ],
   "Output / image": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:437 (property:label)"
-  ],
-  "Output / image (>1024px)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:467 (property:label)"
   ],
-  "Output / image (>1024px, premium)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:473 (property:label)"
-  ],
-  "Output / image (>1024x1024px, high quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:593 (property:label)"
-  ],
-  "Output / image (>1024x1024px, low quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:557 (property:label)"
-  ],
-  "Output / image (>1024x1024px, medium quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:575 (property:label)"
-  ],
-  "Output / image (>1024x1024px, standard quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:611 (property:label)"
-  ],
-  "Output / image (>1024x1536px)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:479 (property:label)"
-  ],
-  "Output / image (>1024x1536px, high quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:599 (property:label)"
-  ],
-  "Output / image (>1024x1536px, low quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:563 (property:label)"
-  ],
-  "Output / image (>1024x1536px, medium quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:581 (property:label)"
-  ],
-  "Output / image (>1024x1536px, standard quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:617 (property:label)"
-  ],
-  "Output / image (>1536x1024px)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:485 (property:label)"
-  ],
-  "Output / image (>1536x1024px, high quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:605 (property:label)"
-  ],
-  "Output / image (>1536x1024px, low quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:569 (property:label)"
-  ],
-  "Output / image (>1536x1024px, medium quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:587 (property:label)"
-  ],
-  "Output / image (>1536x1024px, standard quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:623 (property:label)"
-  ],
-  "Output / image (>16MP)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:515 (property:label)"
-  ],
-  "Output / image (>2048px)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:491 (property:label)"
-  ],
-  "Output / image (>32MP)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:521 (property:label)"
-  ],
-  "Output / image (>4096px)": [
+  "Output / image (>1024px)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:497 (property:label)"
   ],
-  "Output / image (>4MP)": [
+  "Output / image (>1024px, premium)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:503 (property:label)"
   ],
-  "Output / image (>512px)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:455 (property:label)"
+  "Output / image (>1024x1024px, high quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:623 (property:label)"
   ],
-  "Output / image (>512px, premium)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:461 (property:label)"
+  "Output / image (>1024x1024px, low quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:587 (property:label)"
   ],
-  "Output / image (>64MP)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:527 (property:label)"
+  "Output / image (>1024x1024px, medium quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:605 (property:label)"
   ],
-  "Output / image (>8MP)": [
+  "Output / image (>1024x1024px, standard quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:641 (property:label)"
+  ],
+  "Output / image (>1024x1536px)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:509 (property:label)"
   ],
-  "Output / image (auto quality)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:551 (property:label)"
+  "Output / image (>1024x1536px, high quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:629 (property:label)"
   ],
-  "Output / image (high quality)": [
+  "Output / image (>1024x1536px, low quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:593 (property:label)"
+  ],
+  "Output / image (>1024x1536px, medium quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:611 (property:label)"
+  ],
+  "Output / image (>1024x1536px, standard quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:647 (property:label)"
+  ],
+  "Output / image (>1536x1024px)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:515 (property:label)"
+  ],
+  "Output / image (>1536x1024px, high quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:635 (property:label)"
+  ],
+  "Output / image (>1536x1024px, low quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:599 (property:label)"
+  ],
+  "Output / image (>1536x1024px, medium quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:617 (property:label)"
+  ],
+  "Output / image (>1536x1024px, standard quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:653 (property:label)"
+  ],
+  "Output / image (>16MP)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:545 (property:label)"
   ],
-  "Output / image (low quality)": [
+  "Output / image (>2048px)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:521 (property:label)"
+  ],
+  "Output / image (>32MP)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:551 (property:label)"
+  ],
+  "Output / image (>4096px)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:527 (property:label)"
+  ],
+  "Output / image (>4MP)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:533 (property:label)"
   ],
-  "Output / image (medium quality)": [
+  "Output / image (>512px)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:485 (property:label)"
+  ],
+  "Output / image (>512px, premium)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:491 (property:label)"
+  ],
+  "Output / image (>64MP)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:557 (property:label)"
+  ],
+  "Output / image (>8MP)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:539 (property:label)"
   ],
+  "Output / image (auto quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:581 (property:label)"
+  ],
+  "Output / image (high quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:575 (property:label)"
+  ],
+  "Output / image (low quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:563 (property:label)"
+  ],
+  "Output / image (medium quality)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:569 (property:label)"
+  ],
   "Output / image (premium)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:449 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:479 (property:label)"
   ],
   "Output / image token": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:431 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:461 (property:label)"
   ],
   "Output / pixel": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:443 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:473 (property:label)"
   ],
   "Output / second": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:394 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:424 (property:label)"
   ],
   "Output / token": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:57 (property:label)"
@@ -9371,6 +9408,9 @@
   "Output / token (>272k, priority)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:177 (property:label)"
   ],
+  "Output / token (>272k, ultrafast)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:201 (property:label)"
+  ],
   "Output / token (batch)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:69 (property:label)"
   ],
@@ -9387,22 +9427,22 @@
     "app/workspace/custom-pricing/overrides/pricingFields.ts:93 (property:label)"
   ],
   "Output / video second": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:648 (property:label)"
-  ],
-  "Output / video second (1024p)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:666 (property:label)"
-  ],
-  "Output / video second (1080p)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:672 (property:label)"
-  ],
-  "Output / video second (480p)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:654 (property:label)"
-  ],
-  "Output / video second (4K)": [
     "app/workspace/custom-pricing/overrides/pricingFields.ts:678 (property:label)"
   ],
+  "Output / video second (1024p)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:696 (property:label)"
+  ],
+  "Output / video second (1080p)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:702 (property:label)"
+  ],
+  "Output / video second (480p)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:684 (property:label)"
+  ],
+  "Output / video second (4K)": [
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:708 (property:label)"
+  ],
   "Output / video second (720p)": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:660 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:690 (property:label)"
   ],
   "Output Audio Tokens": [
     "app/workspace/logs/sheets/logDetailView.tsx:2354 (attribute:label)",
@@ -9500,7 +9540,7 @@
     "app/workspace/model-catalog/views/modelCatalogTable.tsx:71 (jsx-text)"
   ],
   "Overview of providers, keys, and usage": [
-    "components/sidebar.tsx:669 (property:description)"
+    "components/sidebar.tsx:673 (property:description)"
   ],
   "P90": [
     "app/workspace/dashboard/components/charts/latencyChart.tsx:36 (jsx-text)",
@@ -9601,7 +9641,7 @@
   ],
   "Password": [
     "app/workspace/config/views/proxyView.tsx:169 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:310 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:328 (jsx-text)",
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:558 (jsx-text)",
     "app/workspace/providers/fragments/proxyFormFragment.tsx:176 (jsx-text)",
     "app/_fallbacks/enterprise/components/login/loginView.tsx:99 (jsx-text)"
@@ -9610,17 +9650,17 @@
     "lib/types/schemas.ts:1248 (property:message)"
   ],
   "Password must include {0}.": [
-    "app/workspace/config/views/securityView.tsx:187 (message-setter)",
-    "app/workspace/config/views/securityView.tsx:215 (message-setter)"
+    "app/workspace/config/views/securityView.tsx:204 (message-setter)",
+    "app/workspace/config/views/securityView.tsx:232 (message-setter)"
   ],
   "Password or env.PG_PASS": [
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:562 (attribute:placeholder)"
   ],
   "Password protect the dashboard": [
-    "app/workspace/config/views/securityView.tsx:288 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:305 (jsx-text)"
   ],
   "Paste the setup token configured by your operator": [
-    "app/workspace/config/views/securityView.tsx:339 (attribute:placeholder)"
+    "app/workspace/config/views/securityView.tsx:366 (attribute:placeholder)"
   ],
   "Paste tool result...": [
     "components/prompts/components/messagesView/toolCallView.tsx:412 (attribute:placeholder)"
@@ -9687,7 +9727,7 @@
     "app/workspace/config/views/cachingView.tsx:644 (jsx-text)"
   ],
   "Per-user OAuth sessions": [
-    "components/sidebar.tsx:756 (property:description)"
+    "components/sidebar.tsx:760 (property:description)"
   ],
   "Per-user OAuth tokens stored for this server, plus any sign-ins still pending.": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:253 (attribute:description)"
@@ -9703,7 +9743,7 @@
   ],
   "Performance Tuning": [
     "app/workspace/config/views/performanceTuningView.tsx:91 (attribute:title)",
-    "components/sidebar.tsx:1053 (property:title)"
+    "components/sidebar.tsx:1057 (property:title)"
   ],
   "Performance metrics and guides": [
     "app/workspace/docs/page.tsx:47 (property:description)"
@@ -9712,7 +9752,7 @@
     "app/workspace/config/views/performanceTuningView.tsx:83 (call:toast.success)"
   ],
   "Performance tuning settings": [
-    "components/sidebar.tsx:1056 (property:description)"
+    "components/sidebar.tsx:1060 (property:description)"
   ],
   "Permit deliveries to private IP ranges. Only enable this for receivers inside your own network.": [
     "app/workspace/webhooks/views/webhookSheet.tsx:276 (jsx-text)"
@@ -9891,7 +9931,7 @@
     "app/workspace/observability/sheets/pluginTracingSheet.tsx:137 (jsx-text)",
     "app/workspace/plugins/page.tsx:73 (jsx-text)",
     "app/workspace/plugins/page.tsx:139 (jsx-text)",
-    "components/sidebar.tsx:776 (property:title)"
+    "components/sidebar.tsx:780 (property:title)"
   ],
   "Point this deployment at a different Azure resource than the key default.": [
     "app/workspace/providers/fragments/deploymentsTable.tsx:196 (attribute:hint)"
@@ -9934,12 +9974,12 @@
     "app/workspace/docs/page.tsx:40 (property:description)"
   ],
   "Prefer IDP token": [
-    "app/workspace/config/views/securityView.tsx:393 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:414 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:431 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:452 (jsx-text)"
   ],
   "Prefer virtual key": [
-    "app/workspace/config/views/securityView.tsx:393 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:415 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:431 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:453 (jsx-text)"
   ],
   "Prefix must contain only lowercase letters, numbers, and hyphens": [
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:242 (message-setter)"
@@ -10038,7 +10078,7 @@
   ],
   "Pricing Overrides": [
     "app/workspace/custom-pricing/overrides/scopedPricingOverridesView.tsx:304 (attribute:title)",
-    "components/sidebar.tsx:708 (property:title)"
+    "components/sidebar.tsx:712 (property:title)"
   ],
   "Pricing Sync Interval (hours)": [
     "app/workspace/config/views/modelSettingsView.tsx:200 (jsx-text)",
@@ -10154,7 +10194,7 @@
   ],
   "Projects": [
     "components/filters/logsFilterSidebar.tsx:1302 (attribute:title)",
-    "components/sidebar.tsx:876 (property:title)"
+    "components/sidebar.tsx:880 (property:title)"
   ],
   "Prometheus": [
     "app/workspace/observability/views/observabilityView.tsx:49 (attribute:alt)"
@@ -10175,7 +10215,7 @@
     "app/workspace/providers/fragments/betaHeadersFormFragment.tsx:47 (property:label)"
   ],
   "Prompt Repository": [
-    "components/sidebar.tsx:984 (property:title)",
+    "components/sidebar.tsx:988 (property:title)",
     "components/topbar.utils.ts:55 (reviewed-container)"
   ],
   "Prompt Tokens": [
@@ -10206,7 +10246,7 @@
     "components/prompts/sheets/promptSheet.tsx:97 (property:required)"
   ],
   "Prompt repository": [
-    "components/sidebar.tsx:987 (property:description)"
+    "components/sidebar.tsx:991 (property:description)"
   ],
   "Prompt updated": [
     "components/prompts/sheets/promptSheet.tsx:53 (call:toast.success)"
@@ -10325,7 +10365,7 @@
     "app/workspace/observability/views/observabilityView.tsx:206 (jsx-text)",
     "app/workspace/providers/page.tsx:363 (jsx-text)",
     "components/filters/logsFilterSidebar.tsx:561 (attribute:title)",
-    "components/sidebar.tsx:906 (property:title)",
+    "components/sidebar.tsx:910 (property:title)",
     "components/ui/entityAssociationSelect.tsx:92 (reviewed-container)"
   ],
   "Providers Setup": [
@@ -10337,7 +10377,7 @@
   "Proxy": [
     "app/workspace/providers/dialogs/databricksMigrationDialog.tsx:464 (attribute:label)",
     "app/workspace/providers/dialogs/providerConfigSheet.tsx:41 (property:label)",
-    "components/sidebar.tsx:1037 (property:title)"
+    "components/sidebar.tsx:1041 (property:title)"
   ],
   "Proxy Configuration": [
     "app/workspace/config/views/proxyView.tsx:87 (jsx-text)"
@@ -10364,7 +10404,7 @@
     "lib/types/schemas.ts:730 (property:message)"
   ],
   "Proxy configuration": [
-    "components/sidebar.tsx:1040 (property:description)"
+    "components/sidebar.tsx:1044 (property:description)"
   ],
   "Proxy configuration updated successfully.": [
     "app/workspace/config/views/proxyView.tsx:51 (call:toast.success)"
@@ -10831,8 +10871,8 @@
     "lib/types/schemas.ts:1379 (property:message)"
   ],
   "Reject request": [
-    "app/workspace/config/views/securityView.tsx:394 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:416 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:432 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:454 (jsx-text)"
   ],
   "Rejected Prediction Tokens": [
     "app/workspace/logs/sheets/logDetailView.tsx:2417 (attribute:label)"
@@ -11051,7 +11091,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:568 (reviewed-literal)"
   ],
   "Request logs & monitoring": [
-    "components/sidebar.tsx:618 (property:description)"
+    "components/sidebar.tsx:622 (property:description)"
   ],
   "Request max limit must be at least 1": [
     "app/workspace/governance/views/customerSheet.tsx:184 (validator-message)",
@@ -11106,10 +11146,10 @@
     "lib/types/complexityRouter.ts:155 (property:description)"
   ],
   "Require a virtual key for all inference requests.": [
-    "app/workspace/config/views/securityView.tsx:363 (jsx-expression)"
+    "app/workspace/config/views/securityView.tsx:390 (jsx-expression)"
   ],
   "Require authentication (virtual key, API key, or user token) for all inference endpoints.": [
-    "app/workspace/config/views/securityView.tsx:362 (jsx-expression)"
+    "app/workspace/config/views/securityView.tsx:389 (jsx-expression)"
   ],
   "Require identity-provider login": [
     "app/workspace/config/views/mcpView.tsx:591 (jsx-text)"
@@ -11118,7 +11158,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryAddServerSheet.tsx:379 (jsx-text)"
   ],
   "Required Headers": [
-    "app/workspace/config/views/securityView.tsx:507 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:524 (jsx-text)",
     "app/workspace/mcp-registry/views/mcpClientFormFields.tsx:739 (attribute:title)",
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1124 (attribute:title)",
     "components/prompts/fragments/settingsPanel.tsx:261 (jsx-text)"
@@ -11160,7 +11200,7 @@
     "lib/constants/logs.ts:302 (reviewed-container)"
   ],
   "Rerank / query": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:327 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:357 (property:label)"
   ],
   "Rerank Output ({0})": [
     "app/workspace/logs/sheets/logDetailView.tsx:3565 (attribute:title)"
@@ -11327,7 +11367,7 @@
     "app/workspace/webhooks/views/webhookSheet.tsx:66 (property:description)"
   ],
   "Restart Required": [
-    "components/sidebar.tsx:1349 (property:title)"
+    "components/sidebar.tsx:1385 (property:title)"
   ],
   "Restart the connection from your MCP client.": [
     "app/oauth/consent/page.tsx:147 (jsx-text)"
@@ -11354,7 +11394,7 @@
     "app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx:645 (jsx-text)"
   ],
   "Resume setup": [
-    "components/sidebar.tsx:1378 (jsx-text)"
+    "components/sidebar.tsx:1414 (jsx-text)"
   ],
   "Retain Content in Object Storage": [
     "app/workspace/config/views/loggingView.tsx:195 (jsx-text)"
@@ -11426,7 +11466,7 @@
     "app/workspace/virtual-mcps/views/virtualMcpWizard.tsx:29 (property:title)"
   ],
   "Review alert delivery history": [
-    "components/sidebar.tsx:807 (property:description)"
+    "components/sidebar.tsx:811 (property:description)"
   ],
   "Review provider keys": [
     "app/workspace/complexity-router/views/embeddingConfigSheet.tsx:150 (jsx-text)",
@@ -11455,7 +11495,7 @@
     "app/workspace/providers/fragments/promptCacheFormFragment.tsx:161 (jsx-text)"
   ],
   "Roles & Permissions": [
-    "components/sidebar.tsx:862 (property:title)",
+    "components/sidebar.tsx:866 (property:title)",
     "components/topbar.utils.ts:49 (reviewed-container)"
   ],
   "Rotate": [
@@ -11493,9 +11533,6 @@
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1662 (jsx-expression)",
     "app/workspace/virtual-keys/views/virtualKeySheet.tsx:1710 (jsx-expression)",
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:803 (jsx-expression)"
-  ],
-  "Rotation cooldown must be a duration like \"30s\", \"5m\", or \"1h30m\" (leave empty to disable).": [
-    "app/workspace/config/views/securityView.tsx:204 (call:toast.error)"
   ],
   "Route chat completions and responses requests through Anthropic-compatible endpoints.": [
     "app/workspace/providers/fragments/deploymentsTable.tsx:346 (attribute:hint)"
@@ -11541,7 +11578,7 @@
   ],
   "Routing Rules": [
     "components/filters/logsFilterSidebar.tsx:915 (attribute:title)",
-    "components/sidebar.tsx:687 (property:title)"
+    "components/sidebar.tsx:691 (property:title)"
   ],
   "Routing Targets": [
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:522 (jsx-text)"
@@ -11599,8 +11636,8 @@
     "app/workspace/routing-rules/views/routingRulesTable.tsx:261 (call:toast.success)"
   ],
   "Rules": [
-    "components/sidebar.tsx:797 (property:title)",
-    "components/sidebar.tsx:899 (property:title)"
+    "components/sidebar.tsx:801 (property:title)",
+    "components/sidebar.tsx:903 (property:title)"
   ],
   "Rules using rate limits or budget must have a \"model\" or \"provider\" condition": [
     "lib/utils/celConverterRouting.ts:366 (reviewed-literal)"
@@ -11710,7 +11747,7 @@
     "app/workspace/config/views/performanceTuningView.tsx:146 (jsx-expression)",
     "app/workspace/config/views/pricingConfigView.tsx:193 (jsx-expression)",
     "app/workspace/config/views/proxyView.tsx:359 (jsx-expression)",
-    "app/workspace/config/views/securityView.tsx:550 (jsx-expression)",
+    "app/workspace/config/views/securityView.tsx:567 (jsx-expression)",
     "app/workspace/config/views/userAgentMappingsView.tsx:156 (jsx-expression)",
     "app/workspace/mcp-registry/library/views/mcpLibrarySettingsSheet.tsx:184 (jsx-expression)",
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1897 (jsx-text)",
@@ -11798,7 +11835,7 @@
     "app/workspace/config/views/performanceTuningView.tsx:146 (jsx-expression)",
     "app/workspace/config/views/pricingConfigView.tsx:193 (jsx-expression)",
     "app/workspace/config/views/proxyView.tsx:359 (jsx-expression)",
-    "app/workspace/config/views/securityView.tsx:550 (jsx-expression)",
+    "app/workspace/config/views/securityView.tsx:567 (jsx-expression)",
     "app/workspace/governance/views/customerSheet.tsx:299 (display-return)",
     "app/workspace/governance/views/customerSheet.tsx:430 (jsx-expression)",
     "app/workspace/governance/views/teamSheet.tsx:675 (jsx-expression)",
@@ -11848,7 +11885,7 @@
     "app/workspace/model-limits/views/modelLimitsTable.tsx:351 (jsx-text)"
   ],
   "Scope requests to a project's access and budget": [
-    "components/sidebar.tsx:879 (property:description)"
+    "components/sidebar.tsx:883 (property:description)"
   ],
   "Scope root": [
     "app/workspace/custom-pricing/overrides/pricingOverrideSheet.tsx:620 (jsx-text)"
@@ -11860,7 +11897,7 @@
     "app/workspace/providers/fragments/deploymentsTable.tsx:281 (attribute:hint)"
   ],
   "Scoped pricing overrides": [
-    "components/sidebar.tsx:711 (property:description)"
+    "components/sidebar.tsx:715 (property:description)"
   ],
   "Scopes": [
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1283 (attribute:scopesLabel)",
@@ -11954,7 +11991,7 @@
     "app/workspace/routing-rules/tree/views/routingTreeView.tsx:457 (attribute:placeholder)"
   ],
   "Search context / query": [
-    "app/workspace/custom-pricing/overrides/pricingFields.ts:321 (property:label)"
+    "app/workspace/custom-pricing/overrides/pricingFields.ts:351 (property:label)"
   ],
   "Search customers by name": [
     "app/workspace/governance/views/customerTable.tsx:241 (attribute:aria-label)"
@@ -12072,7 +12109,7 @@
     "components/prompts/components/promptsViewHeader.tsx:193 (attribute:placeholder)"
   ],
   "Search sidebar navigation": [
-    "components/sidebar.tsx:1507 (attribute:aria-label)"
+    "components/sidebar.tsx:1544 (attribute:aria-label)"
   ],
   "Search skills by name": [
     "app/workspace/skills-repo/components/skillListView.tsx:432 (attribute:aria-label)"
@@ -12119,7 +12156,7 @@
     "app/workspace/oauth-grants/views/oauthGrantsFilterSidebar.tsx:308 (display-variable)",
     "components/filters/logsFilterSidebar.tsx:263 (display-variable)",
     "components/filters/primitives.tsx:116 (display-variable)",
-    "components/sidebar.tsx:1508 (attribute:placeholder)",
+    "components/sidebar.tsx:1545 (attribute:placeholder)",
     "components/ui/combobox.tsx:214 (attribute:placeholder)",
     "components/ui/combobox.tsx:537 (attribute:placeholder)",
     "components/ui/combobox.tsx:634 (attribute:placeholder)",
@@ -12133,22 +12170,22 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1552 (jsx-text)"
   ],
   "Security": [
-    "components/sidebar.tsx:1028 (property:title)"
+    "components/sidebar.tsx:1032 (property:title)"
   ],
   "Security Note": [
     "app/workspace/config/views/clientSettingsView.tsx:460 (jsx-text)"
   ],
   "Security Settings": [
-    "app/workspace/config/views/securityView.tsx:263 (attribute:title)"
+    "app/workspace/config/views/securityView.tsx:278 (jsx-text)"
   ],
   "Security settings": [
-    "components/sidebar.tsx:1031 (property:description)"
+    "components/sidebar.tsx:1035 (property:description)"
   ],
   "Security settings updated successfully.": [
-    "app/workspace/config/views/securityView.tsx:241 (call:toast.success)"
+    "app/workspace/config/views/securityView.tsx:258 (call:toast.success)"
   ],
   "See": [
-    "app/workspace/config/views/securityView.tsx:364 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:391 (jsx-text)"
   ],
   "See all connection states": [
     "app/workspace/mcp-registry/views/mcpClientsTable.tsx:987 (jsx-text)"
@@ -12610,6 +12647,9 @@
   "Set spending caps and rate limits at any scope: virtual keys, users, providers, or specific models.": [
     "app/workspace/model-limits/views/modelLimitsEmptyState.tsx:21 (jsx-text)"
   ],
+  "Set the": [
+    "app/login/views/setupTokenView.tsx:30 (jsx-text)"
+  ],
   "Set the identity-provider audience for this server; each caller's identity token is exchanged automatically.": [
     "app/workspace/mcp-registry/library/views/mcpLibraryInstallSheet.tsx:93 (display-return)"
   ],
@@ -12620,7 +12660,7 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1052 (jsx-text)"
   ],
   "Set up authentication credentials to protect your Bifrost dashboard. Once configured, use the generated token for all admin API calls.": [
-    "app/workspace/config/views/securityView.tsx:291 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:308 (jsx-text)"
   ],
   "Set up budget and rate limits for a scope.": [
     "app/workspace/model-limits/views/modelLimitSheet.tsx:436 (jsx-expression)"
@@ -12633,8 +12673,8 @@
   ],
   "Settings": [
     "app/workspace/mcp-registry/library/page.tsx:231 (jsx-text)",
-    "components/sidebar.tsx:973 (property:title)",
-    "components/sidebar.tsx:1000 (property:title)",
+    "components/sidebar.tsx:977 (property:title)",
+    "components/sidebar.tsx:1004 (property:title)",
     "components/topbar.utils.ts:44 (reviewed-container)"
   ],
   "Settings updated. Large payload changes require a restart to apply.": [
@@ -12659,13 +12699,14 @@
     "components/onboardingWidget.tsx:166 (jsx-text)"
   ],
   "Setup checklist incomplete": [
-    "components/sidebar.tsx:1365 (property:title)"
+    "components/sidebar.tsx:1401 (property:title)"
   ],
   "Setup token": [
-    "app/workspace/config/views/securityView.tsx:333 (jsx-text)"
+    "app/login/views/setupTokenView.tsx:115 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:360 (jsx-text)"
   ],
   "Setup token required": [
-    "app/workspace/config/views/securityView.tsx:556 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:573 (jsx-text)"
   ],
   "Severity": [
     "app/pprof/page.tsx:408 (jsx-text)"
@@ -12809,10 +12850,10 @@
   ],
   "Skills Repository": [
     "app/workspace/skills-repo/components/skillListView.tsx:425 (attribute:title)",
-    "components/sidebar.tsx:991 (property:title)"
+    "components/sidebar.tsx:995 (property:title)"
   ],
   "Skills repository": [
-    "components/sidebar.tsx:994 (property:description)"
+    "components/sidebar.tsx:998 (property:description)"
   ],
   "Skip": [
     "components/onboardingWidget.tsx:348 (jsx-text)"
@@ -13245,7 +13286,7 @@
     "app/workspace/governance/views/teamsTable.tsx:212 (attribute:title)",
     "app/workspace/logs/sheets/logDetailView.tsx:1968 (attribute:label)",
     "components/filters/logsFilterSidebar.tsx:1126 (attribute:title)",
-    "components/sidebar.tsx:834 (property:title)",
+    "components/sidebar.tsx:838 (property:title)",
     "components/ui/entityAssociationSelect.tsx:89 (reviewed-container)"
   ],
   "Teams organize users with shared budgets and access": [
@@ -13373,6 +13414,9 @@
   "The custom provider is named \"databricks\", so it has to be deleted before the official provider can be created. If a later step fails, it will be restored from a snapshot; key secrets that are stored as literals cannot be restored and would need to be re-entered.": [
     "lib/utils/databricksMigration.ts:354 (reviewed-call)"
   ],
+  "The dashboard is authentication protected, but this is a separate control: anyone who can reach this gateway can still call inference endpoints (e.g. chat completions) with no credential at all, spending your provider budget and reading provider-side state your key has access to. Turn this on unless you've deliberately chosen to leave inference open.": [
+    "app/workspace/config/views/securityView.tsx:416 (jsx-text)"
+  ],
   "The embedding provider did not respond during warmup. Check provider availability, then save the configuration again.": [
     "app/workspace/complexity-router/views/classifierStatusBadge.utils.ts:7 (reviewed-literal)"
   ],
@@ -13498,6 +13542,9 @@
   ],
   "The selected model returned an invalid embedding response. Choose a model that supports embeddings and save again.": [
     "app/workspace/complexity-router/views/classifierStatusBadge.utils.ts:11 (reviewed-literal)"
+  ],
+  "The setup token is a secret the operator sets on the server. Set it one of two ways, then restart Bifrost:": [
+    "app/login/views/setupTokenView.tsx:27 (jsx-text)"
   ],
   "The shared token every caller of this server uses. Read-only. Use {0} from the server's actions menu to replace it.": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:150 (property:description)"
@@ -13877,7 +13924,7 @@
     "app/workspace/observability/sheets/pluginTracingSheet.tsx:149 (attribute:ariaLabel)"
   ],
   "Toggle feature flags": [
-    "components/sidebar.tsx:1063 (property:description)"
+    "components/sidebar.tsx:1067 (property:description)"
   ],
   "Toggle folder": [
     "components/prompts/fragments/sidebar.tsx:395 (attribute:aria-label)"
@@ -14577,7 +14624,7 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:747 (jsx-text)"
   ],
   "Use at least 12 characters with uppercase, lowercase, number, and special character. Env var references are accepted.": [
-    "app/workspace/config/views/securityView.tsx:323 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:345 (jsx-text)"
   ],
   "Use deployments endpoint": [
     "app/workspace/providers/fragments/deploymentsTable.tsx:329 (attribute:label)"
@@ -14645,7 +14692,7 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryServerCard.tsx:50 (display-return)"
   ],
   "User Provisioning": [
-    "components/sidebar.tsx:855 (property:title)",
+    "components/sidebar.tsx:859 (property:title)",
     "components/topbar.utils.ts:58 (reviewed-container)"
   ],
   "User Rankings": [
@@ -14677,10 +14724,10 @@
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:345 (jsx-text)"
   ],
   "User management and provisioning": [
-    "components/sidebar.tsx:858 (property:description)"
+    "components/sidebar.tsx:862 (property:description)"
   ],
   "User roles and permissions": [
-    "components/sidebar.tsx:865 (property:description)"
+    "components/sidebar.tsx:869 (property:description)"
   ],
   "User-Agent string or regex": [
     "app/workspace/config/views/userAgentMappingsView.tsx:290 (attribute:placeholder)"
@@ -14693,7 +14740,7 @@
   ],
   "Username": [
     "app/workspace/config/views/proxyView.tsx:156 (jsx-text)",
-    "app/workspace/config/views/securityView.tsx:299 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:316 (jsx-text)",
     "app/workspace/observability/fragments/prometheusFormFragment.tsx:539 (jsx-text)",
     "app/workspace/providers/fragments/proxyFormFragment.tsx:157 (jsx-text)",
     "app/_fallbacks/enterprise/components/login/loginView.tsx:83 (jsx-text)"
@@ -14710,7 +14757,7 @@
   "Users": [
     "app/workspace/mcp-sessions/views/mcpSessionsFilterSidebar.tsx:540 (attribute:title)",
     "app/workspace/oauth-grants/views/oauthGrantsFilterSidebar.tsx:442 (attribute:title)",
-    "components/sidebar.tsx:827 (property:title)",
+    "components/sidebar.tsx:831 (property:title)",
     "components/ui/entityAssociationSelect.tsx:91 (reviewed-container)"
   ],
   "Uses DefaultAzureCredential - automatically detects managed identity on Azure VMs and containers, workload identity in AKS, environment variables, and Azure CLI. No credentials required.": [
@@ -14972,7 +15019,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:782 (jsx-text)"
   ],
   "View docs": [
-    "app/workspace/config/views/securityView.tsx:565 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:582 (jsx-text)"
   ],
   "View less": [
     "components/expandableText.tsx:48 (jsx-expression)",
@@ -14997,7 +15044,7 @@
     "app/workspace/skills-repo/components/shared.tsx:220 (jsx-text)"
   ],
   "View release notes": [
-    "components/sidebar.tsx:1399 (jsx-text)"
+    "components/sidebar.tsx:1435 (jsx-text)"
   ],
   "View routing rules": [
     "app/workspace/routing-rules/tree/views/routingTreeView.tsx:358 (jsx-text)"
@@ -15044,7 +15091,7 @@
     "components/filters/logsFilterSidebar.tsx:809 (attribute:title)",
     "components/filters/mcpFilterSidebar.tsx:334 (attribute:title)",
     "components/prompts/components/apiKeySelectorView.tsx:120 (jsx-text)",
-    "components/sidebar.tsx:820 (property:title)",
+    "components/sidebar.tsx:824 (property:title)",
     "components/ui/entityAssociationSelect.tsx:88 (reviewed-container)"
   ],
   "Virtual MCP": [
@@ -15083,8 +15130,8 @@
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:200 (attribute:title)",
     "app/workspace/virtual-mcps/views/virtualMcpWizard.tsx:109 (attribute:title)",
     "components/entitySelectors/virtualMcpSelector.tsx:53 (attribute:entityLabelPlural)",
-    "components/sidebar.tsx:745 (property:title)",
-    "components/sidebar.tsx:748 (property:description)"
+    "components/sidebar.tsx:749 (property:title)",
+    "components/sidebar.tsx:752 (property:description)"
   ],
   "Virtual MCPs that bundle this server's tools and re-serve them at their own endpoint.": [
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1831 (attribute:description)"
@@ -15157,7 +15204,7 @@
     "app/workspace/virtual-keys/views/virtualKeysEmptyState.tsx:22 (jsx-text)"
   ],
   "Virtual keys, users, teams, customers & roles": [
-    "components/sidebar.tsx:816 (property:description)"
+    "components/sidebar.tsx:820 (property:description)"
   ],
   "Virtual-key MCP access via OAuth will stop": [
     "app/workspace/config/views/mcpView.tsx:611 (jsx-text)"
@@ -15252,7 +15299,7 @@
     "app/workspace/webhooks/deliveries/page.tsx:241 (property:label)",
     "app/workspace/webhooks/views/webhooksView.tsx:350 (attribute:title)",
     "components/filters/webhookDeliveriesFilterSidebar.tsx:205 (attribute:title)",
-    "components/sidebar.tsx:915 (property:title)"
+    "components/sidebar.tsx:919 (property:title)"
   ],
   "Weekly": [
     "lib/constants/governance.ts:11 (property:label)",
@@ -15315,7 +15362,7 @@
     "app/workspace/mcp-registry/views/mcpClientSheet.tsx:1697 (jsx-text)"
   ],
   "When enabled, callers can pass a provider API key directly in the": [
-    "app/workspace/config/views/securityView.tsx:428 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:466 (jsx-text)"
   ],
   "When enabled, deleted virtual keys are excluded from Virtual Keys filter options in Logs, Dashboard, and MCP Logs.": [
     "app/workspace/config/views/loggingView.tsx:306 (jsx-text)"
@@ -15365,6 +15412,9 @@
   "When this grant last refreshed its access token. MCP clients refresh as their token nears expiry, so this tracks the grant's most recent activity. Grants that have not refreshed since they were authorized fall back to when they were created.": [
     "app/workspace/oauth-grants/views/grantsTable.tsx:62 (attribute:tooltip)"
   ],
+  "Where do I find the setup token?": [
+    "app/login/views/setupTokenView.tsx:143 (jsx-text)"
+  ],
   "Whether the custom provider requires a key": [
     "app/workspace/providers/dialogs/addNewCustomProviderSheet.tsx:268 (jsx-text)",
     "app/workspace/providers/fragments/apiStructureFormFragment.tsx:164 (jsx-text)"
@@ -15377,7 +15427,7 @@
     "app/workspace/mcp-sessions/views/sessionsTable.tsx:200 (attribute:tooltip)"
   ],
   "Whitelisted Routes": [
-    "app/workspace/config/views/securityView.tsx:529 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:546 (jsx-text)"
   ],
   "Wildcard": [
     "app/workspace/custom-pricing/overrides/pricingOverrideSheet.tsx:829 (jsx-text)"
@@ -15440,10 +15490,10 @@
     "app/workspace/mcp-registry/library/views/mcpLibraryAddServerSheet.tsx:381 (attribute:placeholder)"
   ],
   "X-Stainless-Timeout": [
-    "app/workspace/config/views/securityView.tsx:496 (attribute:placeholder)"
+    "app/workspace/config/views/securityView.tsx:513 (attribute:placeholder)"
   ],
   "X-Tenant-ID, X-Custom-Header": [
-    "app/workspace/config/views/securityView.tsx:518 (attribute:placeholder)"
+    "app/workspace/config/views/securityView.tsx:535 (attribute:placeholder)"
   ],
   "X-Tenant-ID, X-Request-Source, x-custom-*": [
     "app/workspace/config/views/loggingView.tsx:335 (attribute:placeholder)",
@@ -15627,7 +15677,7 @@
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:187 (jsx-text)"
   ],
   "are always whitelisted regardless of this setting.": [
-    "app/workspace/config/views/securityView.tsx:533 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:550 (jsx-text)"
   ],
   "arn:aws:bedrock:us-east-1:123:inference-profile or env.AWS_ARN": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1449 (attribute:placeholder)"
@@ -15643,10 +15693,14 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1645 (attribute:placeholder)"
   ],
   "at least 12 characters": [
+    "app/workspace/config/views/securityView.tsx:25 (property:label)",
     "lib/utils/validation.ts:196 (property:label)"
   ],
   "at the end of a pattern to match prefixes (e.g.,": [
     "app/workspace/config/views/clientSettingsView.tsx:432 (jsx-text)"
+  ],
+  "at the top level of": [
+    "app/login/views/setupTokenView.tsx:33 (jsx-text)"
   ],
   "attached image": [
     "components/prompts/components/messagesView/attachmentViews.tsx:84 (attribute:alt)"
@@ -15821,7 +15875,7 @@
     "app/_fallbacks/enterprise/components/api-keys/apiKeysIndexView.tsx:66 (jsx-text)"
   ],
   "documentation": [
-    "app/workspace/config/views/securityView.tsx:372 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:399 (jsx-text)",
     "components/notAvailableBanner.tsx:24 (jsx-text)"
   ],
   "does not equal": [
@@ -15837,7 +15891,7 @@
     "app/workspace/logs/views/recalculateCostDialog.tsx:89 (jsx-expression)"
   ],
   "drops the IDP token and authenticates via the virtual key, and": [
-    "app/workspace/config/views/securityView.tsx:393 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:431 (jsx-text)"
   ],
   "duration billed": [
     "app/workspace/logs/sheets/logDetailView.tsx:1682 (reviewed-literal)"
@@ -16074,8 +16128,11 @@
     "app/workspace/virtual-mcps/views/virtualMcpsTable.tsx:318 (jsx-text)",
     "app/workspace/webhooks/views/webhooksView.tsx:444 (jsx-text)"
   ],
-  "environment variable) and paste it here.": [
-    "app/workspace/config/views/securityView.tsx:346 (jsx-text)"
+  "environment variable) to create the admin account. Once it is enabled, the setup token stops working.": [
+    "app/workspace/config/views/securityView.tsx:372 (jsx-text)"
+  ],
+  "environment variable.": [
+    "app/login/views/setupTokenView.tsx:30 (jsx-text)"
   ],
   "equals": [
     "lib/config/celOperatorsRouting.ts:14 (property:label)"
@@ -16138,9 +16195,6 @@
   ],
   "for autonomous execution": [
     "app/workspace/mcp-logs/views/emptyState.tsx:313 (jsx-text)"
-  ],
-  "for details.": [
-    "app/workspace/config/views/securityView.tsx:374 (jsx-text)"
   ],
   "for many Cohere/Voyage models).": [
     "app/workspace/config/views/cachingView.tsx:452 (jsx-text)"
@@ -16205,7 +16259,7 @@
     "app/workspace/config/views/mcpView.tsx:525 (jsx-text)"
   ],
   "header alongside": [
-    "app/workspace/config/views/securityView.tsx:429 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:467 (jsx-text)"
   ],
   "header on deliveries. It is shown only once - copy it now and store it securely. If you lose it, rotate the endpoint to get a new one.": [
     "app/workspace/webhooks/dialogs/webhookSecretDialog.tsx:29 (jsx-text)"
@@ -16215,6 +16269,9 @@
   ],
   "header to scope cached responses to a tenant or feature.": [
     "app/workspace/config/views/cachingView.tsx:270 (jsx-text)"
+  ],
+  "header until you create an admin account.": [
+    "components/sidebar.tsx:1358 (jsx-text)"
   ],
   "header when submitting a job.": [
     "app/workspace/webhooks/views/webhooksView.tsx:352 (jsx-text)"
@@ -16228,6 +16285,9 @@
   ],
   "header. Raw-byte storage requires content logging to be on, either globally, or via": [
     "app/workspace/config/views/loggingView.tsx:236 (jsx-text)"
+  ],
+  "header. The token stops working once dashboard authentication is enabled.": [
+    "app/login/views/setupTokenView.tsx:40 (jsx-text)"
   ],
   "header. Used as the": [
     "app/workspace/config/views/mcpView.tsx:427 (jsx-text)"
@@ -16262,7 +16322,7 @@
     "components/chat/ImageMessage.tsx:37 (attribute:alt)"
   ],
   "in": [
-    "app/workspace/config/views/securityView.tsx:345 (jsx-text)",
+    "app/workspace/config/views/securityView.tsx:372 (jsx-text)",
     "app/workspace/oauth-grants/views/grantsTable.tsx:191 (jsx-text)"
   ],
   "in 1 minute": [
@@ -16393,7 +16453,7 @@
     "app/workspace/virtual-keys/views/virtualKeysTable.tsx:791 (jsx-expression)"
   ],
   "left. Not completing these steps keeps your Bifrost setup vulnerable.": [
-    "components/sidebar.tsx:1369 (jsx-text)"
+    "components/sidebar.tsx:1405 (jsx-text)"
   ],
   "less than": [
     "lib/config/celOperatorsRouting.ts:17 (property:label)"
@@ -16598,15 +16658,19 @@
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1041 (jsx-text)"
   ],
   "one lowercase letter": [
+    "app/workspace/config/views/securityView.tsx:27 (property:label)",
     "lib/utils/validation.ts:198 (property:label)"
   ],
   "one number": [
+    "app/workspace/config/views/securityView.tsx:28 (property:label)",
     "lib/utils/validation.ts:199 (property:label)"
   ],
   "one special character": [
+    "app/workspace/config/views/securityView.tsx:29 (property:label)",
     "lib/utils/validation.ts:200 (property:label)"
   ],
   "one uppercase letter": [
+    "app/workspace/config/views/securityView.tsx:26 (property:label)",
     "lib/utils/validation.ts:197 (property:label)"
   ],
   "optional": [
@@ -16734,6 +16798,12 @@
   "reference phrases through the selected provider. Changing the provider or model invalidates every stored vector, so the whole list is embedded again. This uses embedding tokens and may take a short time.": [
     "app/workspace/complexity-router/page.tsx:429 (jsx-text)"
   ],
+  "reference, or a": [
+    "app/login/views/setupTokenView.tsx:34 (jsx-text)"
+  ],
+  "reference:": [
+    "app/login/views/setupTokenView.tsx:35 (jsx-text)"
+  ],
   "refreshed": [
     "app/workspace/mcp-registry/views/mcpClientCredentialSection.tsx:98 (jsx-text)",
     "app/workspace/mcp-sessions/views/sessionsTable.tsx:240 (jsx-text)"
@@ -16784,7 +16854,7 @@
     "app/workspace/webhooks/views/webhookDetailsSheet.tsx:218 (jsx-text)"
   ],
   "returns a 400 error.": [
-    "app/workspace/config/views/securityView.tsx:394 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:432 (jsx-text)"
   ],
   "reuse the embeddings this gateway already holds.": [
     "app/workspace/complexity-router/page.tsx:443 (jsx-text)"
@@ -16820,7 +16890,7 @@
     "app/workspace/routing-rules/views/routingRulesTable.tsx:367 (jsx-expression)",
     "app/workspace/skills-repo/components/shared.tsx:784 (jsx-expression)",
     "components/prompts/components/messagesView/toolCallView.tsx:267 (jsx-expression)",
-    "components/sidebar.tsx:1369 (jsx-expression)"
+    "components/sidebar.tsx:1405 (jsx-expression)"
   ],
   "s:": [
     "app/pprof/page.tsx:498 (jsx-text)"
@@ -16871,7 +16941,7 @@
     "app/workspace/logs/sheets/logDetailView.tsx:1152 (jsx-text)"
   ],
   "setup step": [
-    "components/sidebar.tsx:1369 (jsx-text)"
+    "components/sidebar.tsx:1405 (jsx-text)"
   ],
   "sgl": [
     "lib/constants/icons.tsx:456 (attribute:alt)"
@@ -17011,6 +17081,9 @@
   "to reference files": [
     "app/workspace/skills-repo/forms/skillEditForm.tsx:391 (jsx-text)"
   ],
+  "to set up a virtual key before enabling this. Calls without a valid credential will return 401.": [
+    "app/workspace/config/views/securityView.tsx:401 (jsx-text)"
+  ],
   "to skip writing the response (still serves cached hits).": [
     "app/workspace/config/views/cachingView.tsx:659 (jsx-text)"
   ],
@@ -17105,7 +17178,7 @@
     "app/workspace/scim/oauth-discover-callback/layout.tsx:9 (attribute:entity)"
   ],
   "uses the user token for identity,": [
-    "app/workspace/config/views/securityView.tsx:393 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:431 (jsx-text)"
   ],
   "v": [
     "app/workspace/logs/sheets/logDetailView.tsx:1956 (jsx-text)",
@@ -17180,7 +17253,7 @@
     "components/ui/custom/celBuilder/celRuleBuilder.tsx:267 (property:label)"
   ],
   "x-api-key": [
-    "app/workspace/config/views/securityView.tsx:428 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:466 (jsx-text)"
   ],
   "x-bf-cache-key": [
     "app/workspace/config/views/cachingView.tsx:270 (jsx-text)",
@@ -17202,13 +17275,13 @@
     "app/workspace/config/views/cachingView.tsx:656 (jsx-text)"
   ],
   "x-bf-direct-key: true": [
-    "app/workspace/config/views/securityView.tsx:429 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:467 (jsx-text)"
   ],
   "x-bf-vk": [
-    "app/workspace/config/views/securityView.tsx:393 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:431 (jsx-text)"
   ],
   "x-goog-api-key": [
-    "app/workspace/config/views/securityView.tsx:429 (jsx-text)"
+    "app/workspace/config/views/securityView.tsx:467 (jsx-text)"
   ],
   "your-aws-access-key or env.AWS_ACCESS_KEY_ID": [
     "app/workspace/providers/fragments/apiKeysFormFragment.tsx:1292 (attribute:placeholder)",
@@ -17322,7 +17395,7 @@
     "app/workspace/observability/sheets/pluginTracingSheet.tsx:100 (call:toast.error)"
   ],
   "{0} is now available.": [
-    "components/sidebar.tsx:1389 (property:title)"
+    "components/sidebar.tsx:1425 (property:title)"
   ],
   "{0} is required": [
     "app/workspace/routing-rules/views/routingRuleSheet.tsx:245 (call:toast.error)"

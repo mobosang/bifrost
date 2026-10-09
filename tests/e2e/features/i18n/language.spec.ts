@@ -60,7 +60,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await page.route("**/session/is-auth-enabled", (route) =>
     route.fulfill({ json: { is_auth_enabled: false, has_valid_token: true } }),
   );
-  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.2.4" }));
+  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.2.6" }));
   await page.route("**/api/config?*", (route) =>
     route.fulfill({ json: { is_db_connected: true, metadata: { onboarding_dismissed: true } } }),
   );
@@ -70,7 +70,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await expect(page.getByText("模型提供商", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "添加提供商", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "打开菜单", exact: true }).click();
-  await expect(page.getByText("v2.2.4", { exact: true })).toBeVisible();
+  await expect(page.getByText("v2.2.6", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.screenshot({ path: testInfo.outputPath("workspace-zh-CN.png"), fullPage: true });
 });
@@ -93,6 +93,37 @@ test("ignores an unsupported saved locale", async ({ page }) => {
   await page.goto("/login");
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await expect(page.getByRole("heading", { name: "欢迎回来" })).toBeVisible();
+});
+
+test("localizes setup authentication without changing the token and can switch to English", async ({ page }) => {
+  await page.route("**/session/is-auth-enabled", (route) => route.fulfill({ json: {
+    is_auth_enabled: false, has_valid_token: false, setup_required: true, setup_token_configured: true,
+  } }));
+  await page.route("**/api/config", (route) => route.fulfill({ status: 401, json: { error: "setup required" } }));
+  await page.route("**/session/setup", (route) => route.fulfill({ status: 403, json: { error: "invalid token" } }));
+  await page.goto("/login");
+  await expect(page.getByRole("heading", { name: "完成 Bifrost 设置" })).toBeVisible();
+  await page.getByTestId("setup-token-input").fill("User-Token-Model-Providers");
+  const request = page.waitForRequest((req) => req.url().endsWith("/session/setup") && req.method() === "POST");
+  await page.getByTestId("setup-token-submit").click();
+  expect((await request).headers()["x-bifrost-setup-token"]).toBe("User-Token-Model-Providers");
+  await expect(page.getByTestId("setup-token-error")).toHaveText("设置令牌无效");
+  expect(await page.evaluate(() => sessionStorage.getItem("bifrost-setup-token"))).toBeNull();
+  await page.getByTestId("language-switcher-trigger").click();
+  await page.getByTestId("language-switcher-select").selectOption("en-US");
+  await page.getByTestId("language-switcher-apply").click();
+  await expect(page.getByRole("heading", { name: "Finish setting up Bifrost" })).toBeVisible();
+});
+
+test("explains missing setup configuration in Chinese and preserves configuration examples", async ({ page }) => {
+  await page.route("**/session/is-auth-enabled", (route) => route.fulfill({ json: {
+    is_auth_enabled: false, has_valid_token: false, setup_required: true, setup_token_configured: false,
+  } }));
+  await page.route("**/api/config", (route) => route.fulfill({ status: 403, json: { error: "setup token missing" } }));
+  await page.goto("/login");
+  await expect(page.getByText("此服务器尚未配置设置令牌，暂时无法继续设置。")).toBeVisible();
+  await expect(page.getByTestId("setup-token-input")).toHaveCount(0);
+  await expect(page.getByTestId("setup-token-instructions").locator("pre")).toHaveText('{ "setup_token": "env.BIFROST_SETUP_TOKEN" }');
 });
 
 test("localizes the v2.2.1 Virtual MCP wizard and preserves its submitted values", async ({ page }) => {
