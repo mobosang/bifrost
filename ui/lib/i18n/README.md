@@ -4,11 +4,24 @@
 
 ## 上游版本基线
 
-截至 2026-10-09，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.2.6](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.2.6)。对应 Git 标签为 `transports/v2.2.6`，提交为 `8b4fce4f1709d66f9208d02f50552da522535f9e`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.2.6。
+截至 2026-10-14，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.3.0](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.3.0)。对应 Git 标签为 `transports/v2.3.0`，提交为 `9237ec06672406e437b3cb33fc793ffd0403b3ae`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.3.0。
 
 本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
 
 版本构建回归可在仓库根目录执行 `node --test transports/docker-version.test.mjs`，需要 Node.js 和 POSIX shell（Windows 使用 Git Bash）。该测试执行 Dockerfile 中实际的构建命令并捕获传给 Go 编译器的参数，不会构建完整 Docker 镜像。
+
+### v2.3.0 升级前检查
+
+本次新增 Agent Gateway、Warp、Cloudflare 原生提供商、OAuth 动态令牌及相关设置的中文翻译。继续使用独立编译翻译层，默认中文且保留英文切换。后端代码与官方标签一致，汉化本身不增加 Go 请求路径耗时或内存分配，因此无需新增提供商实时调用测试；未运行付费提供商测试或完整 Docker/数据库迁移测试。
+
+此版本有数据库迁移及默认行为变化。升级设备前请停服备份整个持久化数据目录，回退时恢复对应备份；不要让旧版和新版同时写入同一数据库。重点检查：
+
+- 名为 cloudflare 的自定义提供商需使用界面迁移到官方提供商；config.json 管理的配置也需同步修改。
+- 已有配置会启用提供商对象的虚拟密钥归属限制，以及仅推理模型转 Responses 的兼容选项。若依赖旧行为，请核对 client.enforce_vk_object_ownership 和 client.compat.force_reasoning_only_models_to_responses。
+- MCP OAuth 的远程回调需列入 client.oauth2_server_config.allowed_redirect_uris；未认证状态下操作私有目标或秘密引用需要管理员认证或设置令牌。
+- 非决策模型的 Decisions 模拟需显式开启；Warp 在 OSS 中默认显示，但使用前仍需配置模型。
+
+其他兼容变化及迁移说明见[官方 v2.3.0 发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.3.0)。
 
 ### v2.2.6 升级前检查
 
@@ -28,12 +41,12 @@
 git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
 cd bifrost-zh
 git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.2.6-zh -t bifrost-zh:2.2.6 .
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.3.0-zh -t bifrost-zh:2.3.0 .
 ```
 
-已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.2.6`；以上显式传参会显示 `v2.2.6-zh`。
+已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.3.0`；以上显式传参会显示 `v2.3.0-zh`。
 
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.2.6`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
+已有 Compose 只需将 `image` 改为 `bifrost-zh:2.3.0`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
 
 ```sh
 docker compose stop bifrost

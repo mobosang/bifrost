@@ -15,15 +15,24 @@
 		"app/workspace/webhooks/views/webhookDetailsSheet.tsx": ["OUTCOME_LABELS"],
 		"components/ui/providerConfigCard.tsx": ["headerSummary", "keysSummary", "modelsSummary", "rlSummary"],
 		"app/workspace/complexity-router/views/classifierStatusBadge.tsx": ["LABELS"],
-		"lib/types/complexityRouter.ts": ["SEMANTIC_STATUS_LABELS"],
-		"lib/utils/mcpConnectionFailure.ts": ["STAGE_LABELS"]
+		"lib/types/complexityRouter.ts": ["SEMANTIC_STATUS_LABELS", "COMPLEXITY_MECHANISM_LABELS", "SEMANTIC_FALLBACK_LABELS"],
+		"lib/utils/mcpConnectionFailure.ts": ["STAGE_LABELS"],
+		"components/warp/warpStream.utils.ts": ["WARP_TOOL_LABELS"],
+		"components/logs/overheadBreakdown.tsx": ["OVERHEAD_LABELS", "PLUGIN_LABEL_OVERRIDES"],
+		"components/notificationCenter.utils.ts": ["SIDEKIQ_JOB_LABELS"],
+		"app/workspace/agent-gateway/views/agentAuthFields.tsx": ["AUTH_TYPE_LABELS"],
+		"app/workspace/providers/fragments/injectedToolsFormFragment.tsx": ["TOOL_PLACEHOLDERS"],
+		"app/workspace/agent-logs/views/columns.tsx": ["AGENT_COLUMN_LABELS"],
+		"app/workspace/logs/views/responsesItemRow.tsx": ["messageRoleLabel"],
+		"app/workspace/agent-gateway/views/agentSheet.tsx": ["advancedSummary"]
 	},
 	"propertyContainers": {
 		"lib/store/apis/providersApi.ts": ["DEFAULT_MODEL_PARAMETERS"],
 		"hooks/useOnboardingChecklist.ts": ["common", "enterprise"],
 		"lib/utils/routingRules.ts": ["operatorPatterns"],
 		"lib/utils/validation.ts": ["PASSWORD_REQUIREMENTS"],
-		"lib/utils/databricksMigration.ts": ["", "steps"]
+		"lib/utils/databricksMigration.ts": ["", "steps"],
+		"components/warp/warpStream.utils.ts": [""]
 	},
 	"functions": {
 		"lib/constants/governance.ts": ["fiscalQuarterNote"],
@@ -44,7 +53,10 @@
 		"lib/utils/databricksMigration.ts": ["message"]
 	},
 	"literals": {
-		"app/workspace/config/views/modelSettingsView.tsx": ["URL must start with http://, https://, or file://"],
+		"app/workspace/config/views/modelSettingsView.tsx": [
+			"URL must start with http://, https://, or file://",
+			"URL must start with http:// or https:// (file:// URLs can only be set in config.json)"
+		],
 		"app/workspace/config/views/pricingConfigView.tsx": ["URL must start with http:// or https://"],
 		"app/workspace/logs/views/logsHeaderView.tsx": [
 			"Failed to recalculate costs",
@@ -54,12 +66,16 @@
 		],
 		"app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx": ["Invalid date", "Business Unit", "Business Units", "Not recorded"],
 		"components/ui/providerConfigCard.tsx": ["No cap"],
-		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key"],
+		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key", "business unit"],
 		"lib/utils/celConverterRouting.ts": ["Rules using rate limits or budget must have a \"model\" or \"provider\" condition"],
 		"app/oauth/consent/page.tsx": ["MCP Client"],
 		"app/workspace/dashboard/components/exportPopover.tsx": ["Powered by"],
 		"app/workspace/governance/views/teamsTable.tsx": ["Unknown Customer"],
-		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["Authorization failed", "OAuth flow failed"],
+		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": [
+			"Authorization failed",
+			"OAuth flow failed",
+			"Authorization timed out before the provider redirected back. Retry to start a new flow."
+		],
 		"app/workspace/mcp-sessions/auth/page.tsx": ["MCP server", "this MCP server"],
 		"app/workspace/observability/views/observabilityView.tsx": ["Coming soon"],
 		"app/workspace/routing-rules/views/routingRuleInfoSheet.tsx": ["Incoming provider", "Incoming model"],
@@ -128,7 +144,9 @@
 			"Adaptive Load Balancer",
 			"Model Catalog Resolver",
 			"Complexity analysis skipped",
-			"duration billed"
+			"duration billed",
+			"Per-request fee",
+			"Web search"
 		],
 		"app/workspace/logs/views/metricStrip.tsx": [
 			"Of all requests in this window",
@@ -147,7 +165,9 @@
 			"Invalid resource URI",
 			"OAuth resource must be an absolute URI without a fragment.",
 			"Header keys required",
-			"Declare at least one header name users must supply."
+			"Declare at least one header name users must supply.",
+			"Invalid allowed extra headers",
+			"Wildcard '*' cannot be combined with specific header names."
 		],
 		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": [
 			"The admin credential Bifrost keeps on file to refresh this server's tool list needs repair. Callers' tool calls are unaffected. Use Re-verify as me from the server's actions menu to fix it.",
@@ -199,9 +219,241 @@
 			"Add model…",
 			"Search models..."
 		],
-		"lib/types/complexityRouter.ts": ["Warming up", "LLM classifier"],
+		"lib/types/complexityRouter.ts": ["Warming up", "LLM classifier", "Decision model"],
 		"lib/utils/logSearch.ts": ["Request ID"],
-		"lib/utils/mcpConnectionFailure.ts": ["Listing tools", "Discovering tools", "Connection dropped", "needs reauth"]
+		"lib/utils/mcpConnectionFailure.ts": ["Listing tools", "Discovering tools", "Connection dropped", "needs reauth"],
+		"app/workspace/agent-gateway/views/agentAuthFields.tsx": ["No authentication", "TLS verification off", "custom TLS"],
+		"app/workspace/agent-gateway/views/agentSheet.tsx": [
+			"The card references a missing security scheme.",
+			"The gateway supports one OAuth client per upstream.",
+			"The gateway cannot combine OAuth with static header credentials.",
+			"The gateway cannot store separate credentials for the same HTTP header.",
+			"The gateway does not support this query, cookie, or HTTP credential.",
+			"Not set",
+			"Refetch card",
+			"Verification off",
+			"Keep the configured agent authentication",
+			"Use the incoming Bifrost authentication",
+			"Custom",
+			"Default"
+		],
+		"app/workspace/agent-logs/views/a2aPayloadView.tsx": [
+			"Other fields",
+			"Task details",
+			"Response details",
+			"Request parameters",
+			"last chunk"
+		],
+		"app/workspace/agent-logs/views/agentContextDetailsSheet.tsx": [
+			"Push notification received from Agent",
+			"Push notification sent to client callback"
+		],
+		"app/workspace/agent-logs/views/agentLogDetailsSheet.tsx": [
+			"The agent emitted or updated output for this task.",
+			"The agent reported a task state change.",
+			"The agent returned the current task snapshot.",
+			"The agent emitted a message without creating or updating a task.",
+			"A protocol event observed while this operation was active.",
+			"Event ID",
+			"Event type",
+			"Task state",
+			"Task ID",
+			"Context ID",
+			"Message ID",
+			"Artifact ID",
+			"Request ID",
+			"Trace ID",
+			"Content type",
+			"User ID",
+			"Virtual key ID",
+			"Push config ID",
+			"Delivery ID",
+			"Attempt ID",
+			"Business Unit",
+			"Business Units",
+			"Record ID",
+			"Request Message ID",
+			"Response Message ID",
+			"Event Sequence",
+			"Event Type",
+			"Task State",
+			"Push Config ID"
+		],
+		"app/workspace/complexity-router/views/sections.tsx": [
+			"We recommend starting with these defaults, then refining them to match what each tier means for you.",
+			"Each tier's definition, signals and examples are sent to the decision model with every request."
+		],
+		"app/workspace/config/views/warpConfig.utils.ts": [
+			"Choose a provider and model to enable Warp.",
+			"Choose a provider and model, or remove this model.",
+			"This provider and model is already listed."
+		],
+		"app/workspace/config/views/warpView.tsx": ["Must be at least 1 second"],
+		"app/workspace/logs/views/recalculateCostDialog.tsx": ["No logs match the current filters."],
+		"app/workspace/logs/views/responsesItemRow.tsx": ["Tool Result"],
+		"app/workspace/model-limits/views/modelLimitsTable.tsx": ["This limit is managed by its owner and can't be deleted here."],
+		"app/workspace/providers/dialogs/cloudflareMigrationDialog.tsx": [
+			"Migrating requires create and update access to providers.",
+			"Save or discard your unsaved provider changes first.",
+			"Fill in the missing values above."
+		],
+		"app/workspace/providers/fragments/injectedToolsFormFragment.tsx": [
+			"Pick an MCP server first",
+			"Loading tools...",
+			"This MCP server exposes no tools"
+		],
+		"components/agents/agentCardPreview.tsx": [
+			"OAuth metadata URL",
+			"OpenID Connect URL",
+			"Authorization URL",
+			"Token URL",
+			"Refresh URL",
+			"Bearer format",
+			"Authorization code",
+			"Client credentials"
+		],
+		"components/agents/agentGrantsEditor.tsx": ["Agent access"],
+		"components/logs/overheadBreakdown.tsx": [
+			"Request parse",
+			"Request encode",
+			"Response parse",
+			"Response encode",
+			"Schema conversion",
+			"Stream convert (inbound)",
+			"Stream convert (outbound)",
+			"Key pool",
+			"Key selection",
+			"Request setup",
+			"Worker setup",
+			"Worker handoff",
+			"Queue wait",
+			"Attribute population",
+			"Uncaptured glue",
+			"Provider processing",
+			"Request context building",
+			"Response headers",
+			"Response read",
+			"Request signing",
+			"Credential fetch",
+			"Client backpressure",
+			"Client write",
+			"Scheduling residual",
+			"Request normalization",
+			"Gateway auth",
+			"Upstream client prep",
+			"Response encoding",
+			"A2A SDK handling",
+			"Push authentication lookup",
+			"Push task binding",
+			"Push enqueue",
+			"Push configuration lookup",
+			"Push outcome update",
+			"Push configuration read",
+			"Push configuration save",
+			"Push configuration delete",
+			"Due push lookup",
+			"Push retention cleanup",
+			"Adaptive Load Balancer",
+			"Model Catalog Resolver"
+		],
+		"components/notificationCenter.utils.ts": ["Recalculating log costs", "Indexing logs for Warp", "Virtual key expiry cleanup"],
+		"components/warp/warpChart.tsx": ["Open in Logs"],
+		"components/warp/warpCommands.ts": ["Start a new conversation"],
+		"components/warp/warpPanel.tsx": [
+			"What did I spend on each provider in the last 7 days?",
+			"Which model had the worst p99 latency yesterday?",
+			"Who are my top 5 users by cost this week?",
+			"Show me failed requests in the last 24 hours"
+		],
+		"components/warp/warpStream.utils.ts": [
+			"Performing vector search",
+			"Performed vector search",
+			"Checking log volume",
+			"Checked log volume",
+			"Searching request logs",
+			"Searched request logs",
+			"Tracing what happened",
+			"Traced what happened",
+			"Querying metrics",
+			"Queried metrics",
+			"Ranking usage",
+			"Ranked usage",
+			"Comparing models and providers",
+			"Compared models and providers",
+			"Checking available values",
+			"Checked available values",
+			"Checking virtual key limits",
+			"Checked virtual key limits",
+			"No vector store",
+			"Search not set up",
+			"Indexing failed",
+			"Index ready",
+			"Warp is not configured yet.",
+			"No provider and model are set, or Warp is switched off in settings.",
+			"Open Warp settings and choose a provider and model.",
+			"Make sure Enable Warp is switched on.",
+			"Warp could not settle on an answer.",
+			"Warp ran its full budget of research steps without reaching a conclusion. That usually means the question was broad enough that each query raised another, so it kept looking instead of answering.",
+			"Ask for one thing at a time: a single metric, one time range, one scope.",
+			"Name the window explicitly, for example 'in the last 24 hours'.",
+			"Name whose traffic you mean - a team, a customer, or all of them.",
+			"Raise Max Iterations in Warp settings if the question genuinely needs more steps.",
+			"That took too long.",
+			"The whole request passed its time budget before Warp finished. Long time ranges and wide scopes make every query slower, and Warp runs several.",
+			"Try a shorter time range.",
+			"Narrow to one team, customer or virtual key.",
+			"Raise Request Timeout in Warp settings if your model is simply slow.",
+			"Warp's model could not be reached.",
+			"The provider rejected the request or was unreachable. This is about Warp's own model, not the traffic you asked about.",
+			"Check the provider, model and key in Warp settings.",
+			"Try the same model from the playground to see whether it answers at all.",
+			"Your account doesn't have access to Warp's model.",
+			"This deployment's governance rules refused the request before it reached the provider. Warp's model calls count as yours, so they need the same access any of your requests would.",
+			"Ask an administrator to give your account model access, such as an access profile that allows Warp's model.",
+			"If you do have access, the details below say which rule refused it.",
+			"You've used up your budget.",
+			"A budget that covers your account is spent for this cycle, so governance refused Warp's model call. Warp's model calls count as yours, so they spend the same budget as any of your requests.",
+			"Wait for the budget to reset at the start of the next cycle.",
+			"Ask an administrator to raise the limit if you need more this cycle.",
+			"The details below say which budget refused it.",
+			"You've hit a rate limit.",
+			"Your account sent more requests or tokens than a rate limit allows in its window, so governance refused Warp's model call. Warp's model calls count as yours, so they share the same limits.",
+			"Wait a moment and ask again.",
+			"Ask an administrator to raise the limit if it keeps happening.",
+			"The details below say which limit refused it.",
+			"Warp's model isn't allowed for your account.",
+			"This deployment's governance rules block the model or provider Warp is set to use for your account, so the request was refused before it reached the provider.",
+			"Ask an administrator to allow Warp's model for your account.",
+			"Or set Warp to a model your account is allowed to use in Warp settings.",
+			"A query failed.",
+			"One of Warp's data queries returned an error, and it could not recover within its remaining steps.",
+			"Try a narrower time range.",
+			"Check that the model, key or team you named actually exists.",
+			"The request was cancelled before it finished.",
+			"Something went wrong.",
+			"Warp returned an error without a recognised code.",
+			"Try the question again.",
+			"If it keeps happening, report it with the details below."
+		],
+		"components/warp/warpStreamSession.ts": [
+			"Warp returned no response body",
+			"The connection closed before Warp finished answering.",
+			"Warp request failed"
+		],
+		"lib/utils/agentCard.ts": ["Unnamed skill"],
+		"lib/utils/cloudflareMigration.ts": [
+			"The account ID could not be read from the base URL; enter it below.",
+			"No Authorization header was found on the custom provider; enter the API token below.",
+			"The Authorization header is not a Bearer token; enter the API token below.",
+			"Allowed request restrictions are specific to custom providers and will not be carried over.",
+			"Request path overrides are specific to custom providers and will not be carried over.",
+			"This provider is synced from config.json. Update it there as well, or the custom provider may be restored on the next restart.",
+			"Unknown error",
+			"Convert to the official Cloudflare provider",
+			"Verify the Cloudflare provider",
+			"Refresh models",
+			"The provider is still a custom provider"
+		]
 	},
 	"templatePrefixes": {
 		"app/workspace/logs/views/columns.tsx": ["Tool Result: ", "Assistant Tool Call: "],
@@ -217,7 +469,19 @@
 		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": ["Bifrost's last connection check failed "],
 		"app/workspace/virtual-keys/views/virtualKeysTable.tsx": [" Previous keys remain valid until "],
 		"components/mcp/virtualMcpAssignmentsEditor.tsx": ["Virtual MCP #"],
-		"lib/utils/mcpConnectionFailure.ts": ["Last failed "]
+		"lib/utils/mcpConnectionFailure.ts": ["Last failed "],
+		"app/workspace/complexity-router/views/sections.tsx": ["Set up "],
+		"app/workspace/config/views/warpView.tsx": ["Must be between "],
+		"lib/utils/cloudflareMigration.ts": [
+			"Add the account ID to ",
+			"Create key \"",
+			"Failed to update key \"",
+			"Provider status is \"",
+			"Provider active with ",
+			"\"",
+			"Migration failed: "
+		],
+		"components/warp/warpStreamSession.ts": ["Warp request failed ("]
 	},
 	"calls": {
 		"lib/utils/databricksMigration.ts": {
@@ -231,6 +495,9 @@
 		},
 		"components/modelAccess/utils.ts": {
 			"parts.push": [0]
+		},
+		"app/workspace/agent-gateway/views/agentSheet.tsx": {
+			"fetchButton": [0]
 		}
 	}
 }

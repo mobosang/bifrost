@@ -2,6 +2,7 @@ import NotificationCenter from "@/components/notificationCenter";
 import LanguageSwitcher from "@/components/languageSwitcher";
 import { t } from "@/lib/i18n/runtime";
 import { ThemeToggle } from "@/components/themeToggle";
+import WarpLauncher from "@/components/warp/warpLauncher";
 import { deriveTitleFromPathname } from "@/components/topbar.utils";
 import {
 	DropdownMenu,
@@ -193,6 +194,7 @@ export default function Topbar() {
 			<NotificationCenter />
 			<ThemeToggle />
 			<LanguageSwitcher />
+			<WarpLauncher />
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>

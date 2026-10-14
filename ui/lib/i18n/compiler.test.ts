@@ -7,12 +7,33 @@ import { runInNewContext } from "node:vm";
 
 function parse(source: string) {
 	return (
-		ts.transpileModule(source, { fileName: "fixture.tsx", compilerOptions: { jsx: ts.JsxEmit.ReactJSX }, reportDiagnostics: true })
-			.diagnostics ?? []
+		ts.transpileModule(source, {
+			fileName: "fixture.tsx",
+			compilerOptions: { jsx: ts.JsxEmit.ReactJSX },
+			reportDiagnostics: true,
+		}).diagnostics ?? []
 	).map((d) => ts.flattenDiagnosticMessageText(d.messageText, " "));
 }
 
 describe("localization compiler", () => {
+	it("translates A2A and Warp presentation maps while preserving protocol IDs and raw card data", () => {
+		const source =
+			'const WARP_TOOL_LABELS = { query_logs: { running: "Searching request logs", done: "Searched request logs" } }; const payload = { role: "assistant", content: userText, name: "query_logs" }; if (state === "not_configured") return { label: "Search not set up", tone: "muted" };';
+		const result = transform(source, "components/warp/warpStream.utils.ts")!;
+		expect(result).toContain('__bfTranslate("Searching request logs"');
+		expect(result).toContain('__bfTranslate("Search not set up"');
+		expect(result).toContain("query_logs:");
+		expect(result).toContain('const payload = { role: "assistant", content: userText, name: "query_logs" }');
+		expect(result).toContain('state === "not_configured"');
+		expect(result).toContain('tone: "muted"');
+		expect(parse(result)).toEqual([]);
+		const agent = transform(
+			'const AUTH_TYPE_LABELS = { none: "No authentication", headers: "Headers" }; const auth = { type: "none", headers: {} };',
+			"app/workspace/agent-gateway/views/agentAuthFields.tsx",
+		)!;
+		expect(agent).toContain('none: (__bfTranslate("No authentication"');
+		expect(agent).toContain('const auth = { type: "none", headers: {} }');
+	});
 	it("localizes boot recovery scripts with either upstream quote style", () => {
 		const hook = localization("").transformIndexHtml as { handler: (html: string) => string };
 		for (const quote of ['"', "'"]) {
