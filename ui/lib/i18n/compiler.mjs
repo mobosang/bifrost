@@ -11,6 +11,7 @@ const attributes = new Set([
 	"alt",
 	"label",
 	"description",
+	"summary",
 	"emptyMessage",
 	"loadingMessage",
 	"searchPlaceholder",

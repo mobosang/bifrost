@@ -24,7 +24,9 @@
 		"app/workspace/providers/fragments/injectedToolsFormFragment.tsx": ["TOOL_PLACEHOLDERS"],
 		"app/workspace/agent-logs/views/columns.tsx": ["AGENT_COLUMN_LABELS"],
 		"app/workspace/logs/views/responsesItemRow.tsx": ["messageRoleLabel"],
-		"app/workspace/agent-gateway/views/agentSheet.tsx": ["advancedSummary"]
+		"app/workspace/agent-gateway/views/agentSheet.tsx": ["advancedSummary"],
+		"app/__updating.tsx": ["UPDATING_COPY"],
+		"lib/utils/guardrailMatchAction.ts": ["GUARDRAIL_MATCH_ACTION_LABEL", "ENFORCED_VERB"]
 	},
 	"propertyContainers": {
 		"lib/store/apis/providersApi.ts": ["DEFAULT_MODEL_PARAMETERS"],
@@ -39,7 +41,9 @@
 		"lib/budgetOutline.ts": ["budgetLinesLabel"],
 		"app/workspace/mcp-registry/views/oauth2Authorizer.tsx": ["authorizationHost"],
 		"app/workspace/providers/views/providerKeyForm.tsx": ["getTooltipContent"],
-		"lib/utils/databricksMigration.ts": ["errorText"]
+		"lib/utils/databricksMigration.ts": ["errorText"],
+		"lib/utils/guardrailMatchAction.ts": ["guardrailMatchActionHint"],
+		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": ["stateDescription"]
 	},
 	"textArrays": {
 		"app/workspace/docs/page.tsx": ["items"]
@@ -62,11 +66,12 @@
 			"Failed to recalculate costs",
 			"Search logs or paste a request ID",
 			"Search by request ID",
-			"Search log content"
+			"Search log content",
+			"Recalculation job did not start"
 		],
 		"app/workspace/mcp-logs/views/mcpLogDetailsSheet.tsx": ["Invalid date", "Business Unit", "Business Units", "Not recorded"],
 		"components/ui/providerConfigCard.tsx": ["No cap"],
-		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key", "business unit"],
+		"app/workspace/virtual-keys/views/virtualKeySheet.tsx": ["Virtual key", "business unit", "Virtual key is required"],
 		"lib/utils/celConverterRouting.ts": ["Rules using rate limits or budget must have a \"model\" or \"provider\" condition"],
 		"app/oauth/consent/page.tsx": ["MCP Client"],
 		"app/workspace/dashboard/components/exportPopover.tsx": ["Powered by"],
@@ -89,7 +94,11 @@
 			"This virtual key is managed by an access profile. Enable or disable it from the profile.",
 			"You don't have permission to update virtual keys.",
 			"name, user, team, or customer",
-			"name, team, or customer"
+			"name, team, or customer",
+			"This virtual key is managed by an access profile and can't be deleted here.",
+			"name, user, team, customer, or metadata",
+			"name, team, customer, or metadata",
+			"metadata filter"
 		],
 		"app/workspace/complexity-router/views/classifierStatusBadge.tsx": [
 			"Classifier off",
@@ -146,7 +155,9 @@
 			"Complexity analysis skipped",
 			"duration billed",
 			"Per-request fee",
-			"Web search"
+			"Web search",
+			"Cache read",
+			"Cache write"
 		],
 		"app/workspace/logs/views/metricStrip.tsx": [
 			"Of all requests in this window",
@@ -172,7 +183,9 @@
 		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": [
 			"The admin credential Bifrost keeps on file to refresh this server's tool list needs repair. Callers' tool calls are unaffected. Use Re-verify as me from the server's actions menu to fix it.",
 			"Bifrost's last connection check failed. Tool calls are still attempted normally; the next check runs within about 10 seconds.",
-			"Instances of this deployment disagree about this server's state. Tool calls are still attempted on every instance."
+			"Instances of this deployment disagree about this server's state. Tool calls are still attempted on every instance.",
+			"The admin credential Bifrost keeps on file to refresh this server's tool list needs repair. End-user credentials and tool calls are unaffected. Use Refresh admin credential from the server's actions menu to fix it.",
+			"This connection's credentials need to be re-authorized. Use Reauthorize from the server's actions menu to redo the OAuth consent flow."
 		],
 		"app/workspace/providers/dialogs/databricksMigrationDialog.tsx": [
 			"Model Serving",
@@ -184,7 +197,8 @@
 		"app/workspace/skills-repo/components/skillListView.tsx": [
 			"Copy Claude Desktop and Cowork marketplace Git URL",
 			"Copy Claude Code command",
-			"Copy Codex command"
+			"Copy Codex command",
+			"Download failed"
 		],
 		"app/workspace/virtual-keys/views/virtualKeysTable.utils.ts": ["Unknown (not resolved)"],
 		"app/workspace/virtual-mcps/views/virtualMcpsTable.tsx": [
@@ -235,7 +249,8 @@
 			"Keep the configured agent authentication",
 			"Use the incoming Bifrost authentication",
 			"Custom",
-			"Default"
+			"Default",
+			"None added"
 		],
 		"app/workspace/agent-logs/views/a2aPayloadView.tsx": [
 			"Other fields",
@@ -453,6 +468,16 @@
 			"Verify the Cloudflare provider",
 			"Refresh models",
 			"The provider is still a custom provider"
+		],
+		"app/workspace/logs/views/passthroughTag.tsx": [
+			"Forwarded byte for byte through a passthrough route; the type was inferred from the route."
+		],
+		"app/workspace/mcp-registry/views/mcpClientOpenApiUtils.ts": ["API key", "inline spec", "Fetch spec", "Parse again"],
+		"components/rssSourcesSheet.tsx": ["Logo preview"],
+		"components/rssFeedIcon.utils.ts": ["Could not read the logo file"],
+		"app/workspace/mcp-registry/views/mcpClientForm.tsx": [
+			"Server name can only contain letters, numbers, and underscores",
+			"Server name cannot start with a number"
 		]
 	},
 	"templatePrefixes": {
@@ -481,7 +506,8 @@
 			"\"",
 			"Migration failed: "
 		],
-		"components/warp/warpStreamSession.ts": ["Warp request failed ("]
+		"components/warp/warpStreamSession.ts": ["Warp request failed ("],
+		"app/workspace/logs/views/logsHeaderView.tsx": ["Failed to recalculate costs ("]
 	},
 	"calls": {
 		"lib/utils/databricksMigration.ts": {
@@ -498,6 +524,12 @@
 		},
 		"app/workspace/agent-gateway/views/agentSheet.tsx": {
 			"fetchButton": [0]
+		},
+		"app/workspace/mcp-registry/views/mcpClientFormFields.tsx": {
+			"onToast": [0, 1]
+		},
+		"lib/types/schemas.ts": {
+			"httpUrlOrEmpty": [0]
 		}
 	}
 }

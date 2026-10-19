@@ -2,6 +2,124 @@ import { test, expect } from "../../core/fixtures/base.fixture";
 
 test.use({ uiLanguage: "default", skipAutoLogin: true });
 
+test("localizes news sources, preserves feed names and URLs, and switches to English", async ({
+  page,
+}) => {
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/notifications")) json = { notifications: [] };
+    if (path.endsWith("/rss/items")) json = { enabled: true, items: [], errors: [] };
+    if (path.endsWith("/rss/settings")) json = { enabled: true };
+    if (path.endsWith("/rss/feeds"))
+      json =
+        route.request().method() === "POST"
+          ? {
+              id: 1,
+              name: "Model Providers",
+              url: "https://example.com/News.xml",
+              source: "custom",
+              enabled: true,
+            }
+          : { feeds: [] };
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/providers");
+  await page.getByTestId("topbar-notifications-btn").click();
+  await expect(page.getByTestId("notification-tab-news")).toContainText("新闻");
+  await page.getByTestId("notification-tab-news").click();
+  await expect(page.getByTestId("rss-empty-state")).toContainText("暂无新闻");
+  await page.getByTestId("rss-sources-btn").click();
+  await expect(page.getByTestId("rss-sources-sheet")).toContainText("新闻源");
+  await page.getByTestId("rss-add-feed-submit").click();
+  await expect(page.getByTestId("rss-add-feed-name-error")).toHaveText("为订阅源命名");
+  await page.getByTestId("rss-add-feed-name").fill("Model Providers");
+  await page.getByTestId("rss-add-feed-url").fill("https://example.com/News.xml");
+  const request = page.waitForRequest(
+    (req) => req.url().endsWith("/rss/feeds") && req.method() === "POST",
+  );
+  await page.getByTestId("rss-add-feed-submit").click();
+  expect((await request).postDataJSON()).toEqual({
+    name: "Model Providers",
+    url: "https://example.com/News.xml",
+  });
+  await expect(page.getByText("已添加 Model Providers", { exact: true })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.getByTestId("language-switcher-trigger").click();
+  await page.getByTestId("language-switcher-select").selectOption("en-US");
+  await page.getByTestId("language-switcher-apply").click();
+  await page.getByTestId("topbar-notifications-btn").click();
+  await expect(page.getByTestId("notification-tab-news")).toContainText("News");
+});
+
+test("localizes OpenAPI server creation without changing the spec URL or operation data", async ({
+  page,
+}) => {
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/mcp/clients")) json = { clients: [], total_count: 0 };
+    if (path.endsWith("/mcp/openapi/preview"))
+      json = {
+        title: "User API Title",
+        version: "1.0",
+        openapi_version: "3.1.0",
+        description: "User supplied description",
+        servers: ["https://example.com"],
+        base_url: "https://example.com",
+        security_schemes: [],
+        tools: [
+          {
+            name: "getModel",
+            method: "GET",
+            path: "/Models",
+            description: "User operation description",
+          },
+        ],
+        unsupported: [],
+        warnings: [],
+        tool_count: 1,
+        spec_size: 100,
+        spec_hash: "test-hash",
+      };
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/mcp-registry");
+  await page.getByTestId("create-mcp-client-btn").click();
+  await page.getByTestId("client-name-input").fill("user_api");
+  await page.getByTestId("mcp-server-source-openapi").click();
+  await expect(page.getByTestId("mcp-server-source-openapi")).toContainText("从 OpenAPI 规范生成");
+  await page.getByTestId("openapi-spec-source-tab-url").click();
+  await page.getByTestId("openapi-spec-url-input").fill("https://example.com/Model-Providers.json");
+  await expect(page.getByTestId("openapi-parse-btn")).toContainText("获取规范");
+  const request = page.waitForRequest(
+    (req) => req.url().endsWith("/mcp/openapi/preview") && req.method() === "POST",
+  );
+  await page.getByTestId("openapi-parse-btn").click();
+  expect((await request).postDataJSON()).toMatchObject({
+    spec_url: "https://example.com/Model-Providers.json",
+    client_name: "user_api",
+  });
+  await expect(page.getByTestId("openapi-preview-panel")).toContainText(
+    "操作（1 个中有 1 个受支持）",
+  );
+  await expect(page.getByTestId("openapi-preview-panel")).toContainText("User API Title");
+  await expect(page.getByTestId("openapi-preview-panel")).toContainText(
+    "User operation description",
+  );
+  await expect(page.getByTestId("openapi-preview-panel")).toContainText("/Models");
+});
+
 test.beforeEach(async ({ page }) => {
   await page.route("https://getbifrost.ai/latest-release", (route) => route.fulfill({ json: {} }));
   await page.route("**/api/**", async (route) => {
@@ -61,7 +179,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await page.route("**/session/is-auth-enabled", (route) =>
     route.fulfill({ json: { is_auth_enabled: false, has_valid_token: true } }),
   );
-  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.3.0" }));
+  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.3.1" }));
   await page.route("**/api/config?*", (route) =>
     route.fulfill({ json: { is_db_connected: true, metadata: { onboarding_dismissed: true } } }),
   );
@@ -71,7 +189,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await expect(page.getByText("模型提供商", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "添加提供商", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "打开菜单", exact: true }).click();
-  await expect(page.getByText("v2.3.0", { exact: true })).toBeVisible();
+  await expect(page.getByText("v2.3.1", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.screenshot({ path: testInfo.outputPath("workspace-zh-CN.png"), fullPage: true });
 });
@@ -161,7 +279,7 @@ test("localizes the v2.2.1 Virtual MCP wizard and preserves its submitted values
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.0";
+    if (path.endsWith("/version")) json = "v2.3.1";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -205,7 +323,7 @@ test("localizes the new classifier status and restores English after switching",
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.0";
+    if (path.endsWith("/version")) json = "v2.3.1";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -231,7 +349,7 @@ test("localizes A2A registration and leaves card URLs and agent names unchanged"
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.0";
+    if (path.endsWith("/version")) json = "v2.3.1";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -282,7 +400,7 @@ test("localizes Warp settings, keeps its launcher and restores English", async (
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.0";
+    if (path.endsWith("/version")) json = "v2.3.1";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")

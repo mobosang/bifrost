@@ -16,6 +16,27 @@ function parse(source: string) {
 }
 
 describe("localization compiler", () => {
+	it("translates display summaries while preserving OpenAPI payloads and guardrail action IDs", () => {
+		const summary = transform(
+			'const payload = { summary: "None added" }; const view = <OptionGroup summary={count ? `${count} added` : "None added"} />;',
+			"components/test.tsx",
+		)!;
+		expect(summary).toContain('__bfTranslate("{0} added"');
+		expect(summary).toContain('const payload = { summary: "None added" }');
+		const openapi = transform(
+			'const payload = { connection_type: "openapi", spec: userSpec }; return { buttonLabel: "Fetch spec" };',
+			"app/workspace/mcp-registry/views/mcpClientOpenApiUtils.ts",
+		)!;
+		expect(openapi).toContain('__bfTranslate("Fetch spec"');
+		expect(openapi).toContain("spec: userSpec");
+		const guardrail = transform(
+			'const ENFORCED_VERB = { block: "blocked" }; function guardrailMatchAction() { return "blocked"; }',
+			"lib/utils/guardrailMatchAction.ts",
+		)!;
+		expect(guardrail).toContain('block: (__bfTranslate("blocked"');
+		expect(guardrail).toContain('return "blocked"');
+		for (const source of [summary, openapi, guardrail]) expect(parse(source)).toEqual([]);
+	});
 	it("translates A2A and Warp presentation maps while preserving protocol IDs and raw card data", () => {
 		const source =
 			'const WARP_TOOL_LABELS = { query_logs: { running: "Searching request logs", done: "Searched request logs" } }; const payload = { role: "assistant", content: userText, name: "query_logs" }; if (state === "not_configured") return { label: "Search not set up", tone: "muted" };';
