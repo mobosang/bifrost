@@ -2,13 +2,216 @@ import { test, expect } from "../../core/fixtures/base.fixture";
 
 test.use({ uiLanguage: "default", skipAutoLogin: true });
 
+test("localizes MCP resources and protocol choices while keeping resource identities unchanged", async ({
+  page,
+}) => {
+  const client = {
+    config: {
+      client_id: "user-server-id",
+      name: "user_server",
+      connection_type: "http",
+      connection_string: { value: "https://example.com/mcp" },
+      auth_type: "none",
+      tools_to_execute: ["*"],
+      tools_to_auto_execute: [],
+    },
+    tools: [],
+    state: "healthy",
+    vk_configs: [],
+    prompts: [
+      { name: "user_server_UserPrompt", description: "User prompt description", arguments: [] },
+    ],
+    resources: [
+      {
+        name: "UserResource",
+        uri: "test://User-Resource",
+        description: "User resource description",
+      },
+    ],
+    resource_templates: [],
+  };
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/mcp/clients")) json = { clients: [client], total_count: 1 };
+    if (path.includes("/mcp/client/user-server-id")) json = client;
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/mcp-registry");
+  await page
+    .getByTestId("mcp-clients-table")
+    .getByRole("button", { name: "MCP 服务器操作" })
+    .click();
+  await page.getByTestId("mcp-client-edit-user-server-id-menu-item").click();
+  await expect(page.getByTestId("mcp-client-max-protocol-version-select")).toContainText(
+    "使用全局设置",
+  );
+  await page.getByTestId("mcp-client-max-protocol-version-select").click();
+  await expect(page.getByTestId("mcp-client-max-protocol-version-auto")).toHaveText("自动（最新）");
+  await page.getByTestId("mcp-client-max-protocol-version-2025-11-25").click();
+  await expect(page.getByTestId("mcp-client-max-protocol-version-select")).toContainText(
+    "2025-11-25",
+  );
+  await page.getByTestId("mcpclient-tab-resources").click();
+  await expect(page.getByTestId("mcpclient-tab-resources")).toHaveText("提示词与资源");
+  await expect(page.getByTestId("mcp-expose-prompts-status")).toHaveText("全部对外提供");
+  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("全部对外提供");
+  await expect(page.getByTestId("mcp-expose-resources-row-test://User-Resource")).toContainText(
+    "User resource description",
+  );
+  await page.getByTestId("mcp-expose-resources-toggle-test://User-Resource").click();
+  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("均不对外提供");
+  await expect(page.getByTestId("mcp-expose-resources-all")).toHaveAccessibleName(
+    /对外提供所有资源/,
+  );
+});
+
+test("localizes relay creation and preserves credentials, route names and URLs", async ({
+  page,
+}) => {
+  let created = false;
+  const relay = {
+    name: "user_relay",
+    base_url: "https://api.example.com/User-Path",
+    auth: { type: "bearer" },
+    routes: [],
+  };
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/relays")) {
+      if (route.request().method() === "POST") {
+        created = true;
+        json = relay;
+      } else json = { relays: created ? [relay] : [], total_count: created ? 1 : 0 };
+    }
+    if (path.endsWith("/relays/user_relay")) json = relay;
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/relays");
+  await expect(page.getByTestId("relays-create-first")).toHaveText("添加中继");
+  await page.getByTestId("relays-create-first").click();
+  await expect(page.getByTestId("relay-auth-type")).toContainText("Bearer 令牌");
+  await page.getByTestId("relay-name").fill("user_relay");
+  await page.getByTestId("relay-new-base-url").fill("https://api.example.com/User-Path");
+  await page.getByTestId("relay-credential").fill("User-Provided-Secret");
+  const request = page.waitForRequest(
+    (req) => req.url().endsWith("/relays") && req.method() === "POST",
+  );
+  await page.getByTestId("relay-create").click();
+  expect((await request).postDataJSON()).toMatchObject({
+    name: "user_relay",
+    base_url: "https://api.example.com/User-Path",
+    auth: { type: "bearer" },
+    credential: { value: { value: "User-Provided-Secret" } },
+  });
+  await expect(page.getByText("中继已添加", { exact: true })).toBeVisible();
+  await page.getByTestId("language-switcher-trigger").click();
+  await page.getByTestId("language-switcher-select").selectOption("en-US");
+  await page.getByTestId("language-switcher-apply").click();
+  await expect(page.getByTestId("relay-edit-config")).toHaveAccessibleName(
+    "Edit relay configuration",
+  );
+});
+
+test("localizes relay settings and preserves the general tab when validation redirects to it", async ({
+  page,
+}, testInfo) => {
+  const relay = {
+    name: "user_relay",
+    base_url: "https://api.example.com",
+    auth: { type: "none" },
+    description: "User description",
+    routes: [],
+  };
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/relays")) json = { relays: [relay], total_count: 1 };
+    if (path.endsWith("/relays/user_relay")) json = relay;
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/relays");
+  await page.getByTestId("relay-edit-config").click();
+  await expect(page.getByTestId("relay-tab-general")).toHaveText("常规");
+  await expect(page.getByTestId("relay-tab-general")).toHaveAttribute("data-state", "active");
+  await page.getByTestId("relay-base-url").fill("invalid url");
+  await page.getByTestId("relay-tab-network").click();
+  await page
+    .getByTestId("relay-config-sheet")
+    .getByRole("button", { name: /保存.*配置/ })
+    .click();
+  await expect(page.getByTestId("relay-tab-general")).toHaveAttribute("data-state", "active");
+  await expect(page.getByTestId("relay-base-url")).toBeVisible();
+  await expect(page.getByTestId("relay-config-sheet")).toContainText(
+    "请输入不含查询参数、片段或用户信息的绝对 HTTP(S) URL",
+  );
+  await page.screenshot({ path: testInfo.outputPath("relay-settings-zh-CN.png"), fullPage: true });
+});
+
+test("localizes Warp topic settings and restores their English labels", async ({ page }) => {
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/session/is-auth-enabled"))
+      json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config")
+      json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    if (path.endsWith("/feature-flags")) json = { flags: [{ id: "warp", enabled: true }] };
+    if (path.endsWith("/providers")) json = { providers: [{ name: "openai", status: "active" }] };
+    if (path.endsWith("/keys")) json = [];
+    if (path === "/api/providers/openai/keys") json = { keys: [] };
+    if (path.endsWith("/warp/config"))
+      json = {
+        configured: true,
+        enabled: true,
+        provider: "openai",
+        model: "gpt-test",
+        models: [],
+        embedding_provider: "openai",
+        embedding_model: "embedding-test",
+        embedding_dimension: 1536,
+        vector_store_connected: true,
+        topic_discovery_min_requests: 100,
+      };
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/config/warp");
+  await expect(page.getByTestId("warp-topics-start-btn")).toHaveText("初始化主题");
+  await expect(page.getByText("新主题发现阈值", { exact: true })).toBeVisible();
+  await page.getByTestId("warp-topics-info").hover();
+  await expect(page.getByTestId("warp-topics-info-content")).toContainText(
+    "主题根据提问内容对请求分组",
+  );
+  await page.getByTestId("language-switcher-trigger").click();
+  await page.getByTestId("language-switcher-select").selectOption("en-US");
+  await page.getByTestId("language-switcher-apply").click();
+  await expect(page.getByTestId("warp-topics-start-btn")).toHaveText("Seed topics");
+});
+
 test("localizes news sources, preserves feed names and URLs, and switches to English", async ({
   page,
 }) => {
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -63,7 +266,7 @@ test("localizes OpenAPI server creation without changing the spec URL or operati
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -101,7 +304,7 @@ test("localizes OpenAPI server creation without changing the spec URL or operati
   await expect(page.getByTestId("mcp-server-source-openapi")).toContainText("从 OpenAPI 规范生成");
   await page.getByTestId("openapi-spec-source-tab-url").click();
   await page.getByTestId("openapi-spec-url-input").fill("https://example.com/Model-Providers.json");
-  await expect(page.getByTestId("openapi-parse-btn")).toContainText("获取规范");
+  await expect(page.getByTestId("openapi-parse-btn")).toContainText("获取");
   const request = page.waitForRequest(
     (req) => req.url().endsWith("/mcp/openapi/preview") && req.method() === "POST",
   );
@@ -179,7 +382,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await page.route("**/session/is-auth-enabled", (route) =>
     route.fulfill({ json: { is_auth_enabled: false, has_valid_token: true } }),
   );
-  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.3.1" }));
+  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.4.0" }));
   await page.route("**/api/config?*", (route) =>
     route.fulfill({ json: { is_db_connected: true, metadata: { onboarding_dismissed: true } } }),
   );
@@ -189,7 +392,7 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await expect(page.getByText("模型提供商", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "添加提供商", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "打开菜单", exact: true }).click();
-  await expect(page.getByText("v2.3.1", { exact: true })).toBeVisible();
+  await expect(page.getByText("v2.4.0", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.screenshot({ path: testInfo.outputPath("workspace-zh-CN.png"), fullPage: true });
 });
@@ -279,7 +482,7 @@ test("localizes the v2.2.1 Virtual MCP wizard and preserves its submitted values
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -323,7 +526,7 @@ test("localizes the new classifier status and restores English after switching",
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -349,7 +552,7 @@ test("localizes A2A registration and leaves card URLs and agent names unchanged"
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -400,7 +603,7 @@ test("localizes Warp settings, keeps its launcher and restores English", async (
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.3.1";
+    if (path.endsWith("/version")) json = "v2.4.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")

@@ -26,7 +26,14 @@
 		"app/workspace/logs/views/responsesItemRow.tsx": ["messageRoleLabel"],
 		"app/workspace/agent-gateway/views/agentSheet.tsx": ["advancedSummary"],
 		"app/__updating.tsx": ["UPDATING_COPY"],
-		"lib/utils/guardrailMatchAction.ts": ["GUARDRAIL_MATCH_ACTION_LABEL", "ENFORCED_VERB"]
+		"lib/utils/guardrailMatchAction.ts": ["GUARDRAIL_MATCH_ACTION_LABEL", "ENFORCED_VERB"],
+		"lib/types/relays.ts": ["RelayAuthTypeLabels", "RelayUnitsSourceLabels", "RelayUnitsMeasureLabels"],
+		"app/workspace/relay-logs/views/columns.tsx": ["RELAY_COLUMN_LABELS"],
+		"app/workspace/relay-logs/views/relayHeaderView.tsx": ["SEARCH_PLACEHOLDERS"],
+		"app/workspace/relay-logs/views/relayLogDetailsSheet.tsx": ["KIND_LABELS"],
+		"app/workspace/relays/fragments/usagePreviewResult.tsx": ["MEASURE", "rounding"],
+		"app/workspace/relay-logs/views/relayLogsExportDialog.utils.ts": ["counted"],
+		"app/workspace/mcp-registry/views/openApiSpecSource.tsx": ["SOURCE_MODE_LABELS"]
 	},
 	"propertyContainers": {
 		"lib/store/apis/providersApi.ts": ["DEFAULT_MODEL_PARAMETERS"],
@@ -43,7 +50,12 @@
 		"app/workspace/providers/views/providerKeyForm.tsx": ["getTooltipContent"],
 		"lib/utils/databricksMigration.ts": ["errorText"],
 		"lib/utils/guardrailMatchAction.ts": ["guardrailMatchActionHint"],
-		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": ["stateDescription"]
+		"app/workspace/mcp-registry/views/mcpClientSheet.tsx": ["stateDescription"],
+		"app/workspace/providers/fragments/passthroughFormFragment.tsx": ["modeDescription"],
+		"app/workspace/relays/fragments/usageFields.tsx": ["placeholder"],
+		"lib/utils/relayForm.ts": ["describePricing"],
+		"app/workspace/complexity-router/views/classifierStatusBadge.utils.ts": ["semanticWarmupImpactMessage"],
+		"app/workspace/logs/views/fallbackChain.tsx": ["attemptReason"]
 	},
 	"textArrays": {
 		"app/workspace/docs/page.tsx": ["items"]
@@ -54,7 +66,11 @@
 		"lib/budgetOutline.ts": ["fallback"],
 		"app/workspace/mcp-sessions/auth/page.tsx": ["body"],
 		"lib/validators/skills.ts": ["warning"],
-		"lib/utils/databricksMigration.ts": ["message"]
+		"lib/utils/databricksMigration.ts": ["message"],
+		"app/workspace/logs/views/fallbackChain.tsx": ["summary"],
+		"app/workspace/mcp-registry/views/mcpExposeList.tsx": ["status"],
+		"app/workspace/relays/fragments/jobFields.tsx": ["summary"],
+		"lib/utils/relayForm.ts": ["what", "block"]
 	},
 	"literals": {
 		"app/workspace/config/views/modelSettingsView.tsx": [
@@ -125,7 +141,9 @@
 			"The selected model returned an invalid embedding response. Choose a model that supports embeddings and save again.",
 			"The classifier could not prepare the reference phrases. Review the embedding provider, model, and vector store settings, then save again.",
 			"The previous classifier is still routing requests. Your latest phrase or embedding changes will become active after warmup succeeds.",
-			"Complexity-tier rules are paused until the classifier is ready. Other routing rules continue normally."
+			"Complexity-tier rules are paused until the classifier is ready. Other routing rules continue normally.",
+			"the LLM classifier",
+			"the decision model"
 		],
 		"app/workspace/logs/sheets/logDetailView.tsx": [
 			"Input tokens include cached tokens.",
@@ -472,12 +490,84 @@
 		"app/workspace/logs/views/passthroughTag.tsx": [
 			"Forwarded byte for byte through a passthrough route; the type was inferred from the route."
 		],
-		"app/workspace/mcp-registry/views/mcpClientOpenApiUtils.ts": ["API key", "inline spec", "Fetch spec", "Parse again"],
+		"app/workspace/mcp-registry/views/mcpClientOpenApiUtils.ts": ["API key", "inline spec", "Fetch spec", "Parse again", "Fetch"],
 		"components/rssSourcesSheet.tsx": ["Logo preview"],
 		"components/rssFeedIcon.utils.ts": ["Could not read the logo file"],
 		"app/workspace/mcp-registry/views/mcpClientForm.tsx": [
 			"Server name can only contain letters, numbers, and underscores",
 			"Server name cannot start with a number"
+		],
+		"app/workspace/logs/views/fallbackChain.tsx": [
+			"Request succeeded",
+			"All attempts failed",
+			"Still running",
+			". Later attempts ran after this one."
+		],
+		"app/workspace/mcp-registry/views/mcpExposeList.tsx": ["All served", "None served"],
+		"app/workspace/mcp-registry/views/tokenExchangeFields.tsx": ["Identity provider issues it", "Cross App Access (ID-JAG)"],
+		"app/workspace/providers/dialogs/providerConfigSheet.tsx": ["OpenAI Config"],
+		"lib/types/schemas.ts": [
+			"A private key is required for private_key_jwt",
+			"A client secret is required to choose how it is sent",
+			"Re-enter it: the audience, upstream token endpoint or assertion audience changed, so the saved value is not sent to the new target"
+		],
+		"app/workspace/relays/fragments/usageFields.tsx": [
+			"Inherits relay",
+			"Fee per Call (USD)",
+			"0 waives the relay fee on this route.",
+			"Added to every counted call.",
+			"Price per Unit (USD)",
+			"Charged per billed unit.",
+			"Block Size (Optional)",
+			"Bill per started block of this many units.",
+			"Minimum Units (Optional)",
+			"Least units billed once a quantity is read."
+		],
+		"app/workspace/relay-logs/views/relayLogsExportDialog.utils.ts": ["virtual keys", "business units"],
+		"app/workspace/relay-logs/views/columns.tsx": ["not billable"],
+		"app/workspace/relay-logs/views/relayLogDetailsSheet.tsx": ["not charged", "Not recorded", "Not charged"],
+		"app/workspace/relay-logs/views/relayMetricStrip.tsx": ["Of all relay calls in this window", "Previous period"],
+		"app/workspace/relays/fragments/credentialFields.tsx": [
+			"Access Key (Required)",
+			"your-aws-access-key or env.AWS_ACCESS_KEY_ID",
+			"Secret Key (Required)",
+			"your-aws-secret-key or env.AWS_SECRET_ACCESS_KEY",
+			"Session Token (Optional)",
+			"your-aws-session-token or env.AWS_SESSION_TOKEN"
+		],
+		"app/workspace/relays/fragments/jobFields.tsx": [
+			"Poll Interval (seconds)",
+			"Seconds between polls.",
+			"A job still running after this long is dropped without a further charge."
+		],
+		"app/workspace/relays/fragments/openapiImportDialog.tsx": [
+			"Bifrost fetches the document once to read its operations; neither the document nor the URL is stored."
+		],
+		"app/workspace/relays/sheets/endpointConfigSheet.tsx": [
+			"Reported Cost Path (Optional)",
+			"A USD cost the upstream reports; added to the formula.",
+			"Model Path (Optional)",
+			"Where the model is read from, for the logs.",
+			"Input Tokens Path",
+			"Output Tokens Path",
+			"Total Tokens Path"
+		],
+		"app/workspace/relays/views/endpointRoutesTable.tsx": [
+			"Route added successfully",
+			"Route updated successfully",
+			"Route deleted successfully"
+		],
+		"lib/utils/openapiImport.ts": [
+			"The document is empty",
+			"The document is not a JSON object",
+			"The document is not an OpenAPI object",
+			"an unsupported location",
+			"The document makes authentication optional; set the auth type by hand if the API needs a key",
+			"No security alternative in the document is a single scheme the relay can inject; set the auth type by hand",
+			"The document declares several security schemes and requires none; set the auth type by hand",
+			"The document declares no paths",
+			"No operation in the document uses a method the relay serves",
+			"The operations require different security schemes, and one endpoint applies one auth; set the auth type by hand"
 		]
 	},
 	"templatePrefixes": {
@@ -496,7 +586,7 @@
 		"components/mcp/virtualMcpAssignmentsEditor.tsx": ["Virtual MCP #"],
 		"lib/utils/mcpConnectionFailure.ts": ["Last failed "],
 		"app/workspace/complexity-router/views/sections.tsx": ["Set up "],
-		"app/workspace/config/views/warpView.tsx": ["Must be between "],
+		"app/workspace/config/views/warpView.tsx": ["Must be between ", "Must be a whole number from "],
 		"lib/utils/cloudflareMigration.ts": [
 			"Add the account ID to ",
 			"Create key \"",
@@ -507,7 +597,10 @@
 			"Migration failed: "
 		],
 		"components/warp/warpStreamSession.ts": ["Warp request failed ("],
-		"app/workspace/logs/views/logsHeaderView.tsx": ["Failed to recalculate costs ("]
+		"app/workspace/logs/views/logsHeaderView.tsx": ["Failed to recalculate costs ("],
+		"app/workspace/logs/views/fallbackChain.tsx": [". This attempt failed and the request fell back to "],
+		"lib/utils/openapiImport.ts": ["Security scheme ", "The server URL's query ("],
+		"lib/utils/relayForm.ts": [", min "]
 	},
 	"calls": {
 		"lib/utils/databricksMigration.ts": {
@@ -529,7 +622,27 @@
 			"onToast": [0, 1]
 		},
 		"lib/types/schemas.ts": {
-			"httpUrlOrEmpty": [0]
+			"httpUrlOrEmpty": [0],
+			"issue": [1]
+		},
+		"app/workspace/relays/fragments/usageFields.tsx": {
+			"numberInput": [1, 2]
+		},
+		"app/workspace/relays/views/endpointRoutesTable.tsx": {
+			"save": [1]
+		},
+		"lib/utils/relayForm.ts": {
+			"parts.push": [0]
+		},
+		"app/workspace/logs/utils/logsExport.ts": {
+			"summary.push": [0]
+		},
+		"app/workspace/relay-logs/views/relayLogsExportDialog.utils.ts": {
+			"summary.push": [0]
 		}
+	},
+	"ignore": {
+		"app/workspace/relays/sheets/endpointConfigSheet.tsx": ["FIELD_TAB"],
+		"lib/types/schemas.ts": ["resourceCredentialResendRequired"]
 	}
 }

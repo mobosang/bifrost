@@ -176,7 +176,9 @@ export function analyze(source, filename) {
 		} else if (ts.isStringLiteralLike(node)) text = jsx ? jsxText(node.text) : node.text;
 		else if (ts.isJsxText(node)) text = jsxText(node.text);
 		else return;
-		if (!/[a-zA-Z]/.test(text) || /^\s*(https?:\/\/|\/|@|\$\{|--)/.test(text)) return;
+		if (!/[a-zA-Z]/.test(text)) return;
+		const reviewedCurrency = reason === "reviewed-call" && ts.isTemplateExpression(node) && node.head.text === "$";
+		if (/^\s*(https?:\/\/|\/|@|\$\{|--)/.test(text) && !reviewedCurrency) return;
 		const leading = text.match(/^\s*/)[0];
 		const trailing = text.match(/\s*$/)[0];
 		const key = normalize(text);
@@ -252,6 +254,12 @@ export function analyze(source, filename) {
 		return false;
 	}
 	function visit(node, raw = false) {
+		if (
+			(ts.isVariableDeclaration(node) || ts.isFunctionDeclaration(node)) &&
+			node.name &&
+			(rules.ignore?.[filename] ?? []).includes(node.name.getText(file))
+		)
+			return;
 		// Display maps can carry indexed-access types containing protocol keys.
 		// Type annotations are never executable presentation text.
 		if (ts.isTypeNode(node)) return;
@@ -286,7 +294,9 @@ export function analyze(source, filename) {
 		if (ts.isJsxText(node)) record(node, "jsx-text", true);
 		if (
 			ts.isJsxAttribute(node) &&
-			(attributes.has(node.name.getText(file)) || /(?:Label|Placeholder|Description|Message|Text)$/.test(node.name.getText(file))) &&
+			(attributes.has(node.name.getText(file)) ||
+				/(?:Label|Placeholder|Description|Message|Text)$/.test(node.name.getText(file)) ||
+				(node.name.getText(file) === "info" && node.parent.parent.tagName.getText(file) === "InfoLabel")) &&
 			node.initializer
 		)
 			value(node.initializer, `attribute:${node.name.getText(file)}`, ts.isStringLiteral(node.initializer));

@@ -16,6 +16,31 @@ function parse(source: string) {
 }
 
 describe("localization compiler", () => {
+	it("translates fallback attempt captions without changing status comparisons", () => {
+		const source =
+			'function attemptReason(entry) { if (entry.status === "processing") return "running"; return entry.status === "cancelled" ? "cancelled" : undefined; }';
+		const result = transform(source, "app/workspace/logs/views/fallbackChain.tsx")!;
+		expect(result).toContain('entry.status === "cancelled"');
+		expect(result).toContain('__bfTranslate("cancelled"');
+		expect(parse(result)).toEqual([]);
+	});
+	it("translates currency captions in reviewed pricing calls and preserves environment references", () => {
+		const source = 'parts.push(`$${fee} / call`); const credential = "${API_KEY}";';
+		const result = transform(source, "lib/utils/relayForm.ts")!;
+		expect(result).toContain('__bfTranslate("${0} / call"');
+		expect(result).toContain('const credential = "${API_KEY}"');
+		expect(parse(result)).toEqual([]);
+	});
+	it("keeps relay validation tab IDs and token credential field paths intact", () => {
+		const tabs =
+			'const FIELD_TAB = { description: "general", auth: "authentication" }; const view = <InfoLabel info="The credential stays on the gateway." label="Authentication" />;';
+		const result = transform(tabs, "app/workspace/relays/sheets/endpointConfigSheet.tsx")!;
+		expect(result).toContain('description: "general"');
+		expect(result).toContain('__bfTranslate("The credential stays on the gateway."');
+		const helper = 'function resourceCredentialResendRequired() { return "resource_client_secret"; }';
+		expect(analyze(helper, "lib/types/schemas.ts").messages).toEqual([]);
+		expect(parse(result)).toEqual([]);
+	});
 	it("translates display summaries while preserving OpenAPI payloads and guardrail action IDs", () => {
 		const summary = transform(
 			'const payload = { summary: "None added" }; const view = <OptionGroup summary={count ? `${count} added` : "None added"} />;',

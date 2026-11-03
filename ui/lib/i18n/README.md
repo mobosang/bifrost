@@ -4,11 +4,24 @@
 
 ## 上游版本基线
 
-截至 2026-10-19，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.3.1](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.3.1)。对应 Git 标签为 `transports/v2.3.1`，提交为 `d3f707ed3669b71bd9052f9ce71ff63fa3e91f6c`。此前汉化提交 `96ae983` 基于较早的开发分支，不能当作 v2.3.1。
+截至 2026-11-03，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.4.0](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.4.0)。对应 Git 标签为 `transports/v2.4.0`，提交为 `e869c3f9adc96ea53c38694a21bb04a8e1085487`。
 
 本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
 
 版本构建回归可在仓库根目录执行 `node --test transports/docker-version.test.mjs`，需要 Node.js 和 POSIX shell（Windows 使用 Git Bash）。该测试执行 Dockerfile 中实际的构建命令并捕获传给 Go 编译器的参数，不会构建完整 Docker 镜像。
+
+### v2.4.0 升级前检查
+
+本次从 v2.3.1 合并至 v2.4.0，新增 680 条词库条目，补齐 API 中继（Relays）、中继日志与定价、Warp 主题、MCP 提示词与资源、协议版本选项、透传路由策略、GitHub Copilot 登录和日志导出等文案。校验跳转映射及凭据字段路径按精确规则排除，动态展示摘要和字段说明在显示边界翻译。继续默认中文，可切换英文。
+
+- GitHub Copilot 已移除 GitHub App 安装认证。升级前将旧密钥改为在 value 中提供细粒度 PAT 或 GitHub OAuth 令牌；也可使用界面的 GitHub 设备登录。
+- MCP 网关会检查浏览器请求的 Origin，未获准的来源返回 403。不携带 Origin 的 CLI、SDK 和服务端请求不受此项检查影响。
+- MCP 提示词和资源新增公开列表，需核对全局、服务器、虚拟密钥和虚拟 MCP 的权限范围；OAuth 签发者 URL 移至“设置 > 安全”。
+- 版本包含中继、主题、MCP 资源和协议配置等新增表或列，部分迁移不可逆。设备升级前仍应停服备份持久化目录，回退时恢复对应备份。
+
+后端 Go 源码与官方发布标签一致。汉化仅作用于前端编译和显示，不增加 Go 推理请求路径的处理耗时或分配，因此免于新增实时提供商 harness 用例。本次没有运行付费提供商测试、完整 Docker 构建或真实数据库迁移。另将已有 follow-redirects 的固定版本更新至 1.16.2，修复[上游安全公告](https://github.com/advisories/GHSA-mrwp-f3q8-3g9p)所述问题；npm audit 检查为 0 告警。
+
+完整功能、兼容变化和迁移列表见[官方 v2.4.0 发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.4.0)。
 
 ### v2.3.1 升级前检查
 
@@ -52,12 +65,12 @@
 git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
 cd bifrost-zh
 git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.3.1-zh -t bifrost-zh:2.3.1 .
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.4.0-zh -t bifrost-zh:2.4.0 .
 ```
 
-已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.3.1`；以上显式传参会显示 `v2.3.1-zh`。
+已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.4.0`；以上显式传参会显示 `v2.4.0-zh`。
 
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.3.1`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
+已有 Compose 只需将 `image` 改为 `bifrost-zh:2.4.0`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
 
 ```sh
 docker compose stop bifrost
@@ -75,6 +88,7 @@ docker compose logs --tail=100 bifrost
 
 - `compiler.mjs`：使用项目已有 TypeScript AST 识别 JSX 文本、展示属性、标签、校验和提示。动态插值保留原值；不批量替换字符串、请求载荷、比较条件或对象键。
 - `rules.json`：人工确认的特殊展示容器、变量、函数和字面量。不要把包含接口 ID、枚举或配置值的整个容器加入白名单；用 `propertyContainers` 仅提取已有展示属性。
+  `ignore` 按文件精确排除非展示变量和函数（例如校验跳转表、凭据字段名返回函数）。
   `calls` 按文件、调用名称和参数下标限定展示参数，例如只提取迁移向导的警告或步骤说明；API 参数和步骤 ID 保持原值。
 - `zh-CN.json`：英文原文 → 简体中文。`{0}`、`{1}` 等对应动态值，数量必须一致。英文修改后成为新条目，旧译文不会误套用。
 - `overrides.json`：按源文件相对路径覆盖同词不同义的翻译。
