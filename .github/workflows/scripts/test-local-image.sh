@@ -15,7 +15,7 @@ start_gateway() {
     -v "$SMOKE_VOLUME:/app/data" \
     -e "BIFROST_SETUP_TOKEN=$setup_token" \
     "$1" > /dev/null
-  curl --fail --silent --show-error --retry 60 --retry-connrefused \
+  curl --fail --silent --show-error --connect-timeout 2 --max-time 5 --retry 60 --retry-all-errors \
     --retry-delay 2 --retry-max-time 150 "$endpoint/health" > /dev/null
 }
 
