@@ -28,7 +28,7 @@ import { ModelLimitsPage } from "../../features/model-limits/pages/model-limits.
  * Custom test fixtures type
  */
 type BifrostFixtures = {
-	uiLanguage: "en-US" | "zh-CN" | "default";
+	uiLanguage: "en" | "en-US" | "zh-CN" | "default";
 	initializeUiLanguage: void;
 	serveMonacoLocally: void;
 	closeDevProfiler: void;
@@ -73,11 +73,13 @@ const MONACO_CONTENT_TYPES: Record<string, string> = {
 
 export const test = base.extend<BifrostFixtures>({
 	// Keep upstream English selectors stable; localization tests use the product default.
-	uiLanguage: ["en-US", { option: true }],
+	uiLanguage: ["en", { option: true }],
 	initializeUiLanguage: [
 		async ({ context, uiLanguage }, use) => {
 			if (uiLanguage !== "default") {
-				await context.addInitScript(language => localStorage.setItem("bifrost.locale", language), uiLanguage);
+				await context.addInitScript(language => {
+					if (!localStorage.getItem("bifrost.locale")) localStorage.setItem("bifrost.locale", language);
+				}, uiLanguage);
 			}
 			await use();
 		},

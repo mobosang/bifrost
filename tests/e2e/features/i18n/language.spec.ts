@@ -1,6 +1,18 @@
 import { test, expect } from "../../core/fixtures/base.fixture";
+import type { Page } from "@playwright/test";
 
 test.use({ uiLanguage: "default", skipAutoLogin: true });
+
+async function switchLanguage(page: Page, locale = "en") {
+  if (await page.getByTestId("language-switcher").isVisible()) {
+    await page.getByTestId("language-switcher").click();
+    await page.getByTestId(`language-option-${locale}`).click();
+  } else {
+    await page.getByTestId("topbar-menu-btn").click();
+    await page.getByTestId("topbar-language-submenu").hover();
+    await page.getByTestId(`topbar-language-option-${locale}`).click();
+  }
+}
 
 test("localizes MCP resources and protocol choices while keeping resource identities unchanged", async ({
   page,
@@ -33,7 +45,7 @@ test("localizes MCP resources and protocol choices while keeping resource identi
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -58,16 +70,15 @@ test("localizes MCP resources and protocol choices while keeping resource identi
     "2025-11-25",
   );
   await page.getByTestId("mcpclient-tab-resources").click();
-  await expect(page.getByTestId("mcpclient-tab-resources")).toHaveText("提示词与资源");
-  await expect(page.getByTestId("mcp-expose-prompts-status")).toHaveText("全部对外提供");
-  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("全部对外提供");
+  await expect(page.getByTestId("mcpclient-tab-resources")).toHaveText("资源");
+  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("全部已提供");
   await expect(page.getByTestId("mcp-expose-resources-row-test://User-Resource")).toContainText(
     "User resource description",
   );
   await page.getByTestId("mcp-expose-resources-toggle-test://User-Resource").click();
-  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("均不对外提供");
+  await expect(page.getByTestId("mcp-expose-resources-status")).toHaveText("均未提供");
   await expect(page.getByTestId("mcp-expose-resources-all")).toHaveAccessibleName(
-    /对外提供所有资源/,
+    /提供全部/,
   );
 });
 
@@ -84,7 +95,7 @@ test("localizes relay creation and preserves credentials, route names and URLs",
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -115,10 +126,8 @@ test("localizes relay creation and preserves credentials, route names and URLs",
     auth: { type: "bearer" },
     credential: { value: { value: "User-Provided-Secret" } },
   });
-  await expect(page.getByText("中继已添加", { exact: true })).toBeVisible();
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await expect(page.getByText("中继添加成功", { exact: true })).toBeVisible();
+  await switchLanguage(page);
   await expect(page.getByTestId("relay-edit-config")).toHaveAccessibleName(
     "Edit relay configuration",
   );
@@ -137,7 +146,7 @@ test("localizes relay settings and preserves the general tab when validation red
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -159,7 +168,7 @@ test("localizes relay settings and preserves the general tab when validation red
   await expect(page.getByTestId("relay-tab-general")).toHaveAttribute("data-state", "active");
   await expect(page.getByTestId("relay-base-url")).toBeVisible();
   await expect(page.getByTestId("relay-config-sheet")).toContainText(
-    "请输入不含查询参数、片段或用户信息的绝对 HTTP(S) URL",
+    "请输入不含查询、片段或用户信息的绝对 http(s) URL",
   );
   await page.screenshot({ path: testInfo.outputPath("relay-settings-zh-CN.png"), fullPage: true });
 });
@@ -168,7 +177,7 @@ test("localizes Warp topic settings and restores their English labels", async ({
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -194,14 +203,12 @@ test("localizes Warp topic settings and restores their English labels", async ({
   });
   await page.goto("/workspace/config/warp");
   await expect(page.getByTestId("warp-topics-start-btn")).toHaveText("初始化主题");
-  await expect(page.getByText("新主题发现阈值", { exact: true })).toBeVisible();
+  await expect(page.getByText("新主题阈值", { exact: true })).toBeVisible();
   await page.getByTestId("warp-topics-info").hover();
   await expect(page.getByTestId("warp-topics-info-content")).toContainText(
-    "主题根据提问内容对请求分组",
+    "主题按请求内容对请求进行分组",
   );
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page);
   await expect(page.getByTestId("warp-topics-start-btn")).toHaveText("Seed topics");
 });
 
@@ -211,7 +218,7 @@ test("localizes news sources, preserves feed names and URLs, and switches to Eng
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -238,9 +245,9 @@ test("localizes news sources, preserves feed names and URLs, and switches to Eng
   await page.getByTestId("notification-tab-news").click();
   await expect(page.getByTestId("rss-empty-state")).toContainText("暂无新闻");
   await page.getByTestId("rss-sources-btn").click();
-  await expect(page.getByTestId("rss-sources-sheet")).toContainText("新闻源");
+  await expect(page.getByTestId("rss-sources-sheet")).toContainText("新闻来源");
   await page.getByTestId("rss-add-feed-submit").click();
-  await expect(page.getByTestId("rss-add-feed-name-error")).toHaveText("为订阅源命名");
+  await expect(page.getByTestId("rss-add-feed-name-error")).toHaveText("请为订阅源命名");
   await page.getByTestId("rss-add-feed-name").fill("Model Providers");
   await page.getByTestId("rss-add-feed-url").fill("https://example.com/News.xml");
   const request = page.waitForRequest(
@@ -253,9 +260,7 @@ test("localizes news sources, preserves feed names and URLs, and switches to Eng
   });
   await expect(page.getByText("已添加 Model Providers", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page);
   await page.getByTestId("topbar-notifications-btn").click();
   await expect(page.getByTestId("notification-tab-news")).toContainText("News");
 });
@@ -266,7 +271,7 @@ test("localizes OpenAPI server creation without changing the spec URL or operati
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -301,7 +306,7 @@ test("localizes OpenAPI server creation without changing the spec URL or operati
   await page.getByTestId("create-mcp-client-btn").click();
   await page.getByTestId("client-name-input").fill("user_api");
   await page.getByTestId("mcp-server-source-openapi").click();
-  await expect(page.getByTestId("mcp-server-source-openapi")).toContainText("从 OpenAPI 规范生成");
+  await expect(page.getByTestId("mcp-server-source-openapi")).toContainText("根据 OpenAPI 规范生成");
   await page.getByTestId("openapi-spec-source-tab-url").click();
   await page.getByTestId("openapi-spec-url-input").fill("https://example.com/Model-Providers.json");
   await expect(page.getByTestId("openapi-parse-btn")).toContainText("获取");
@@ -314,7 +319,7 @@ test("localizes OpenAPI server creation without changing the spec URL or operati
     client_name: "user_api",
   });
   await expect(page.getByTestId("openapi-preview-panel")).toContainText(
-    "操作（1 个中有 1 个受支持）",
+    "操作（支持 1 个，共 1 个）",
   );
   await expect(page.getByTestId("openapi-preview-panel")).toContainText("User API Title");
   await expect(page.getByTestId("openapi-preview-panel")).toContainText(
@@ -340,26 +345,20 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("defaults to Chinese, preserves input when cancelled, persists English and switches back", async ({
+test("defaults to Chinese, switches without losing input, persists English and switches back", async ({
   page,
 }) => {
   await page.goto("/login");
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await expect(page.getByRole("heading", { name: "欢迎回来" })).toBeVisible();
   await page.locator("#username").fill("User-provided Name");
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-cancel").click();
+  await switchLanguage(page);
   await expect(page.locator("#username")).toHaveValue("User-provided Name");
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-apply").click();
-  await expect(page.locator("html")).toHaveAttribute("lang", "en-US");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
   await page.reload();
   await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("zh-CN");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page, "zh-CN");
   await expect(page.getByRole("heading", { name: "欢迎回来" })).toBeVisible();
 });
 
@@ -382,23 +381,23 @@ test("localizes the workspace navigation and provider empty state", async ({ pag
   await page.route("**/session/is-auth-enabled", (route) =>
     route.fulfill({ json: { is_auth_enabled: false, has_valid_token: true } }),
   );
-  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.4.0" }));
+  await page.route("**/api/version", (route) => route.fulfill({ json: "v2.5.0" }));
   await page.route("**/api/config?*", (route) =>
     route.fulfill({ json: { is_db_connected: true, metadata: { onboarding_dismissed: true } } }),
   );
   await page.route("https://getbifrost.ai/latest-release", (route) => route.fulfill({ json: {} }));
   await page.goto("/workspace/providers");
-  await expect(page.getByTestId("language-switcher-trigger")).toBeVisible();
+  await expect(page.getByTestId("topbar-menu-btn")).toBeVisible();
   await expect(page.getByText("模型提供商", { exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("button", { name: "添加提供商", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "添加供应商", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "打开菜单", exact: true }).click();
-  await expect(page.getByText("v2.4.0", { exact: true })).toBeVisible();
+  await expect(page.getByText("v2.5.0", { exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.screenshot({ path: testInfo.outputPath("workspace-zh-CN.png"), fullPage: true });
 });
 
 test("shows Chinese recovery text even when the application bundle fails", async ({ page }) => {
-  await page.route(/\/app\/main\.tsx(?:\?.*)?$/, (route) => route.abort());
+  await page.route(/\/(?:app\/main\.tsx|assets\/.*\.js)(?:\?.*)?$/, (route) => route.abort());
   await page.route("**/assets/i18n-test-missing.js", (route) => route.abort());
   await page.goto("/login");
   await page.evaluate(() => {
@@ -415,6 +414,33 @@ test("ignores an unsupported saved locale", async ({ page }) => {
   await page.goto("/login");
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await expect(page.getByRole("heading", { name: "欢迎回来" })).toBeVisible();
+});
+
+test("preserves the legacy English preference after upgrading", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("bifrost.locale", "en-US"));
+  await page.goto("/login");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
+  expect(await page.evaluate(() => localStorage.getItem("bifrost.locale"))).toBe("en");
+});
+
+test("switches language in Client Settings and preserves it across reloads", async ({ page }) => {
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    let json: unknown = {};
+    if (path.endsWith("/version")) json = "v2.5.0";
+    if (path.endsWith("/session/is-auth-enabled")) json = { is_auth_enabled: false, has_valid_token: true };
+    if (path === "/api/config") json = { client_config: {}, framework_config: {}, is_db_connected: true, metadata: { onboarding_dismissed: true } };
+    await route.fulfill({ json });
+  });
+  await page.goto("/workspace/config/client-settings");
+  await expect(page.getByTestId("client-settings-language-select")).toContainText("简体中文");
+  await page.getByTestId("client-settings-language-select").click();
+  await page.getByTestId("client-settings-language-option-ja").click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "ja");
+  await page.reload();
+  await expect(page.getByTestId("client-settings-language-select")).toContainText("日本語");
+  await expect(page.locator("html")).toHaveAttribute("lang", "ja");
 });
 
 test("localizes setup authentication without changing the token and can switch to English", async ({
@@ -446,9 +472,7 @@ test("localizes setup authentication without changing the token and can switch t
   expect((await request).headers()["x-bifrost-setup-token"]).toBe("User-Token-Model-Providers");
   await expect(page.getByTestId("setup-token-error")).toHaveText("设置令牌无效");
   expect(await page.evaluate(() => sessionStorage.getItem("bifrost-setup-token"))).toBeNull();
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page);
   await expect(page.getByRole("heading", { name: "Finish setting up Bifrost" })).toBeVisible();
 });
 
@@ -469,25 +493,25 @@ test("explains missing setup configuration in Chinese and preserves configuratio
     route.fulfill({ status: 403, json: { error: "setup token missing" } }),
   );
   await page.goto("/login");
-  await expect(page.getByText("此服务器尚未配置设置令牌，暂时无法继续设置。")).toBeVisible();
+  await expect(page.getByText("此服务器上未配置设置令牌，因此暂时无法继续设置。")).toBeVisible();
   await expect(page.getByTestId("setup-token-input")).toHaveCount(0);
   await expect(page.getByTestId("setup-token-instructions").locator("pre")).toHaveText(
     '{ "setup_token": "env.BIFROST_SETUP_TOKEN" }',
   );
 });
 
-test("localizes the v2.2.1 Virtual MCP wizard and preserves its submitted values", async ({
+test("localizes the Virtual MCP wizard and preserves its submitted values", async ({
   page,
 }) => {
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
       json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
-    if (path.endsWith("/version")) json = "2.2.1";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/mcp/virtual-mcps")) {
       json =
         route.request().method() === "POST"
@@ -526,12 +550,12 @@ test("localizes the new classifier status and restores English after switching",
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
       json = { is_db_connected: true, metadata: { onboarding_dismissed: true } };
-    if (path.endsWith("/version")) json = "2.2.1";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/complexity-analyzer-config"))
       json = { keywords: { simple_keywords: [], medium_keywords: [], complex_keywords: [] } };
     if (path.endsWith("/keys")) json = [];
@@ -540,9 +564,7 @@ test("localizes the new classifier status and restores English after switching",
   await page.route("https://getbifrost.ai/latest-release", (route) => route.fulfill({ json: {} }));
   await page.goto("/workspace/complexity-router");
   await expect(page.getByRole("radio", { name: /^决策模型/ })).toBeVisible();
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page);
   await expect(page.getByRole("radio", { name: /^Decision model/ })).toBeVisible();
 });
 
@@ -552,7 +574,7 @@ test("localizes A2A registration and leaves card URLs and agent names unchanged"
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path.endsWith("/config"))
@@ -570,9 +592,9 @@ test("localizes A2A registration and leaves card URLs and agent names unchanged"
     await route.fulfill({ json });
   });
   await page.goto("/workspace/agent-gateway");
-  await expect(page.getByTestId("create-agent-btn")).toHaveAccessibleName("注册首个智能体");
+  await expect(page.getByTestId("create-agent-btn")).toHaveAccessibleName("注册第一个代理");
   await page.getByTestId("create-agent-btn").click();
-  await expect(page.getByRole("heading", { name: "新建智能体", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "新建代理", exact: true })).toBeVisible();
   await page.getByTestId("agent-name-input").fill("model-providers");
   await page
     .getByTestId("agent-card-url-input")
@@ -594,7 +616,7 @@ test("localizes A2A registration and leaves card URLs and agent names unchanged"
     agent_card_url: "https://agent.example.com/Model-Providers.json",
     enabled: true,
   });
-  await expect(page.getByText(/智能体注册成功/)).toBeVisible();
+  await expect(page.getByText(/代理注册成功/)).toBeVisible();
 });
 
 test("localizes Warp settings, keeps its launcher and restores English", async ({
@@ -603,7 +625,7 @@ test("localizes Warp settings, keeps its launcher and restores English", async (
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
     let json: unknown = {};
-    if (path.endsWith("/version")) json = "v2.4.0";
+    if (path.endsWith("/version")) json = "v2.5.0";
     if (path.endsWith("/session/is-auth-enabled"))
       json = { is_auth_enabled: false, has_valid_token: true };
     if (path === "/api/config")
@@ -617,13 +639,11 @@ test("localizes Warp settings, keeps its launcher and restores English", async (
   await page.goto("/workspace/config/warp");
   await expect(page.getByTestId("warp-config-view")).toBeVisible();
   await expect(page.getByTestId("warp-no-providers")).toContainText(
-    "尚未配置提供商。Warp 需要通过提供商运行模型。",
+    "尚未配置供应商。Warp 需要一个供应商来运行其模型。",
   );
   await expect(page.getByTestId("topbar-warp-btn")).toHaveAccessibleName("询问 Warp");
   await page.screenshot({ path: testInfo.outputPath("warp-zh-CN.png"), fullPage: true });
-  await page.getByTestId("language-switcher-trigger").click();
-  await page.getByTestId("language-switcher-select").selectOption("en-US");
-  await page.getByTestId("language-switcher-apply").click();
+  await switchLanguage(page);
   await expect(page.getByTestId("warp-no-providers")).toContainText(
     "No provider is configured yet. Warp needs one to run its model on.",
   );

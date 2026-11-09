@@ -5,26 +5,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { ActionProps } from "react-querybuilder";
-import { t } from "@/lib/i18n/runtime";
 
-export function ActionButton({ handleOnClick, label, className, title }: ActionProps) {
+export function ActionButton({ handleOnClick, label, className, title, testID }: ActionProps) {
+	const { t } = useTranslation("observability");
 	const labelStr = typeof label === "string" ? label : "";
 	const labelLower = labelStr.toLowerCase();
-	const isAddButton = labelLower.includes("add") || [t("Add Rule"), t("Add Rule Group")].includes(labelStr);
+	const isAddButton = labelLower.includes("add");
 	const isRemoveButton =
 		labelLower.includes("remove") ||
 		labelLower === "x" ||
 		labelStr === "x" ||
 		label?.toString().toLowerCase() === "x" ||
-		title === "Remove rule" ||
-		title === "Remove group" ||
-		title === t("Remove rule") ||
-		title === t("Remove group");
+		testID === "remove-rule" ||
+		testID === "remove-group";
 
 	// Icon-only remove button needs an accessible name (no visible label is rendered)
 	const iconOnly = isRemoveButton;
-	const ariaLabel = iconOnly ? labelStr?.trim() || (typeof title === "string" ? title.trim() : "") || "Remove" : undefined;
+	const ariaLabel = iconOnly ? labelStr?.trim() || (typeof title === "string" ? title.trim() : "") || t("celBuilder.remove") : undefined;
 
 	return (
 		<Button

@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 // This suite mocks the API and needs no Go binary, credentials or MCP servers.
 export default defineConfig({
   testDir: "./features/i18n",
+  testMatch: "language.spec.ts",
   fullyParallel: true,
   reporter: "list",
   use: {

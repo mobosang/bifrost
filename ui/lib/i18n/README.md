@@ -1,160 +1,112 @@
-# WebUI 语言维护
+# WebUI 语言维护与 Docker 发布
 
-默认简体中文（`zh-CN`），可在登录页或工作区顶部切换为 English（`en-US`）。选择保存在当前浏览器的 localStorage，受限时尝试 cookie。切换前会提示保存编辑，确认后刷新页面，确保模块级菜单、校验规则和记忆化结果使用同一种语言。其他浏览器不受影响。
+本分支基于官方正式版 [Bifrost HTTP v2.5.0](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.5.0)，通过正常 merge 保留上游历史。
 
-## 上游版本基线
+## 语言方案
 
-截至 2026-11-03，本汉化分支已合并官方最新正式版 [Bifrost HTTP v2.4.0](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.4.0)。对应 Git 标签为 `transports/v2.4.0`，提交为 `e869c3f9adc96ea53c38694a21bb04a8e1085487`。
+v2.5.0 已引入原生 i18next 和 11 种语言。本分支改用该实现，移除旧版 AST 翻译器、重复词库和自定义语言弹窗，避免后续维护两套翻译机制。
 
-本次使用正常 merge 保留上游历史。汉化扩展界面翻译层和测试；后端 Go 源码与该官方标签一致。另修复 `transports/Dockerfile` 和 `transports/Dockerfile.local` 的版本注入：未传 VERSION 或值为 unknown 时从 transports/version 读取版本，保留自定义版本并去除重复的 v 前缀。后续更新应先核对官方最新正式发布标签，再合并该标签，不把持续变化的开发分支当作正式版。
+- 默认简体中文，不随浏览器的英文偏好改变；已保存的其他语言继续有效。
+- 旧版 `bifrost.locale=en-US` 和 `bifrost_locale` cookie 自动兼容为原生 `en`。localStorage 不可用时使用 cookie；两者都不可用时仍可切换当前页面语言。
+- 登录、首次设置、工作区账户菜单和客户端设置均可切换语言。切换立即生效，不刷新页面，也不提交服务器配置。
+- 翻译位于 `ui/locales/zh-CN/`，与上游使用相同的命名空间、键、占位符和复数规则。本次校正 120 处界面文案，并为常见认证错误补充原生翻译键。
+- `plugin.mts` 仅翻译 `index.html` 中主包加载失败时的升级恢复提示；页面组件完全使用原生 i18next。恢复提示不依赖主 JavaScript 包。
 
-版本构建回归可在仓库根目录执行 `node --test transports/docker-version.test.mjs`，需要 Node.js 和 POSIX shell（Windows 使用 Git Bash）。该测试执行 Dockerfile 中实际的构建命令并捕获传给 Go 编译器的参数，不会构建完整 Docker 镜像。
+用户输入、模型输出、提供商及模型 ID、凭据、协议字段、原始日志和代码示例保留原值。已知认证和网络错误在显示时翻译；未知后端或第三方诊断保留原文，日志存储的控制流回退消息也保持原值。企业版私有页面不在此仓库内。
 
-### v2.4.0 升级前检查
+汉化改动仅作用于前端；后端 Go 源码与官方发布标签一致，不增加 Go 推理请求路径的耗时或分配，因此无需新增请求路径基准或付费提供商 harness 测试。
 
-本次从 v2.3.1 合并至 v2.4.0，新增 680 条词库条目，补齐 API 中继（Relays）、中继日志与定价、Warp 主题、MCP 提示词与资源、协议版本选项、透传路由策略、GitHub Copilot 登录和日志导出等文案。校验跳转映射及凭据字段路径按精确规则排除，动态展示摘要和字段说明在显示边界翻译。继续默认中文，可切换英文。
+## 后续同步与增量翻译
 
-- GitHub Copilot 已移除 GitHub App 安装认证。升级前将旧密钥改为在 value 中提供细粒度 PAT 或 GitHub OAuth 令牌；也可使用界面的 GitHub 设备登录。
-- MCP 网关会检查浏览器请求的 Origin，未获准的来源返回 403。不携带 Origin 的 CLI、SDK 和服务端请求不受此项检查影响。
-- MCP 提示词和资源新增公开列表，需核对全局、服务器、虚拟密钥和虚拟 MCP 的权限范围；OAuth 签发者 URL 移至“设置 > 安全”。
-- 版本包含中继、主题、MCP 资源和协议配置等新增表或列，部分迁移不可逆。设备升级前仍应停服备份持久化目录，回退时恢复对应备份。
-
-后端 Go 源码与官方发布标签一致。汉化仅作用于前端编译和显示，不增加 Go 推理请求路径的处理耗时或分配，因此免于新增实时提供商 harness 用例。本次没有运行付费提供商测试、完整 Docker 构建或真实数据库迁移。另将已有 follow-redirects 的固定版本更新至 1.16.2，修复[上游安全公告](https://github.com/advisories/GHSA-mrwp-f3q8-3g9p)所述问题；npm audit 检查为 0 告警。
-
-完整功能、兼容变化和迁移列表见[官方 v2.4.0 发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.4.0)。
-
-### v2.3.1 升级前检查
-
-本次从 v2.3.0 合并至 v2.3.1，新增 252 条词库条目，补齐 OpenAPI 转 MCP、新闻订阅源、虚拟密钥元数据、护栏匹配提示、集群导航、技能设置与日期预设等文案。提取器新增展示摘要属性识别，保留协议值和用户内容。后端 Go 源码直接沿用官方标签；汉化没有改变推理请求路径，无新增 Go 请求耗时或分配，免于新增实时提供商 harness 用例。
-
-- 使用 Agent Gateway 或技能市场时，需要明确配置公共 URL，不再从请求 Host 推导。留空时相应协议端点或市场注册服务不可用。
-- 额外请求头支持环境变量和密钥库引用，保存后 API 返回遮蔽值。重命名请求头或迁移字面值凭据时需重新输入，不能复制遮蔽内容作为秘密值。
-- 版本包含数据库迁移（虚拟密钥元数据、RSS 订阅源、透传日志标记等），仍须停服备份持久化目录；回退时恢复对应备份。
-- 本次未运行完整 Docker 构建、真实数据库迁移及付费提供商测试。前端 mock 测试不替代设备上的部署验证。
-
-详见[官方 v2.3.1 发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.3.1)。
-
-### v2.3.0 升级前检查
-
-本次新增 Agent Gateway、Warp、Cloudflare 原生提供商、OAuth 动态令牌及相关设置的中文翻译。继续使用独立编译翻译层，默认中文且保留英文切换。后端代码与官方标签一致，汉化本身不增加 Go 请求路径耗时或内存分配，因此无需新增提供商实时调用测试；未运行付费提供商测试或完整 Docker/数据库迁移测试。
-
-此版本有数据库迁移及默认行为变化。升级设备前请停服备份整个持久化数据目录，回退时恢复对应备份；不要让旧版和新版同时写入同一数据库。重点检查：
-
-- 名为 cloudflare 的自定义提供商需使用界面迁移到官方提供商；config.json 管理的配置也需同步修改。
-- 已有配置会启用提供商对象的虚拟密钥归属限制，以及仅推理模型转 Responses 的兼容选项。若依赖旧行为，请核对 client.enforce_vk_object_ownership 和 client.compat.force_reasoning_only_models_to_responses。
-- MCP OAuth 的远程回调需列入 client.oauth2_server_config.allowed_redirect_uris；未认证状态下操作私有目标或秘密引用需要管理员认证或设置令牌。
-- 非决策模型的 Decisions 模拟需显式开启；Warp 在 OSS 中默认显示，但使用前仍需配置模型。
-
-其他兼容变化及迁移说明见[官方 v2.3.0 发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.3.0)。
-
-### v2.2.6 升级前检查
-
-此版本包含上游认证行为变化，保留数据挂载并不意味着访问方式完全不变：
-
-- OSS 管理界面未启用认证（没有管理员，或认证被禁用）时，管理 API 现在要求设置令牌。升级前在 Compose 的 environment 中加入 `BIFROST_SETUP_TOKEN=你自行生成的高强度随机令牌`，或在 config.json 顶层配置 setup_token。重启后在中文设置页面输入令牌，创建并启用管理员账户。启用管理界面认证后，设置令牌失效。未启用认证的脚本需通过 X-Bifrost-Setup-Token 请求头传入令牌。
-- 已启用 MCP OAuth 发现（mcp_server_auth_mode 为 oauth 或 both）时，升级前必须配置非空 oauth2_server_config.issuer_url，否则上游会拒绝启动。
-- 新部署未明确配置时，推理认证默认开启；数据库中已保存的设置和显式 false 保留。创建首个管理员也可能开启推理认证，应按自己的访问策略确认虚拟密钥及 enforce_auth_on_inference 设置。
-
-上述行为来自官方版本，汉化不绕过认证。完整 Docker 镜像及真实后端部署应在自己的环境中验证，前端 mock 测试不能替代它们。
-
-### Docker 部署
-
-官方 `maximhq/bifrost:latest` 不含本仓库汉化。可从本仓库 `dev` 分支构建镜像；生产部署建议先记录并固定已验证的提交：
+1. 核对官方最新正式发布标签，再正常 merge 对应 `transports/vX.Y.Z`，保留本分支的中文默认值、偏好兼容和 Docker 版本注入。不要把上游开发分支作为正式版基线。
+2. 查看 `ui/locales/en/` 的增量，补齐 `ui/locales/zh-CN/`。新增键时按根目录 `AGENTS.md` 同步所有语言，保留 `{{placeholders}}`、`<Trans>` 标签和数组形状。不要重新序列化整个词库文件。
+3. 新增界面文字使用 `useTranslation(namespace)` 或 `i18n.t(key, { ns })`；不要翻译接口载荷、枚举和状态比较值。
+4. 在 `ui/` 中执行：
 
 ```sh
-git clone --branch dev https://github.com/mobosang/bifrost.git bifrost-zh
-cd bifrost-zh
-git rev-parse HEAD
-docker build -f transports/Dockerfile.local --build-arg VERSION=2.4.0-zh -t bifrost-zh:2.4.0 .
-```
-
-已部署镜像里的 `vunknown` 不会随 Git 更新自动变化，必须重新构建镜像并重建容器。现在不传 `--build-arg VERSION` 也会正确得到 `v2.4.0`；以上显式传参会显示 `v2.4.0-zh`。
-
-已有 Compose 只需将 `image` 改为 `bifrost-zh:2.4.0`，保留原端口和数据挂载 `/mnt/user/appdata/bifrost/data:/app/data`。先在 Compose 目录停止服务并备份数据，再重建容器：
-
-```sh
-docker compose stop bifrost
-tar -czf "/mnt/user/appdata/bifrost-backup-$(date +%Y%m%d-%H%M%S).tar.gz" -C /mnt/user/appdata/bifrost data
-# 确认备份成功后执行；Compose 的 image 此时应已改为上面构建的镜像。
-docker compose up -d --no-deps --pull never bifrost
-docker compose logs --tail=100 bifrost
-```
-
-此操作保留现有持久化数据目录；官方版本升级可能执行数据库迁移，回退旧镜像时应一并恢复升级前备份。此仓库更新本身不会修改已部署设备，也不会自动发布 Docker 镜像。
-
-## 方案与改动边界
-
-保持原页面、路由、接口、目录和英文源文案。`vite.config.mts` 接入本目录的 Vite 插件，在编译时把已识别的展示文案转换为词库查询；不修改磁盘上的原组件，不遍历或改写 DOM，不依赖在线翻译服务，不增加 npm 依赖。英文模式直接使用源文案。
-
-- `compiler.mjs`：使用项目已有 TypeScript AST 识别 JSX 文本、展示属性、标签、校验和提示。动态插值保留原值；不批量替换字符串、请求载荷、比较条件或对象键。
-- `rules.json`：人工确认的特殊展示容器、变量、函数和字面量。不要把包含接口 ID、枚举或配置值的整个容器加入白名单；用 `propertyContainers` 仅提取已有展示属性。
-  `ignore` 按文件精确排除非展示变量和函数（例如校验跳转表、凭据字段名返回函数）。
-  `calls` 按文件、调用名称和参数下标限定展示参数，例如只提取迁移向导的警告或步骤说明；API 参数和步骤 ID 保持原值。
-- `zh-CN.json`：英文原文 → 简体中文。`{0}`、`{1}` 等对应动态值，数量必须一致。英文修改后成为新条目，旧译文不会误套用。
-- `overrides.json`：按源文件相对路径覆盖同词不同义的翻译。
-- `catalog.json`：提取结果及来源行号；`pending.json`：缺失译文。两者由命令生成，行号不是翻译键，不影响页面运行。
-- `runtime.ts`、`dates.ts`、`notifications.ts`：语言存储、插值、Zod 默认校验、日期、通知组件适配。
-- `bootMessages.json`、`plugin.mts`：JS 主包加载失败时的升级恢复界面。此界面也支持中英文。
-- `errors.ts`：仅在显示边界翻译已知后端错误，保留原错误对象和未知诊断。
-
-不翻译用户输入、模型输出、代码、日志原始载荷、模型 ID、配置键、协议常量及品牌名。CSV 导出字段保持原格式。当前仓库未包含企业版私有页面；合入这些源码后也要执行提取、审查和回归测试。语言入口目前位于登录页与工作区顶栏，公开授权页使用已保存的语言或默认中文。
-
-## 合并上游后的流程
-
-在 `ui` 目录运行：
-
-```sh
-npm run i18n:extract
-npm run i18n:audit
-```
-
-1. 将 `pending.json` 中的条目补入 `zh-CN.json`。提取器会保留原有译文，不自动覆盖人工翻译。
-2. 检查 `review.json` 中未识别的自然语言候选。它包含代码示例、开发日志、比较条件等误报，**不是全部待翻译列表**。确认是展示文字后，再添加精确规则或在显示处调用 `t()`。候选报告不提交 Git。
-3. 查看 `catalog.json` 的来源位置，检查新增展示方式、字符串拼接和第三方控件默认文案；静态提取检查通过不代表所有运行时文案已覆盖。
-4. 运行检查和构建：
-
-```sh
-npm run i18n:extract
+npm ci
 npm run i18n:check
-npm run i18n:test
+node node_modules/vitest/vitest.mjs run --maxWorkers=4 --testTimeout=15000
 npm run build
 ```
 
-`i18n:check` 对缺失翻译和占位符不一致返回非零状态；未识别的新文案会显示原英文，不阻止应用启动。旧键不会自动删除，确认无引用后可手动清理。生成文件有合并冲突时保留人工词库，再重新执行提取。
+`npm run i18n:check -- --untranslated --json` 可列出与英文相同的候选，审查其中的 `zh-CN` 部分；SDK、OAuth、URL、示例请求头和品牌名允许保留。默认完整性检查必须退出 0。只格式化本次实际修改的文件，避免格式化整个项目。
 
-同词不同义示例：
-
-```json
-{
-	"components/example.tsx": {
-		"Key": "键"
-	}
-}
-```
-
-需手动标注的复杂展示位置：
-
-```tsx
-import { t } from "@/lib/i18n/runtime";
-
-<span>{t("Delete {0}", [displayName])}</span>
-<code data-i18n-ignore>{exampleCode}</code>
-```
-
-给 `t()` 传递固定源文案并把用户数据放在插值参数中。`data-i18n-ignore` 禁止自动转换该子树，但其中显式 `t()` 仍可提取。不要对请求对象或状态比较值使用 `t()`。
-
-## 验证与限制
-
-单元测试覆盖编译转换、嵌套编辑、请求值保护、原始内容保护、语言回退、存储受限和插值。独立 Playwright 套件 mock API，可在不运行 Go 后端时验证默认中文、切换记忆、取消保留输入、登录请求值不变、导航及升级恢复页：
+UI 单元测试和原有功能 E2E 固定英文，以保留上游断言。`tests/e2e/i18n.config.ts` 专门运行 mock API 的 `language.spec.ts`，覆盖默认中文、旧偏好迁移、三处语言入口、输入与请求值保护和恢复界面：
 
 ```sh
-# 终端 1，在 ui 目录
+# 终端 1：ui 目录
 npm run dev
 
-# 终端 2，在 tests/e2e 目录
+# 终端 2：tests/e2e 目录
+npm ci
+npx playwright install chromium
 npx playwright test --config=i18n.config.ts
 ```
 
-已启动服务器时设置 `SKIP_WEB_SERVER=1`。可用 `BASE_URL` 指定地址、`PLAYWRIGHT_CHANNEL=msedge` 使用本机 Edge。原有功能测试在公共 fixture 中固定英文，减少上游测试选择器变更；国际化测试使用实际产品默认语言。
+已有服务器时设置 `SKIP_WEB_SERVER=1`；用 `BASE_URL` 指定地址，`PLAYWRIGHT_CHANNEL=msedge` 可使用本机 Edge。上游 `language-switcher.spec.ts` 仍通过原有完整后端 E2E 流程运行。
 
-静态规则需要随上游组件写法调整，不能保证未来任意代码自动识别。词库以离线初译为基础，已校正主导航、常用操作和大量技术术语；长说明文字仍建议结合实际业务语境持续审校。未知后端/第三方错误、远端内容不进行猜测性翻译。构建插件不提供精确源码映射，调试转换问题时以源文件和提取目录为准。
+## Docker Hub 发布
+
+镜像仓库为 [jjjjmo/bifrost](https://hub.docker.com/r/jjjjmo/bifrost)，发布架构为 `linux/amd64`。
+
+在 GitHub 仓库 Settings → Secrets and variables → Actions → **Secrets** 中添加两个 Repository secrets：
+
+- `DOCKER_USERNAME`：Docker ID，当前为 `jjjjmo`。
+- `DOCKER_PASSWORD`：具有 Read & Write 权限的 Docker Hub PAT。
+
+Actions 中手动运行 **Publish Chinese Docker image**（`dockerhub-zh.yml`）。该工作流只在本仓库运行，顺序为：翻译检查及单元测试 → 从当前提交构建完整镜像 → 在隔离数据卷测试从官方 v2.4.0 升级并保留已存储的配置元数据 → 校验运行时版本 → 用 Chromium 测试镜像中实际构建的 WebUI → 推送 Docker Hub。任何检查失败都不会进入推送步骤。
+
+发布标签：`2.5.0-zh`、`2.5.0`、`latest` 和 `sha-<提交前12位>`。版本和镜像标签随 `transports/version` 更新；容器中显示 `v2.5.0-zh`。工作流汇总记录提交和镜像 digest，便于部署固定版本。
+
+本地构建也可以使用：
+
+```sh
+docker build -f transports/Dockerfile.local --build-arg VERSION=2.5.0-zh -t bifrost-zh:2.5.0 .
+```
+
+`transports/Dockerfile` 和 `.local` 在未传 VERSION 或其值为 unknown 时从 `transports/version` 读取版本，避免 `vunknown`，并兼容带或不带 `v` 的自定义版本。回归检查为 `node --test transports/docker-version.test.mjs`。
+
+## 已部署设备升级
+
+在当前 Compose 文件中只修改镜像，保留原来的端口、环境变量和整个数据挂载：
+
+```yaml
+services:
+  bifrost:
+    image: jjjjmo/bifrost:2.5.0-zh
+    container_name: bifrost
+    restart: unless-stopped
+    ports:
+      - "30120:8080"
+    volumes:
+      - /mnt/user/appdata/bifrost/data:/app/data
+    environment:
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8080
+      - LOG_LEVEL=info
+      - LOG_STYLE=json
+```
+
+在 Compose 目录先拉取镜像，再停服备份整个数据目录；确认备份成功后重建容器：
+
+```sh
+docker compose pull bifrost
+docker compose stop bifrost
+tar -czf "/mnt/user/appdata/bifrost-backup-$(date +%Y%m%d-%H%M%S).tar.gz" -C /mnt/user/appdata/bifrost data
+# 确认备份成功后继续。
+docker compose up -d --no-deps bifrost
+docker compose logs --tail=100 bifrost
+```
+
+不要删除持久化数据目录或让新旧容器同时写入同一数据库。升级可能执行不可逆的数据库迁移；回退旧镜像时应同时恢复升级前的备份。发布镜像不会自动修改你的已部署设备。
+
+## 升级前需要核对
+
+- v2.5.0 包含工作负载身份、MCP 按用户发现、提示词缓存和中继日志等数据库迁移，部分不可逆。隔离卷的升级测试不代替你的真实配置和数据库验证。详见[官方发布说明](https://github.com/maximhq/bifrost/releases/tag/transports%2Fv2.5.0)。
+- 从 v2.4.0 以前升级：GitHub Copilot 不再支持 GitHub App 安装认证；需改用 PAT、GitHub OAuth 令牌或设备登录。MCP 浏览器来源限制和提示词/资源权限也需核对。
+- 从 v2.3.x 以前升级：Agent Gateway 和技能市场需要配置公共 URL；新增提供商和虚拟密钥默认行为应按官方迁移说明核对。
+- 尚未启用管理界面认证时，管理 API 要求设置令牌。可在原 Compose 的 environment 中加入 `BIFROST_SETUP_TOKEN=自行生成的高强度随机令牌`，重启后在设置页面输入并创建管理员。已启用管理界面认证的部署不需要为汉化额外更改认证配置。
+- 使用 MCP OAuth 发现时，须配置有效的 `oauth2_server_config.issuer_url`。这些限制来自上游，汉化不绕过认证。
+
+未运行付费提供商测试，也未访问或修改你的生产设备及持久化数据。发布流程的测试使用隔离卷和模拟 UI API。

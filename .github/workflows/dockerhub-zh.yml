@@ -1,0 +1,104 @@
+name: Publish Chinese Docker image
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dockerhub-zh
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'mobosang/bifrost'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      IMAGE: jjjjmo/bifrost
+      SMOKE_VOLUME: bifrost-zh-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Read release version
+        id: release
+        run: |
+          version=$(tr -d '\r\n' < transports/version)
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check translations and UI unit tests
+        working-directory: ui
+        run: |
+          npm ci --no-fund
+          npm run i18n:check
+          node node_modules/vitest/vitest.mjs run --maxWorkers=4 --testTimeout=15000
+
+      - name: Check embedded version arguments
+        run: node --test transports/docker-version.test.mjs
+
+      - name: Build image from this checkout
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          docker build --platform linux/amd64 \
+            -f transports/Dockerfile.local \
+            --build-arg "VERSION=$VERSION-zh" \
+            --label "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --label "org.opencontainers.image.version=$VERSION-zh" \
+            -t "$IMAGE:$VERSION-zh" .
+
+      - name: Test startup, version and persisted configuration upgrade
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: bash .github/workflows/scripts/test-local-image.sh "$IMAGE:$VERSION-zh" "v$VERSION-zh"
+
+      - name: Test the built WebUI in Chromium
+        working-directory: tests/e2e
+        env:
+          SKIP_WEB_SERVER: "1"
+          BASE_URL: http://127.0.0.1:18080
+        run: |
+          npm ci --no-fund
+          npx playwright install --with-deps chromium
+          npx playwright test --config=i18n.config.ts --workers=1
+
+      - name: Push verified image to Docker Hub
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          test -n "$DOCKER_USERNAME" && test -n "$DOCKER_PASSWORD"
+          printf '%s' "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+          for tag in "$VERSION-zh" "$VERSION" latest "sha-${GITHUB_SHA:0:12}"; do
+            docker tag "$IMAGE:$VERSION-zh" "$IMAGE:$tag"
+            docker push "$IMAGE:$tag"
+          done
+          digest=$(docker image inspect --format '{{index .RepoDigests 0}}' "$IMAGE:$VERSION-zh")
+          printf 'Published `%s:%s-zh` (linux/amd64)\n\nCommit: `%s`\n\nDigest: `%s`\n' "$IMAGE" "$VERSION" "$GITHUB_SHA" "$digest" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload browser failure details
+        if: failure()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: dockerhub-zh-browser-failure
+          path: tests/e2e/test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Clean up isolated test container
+        if: always()
+        run: |
+          docker logs bifrost-zh-smoke || true
+          docker rm -f bifrost-zh-smoke || true
+          docker volume rm "$SMOKE_VOLUME" || true
+          docker logout || true

@@ -1,8 +1,8 @@
-[
-	"Bifrost is upgrading",
-	"A new version of Bifrost is being rolled out. This page will retry automatically.",
-	"Bifrost is still upgrading. If this is taking longer than expected, reach out to your administrator for more information.",
-	"Waiting for the upgrade to complete&hellip;",
-	"Automatic reload paused",
-	"Reload now"
-]
+{
+	"Bifrost is upgrading": "Bifrost 正在升级",
+	"A new version of Bifrost is being rolled out. This page will retry automatically.": "Bifrost 正在部署新版本，此页面将自动重试。",
+	"Bifrost is still upgrading. If this is taking longer than expected, reach out to your administrator for more information.": "Bifrost 仍在升级。如果等待时间过长，请联系管理员了解详情。",
+	"Waiting for the upgrade to complete&hellip;": "正在等待升级完成…",
+	"Automatic reload paused": "自动刷新已暂停",
+	"Reload now": "立即刷新"
+}

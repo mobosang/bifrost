@@ -1,7 +1,4 @@
 import type { Plugin } from "vite";
-import path from "node:path";
-import { transform } from "./compiler.mjs";
-import chinese from "./zh-CN.json";
 import messages from "./bootMessages.json";
 import ts from "typescript";
 
@@ -16,7 +13,7 @@ function translateBootScripts(html: string): string {
 				let remaining = node.text;
 				const parts: string[] = [];
 				while (remaining) {
-					const match = messages
+					const match = Object.keys(messages)
 						.map((key) => ({ key, index: remaining.indexOf(key) }))
 						.filter((item) => item.index >= 0)
 						.sort((a, b) => a.index - b.index)[0];
@@ -37,28 +34,16 @@ function translateBootScripts(html: string): string {
 	});
 }
 
-export function localization(root: string): Plugin {
+export function bootLocalization(): Plugin {
 	return {
-		name: "bifrost-localization",
+		name: "bifrost-boot-localization",
 		enforce: "pre",
-		transform(code, id) {
-			const filename = path.relative(root, id.split("?")[0]).replaceAll("\\", "/");
-			if (
-				!/^(app|components|hooks|lib)\/.+\.[tj]sx?$/.test(filename) ||
-				filename.startsWith("lib/i18n/") ||
-				/(?:\.test|\.gen)\./.test(filename)
-			)
-				return null;
-			const transformed = transform(code, filename);
-			return transformed ? { code: transformed, map: null } : null;
-		},
 		transformIndexHtml: {
 			order: "pre",
 			handler(html) {
 				// These strings also have to work if the main JavaScript bundle is
 				// unavailable during an upgrade. Keep this dictionary self-contained.
-				const dict = Object.fromEntries(messages.map((key) => [key, (chinese as Record<string, string>)[key] || key]));
-				const boot = `<script>(function(){var l;try{l=localStorage.getItem('bifrost.locale')}catch(e){}if(l!=='en-US'&&l!=='zh-CN'){try{var c=document.cookie.match(/(?:^|; )bifrost_locale=(en-US|zh-CN)(?:;|$)/);l=c&&c[1]}catch(e){}}l=l==='en-US'?'en-US':'zh-CN';document.documentElement.lang=l;var d=${JSON.stringify(dict).replaceAll("<", "\\u003c")};window.__bfBootText=function(s){return l==='zh-CN'?(d[s]||s):s}})();</script>`;
+				const boot = `<script>(function(){var l,a=['en','zh-CN','zh-TW','ja','ko','es','pt','fr','de','it','ru'];function valid(v){return v==='en-US'||a.indexOf(v)>-1}try{l=localStorage.getItem('bifrost.locale')}catch(e){}if(!valid(l)){try{var c=document.cookie.match(/(?:^|;\\s*)bifrost_locale=([^;]*)/);l=c&&c[1]}catch(e){}}l=l==='en-US'?'en':valid(l)?l:'zh-CN';document.documentElement.lang=l==='zh-CN'?'zh-CN':'en';var d=${JSON.stringify(messages).replaceAll("<", "\\u003c")};window.__bfBootText=function(s){return l==='zh-CN'?(d[s]||s):s}})();</script>`;
 				html = translateBootScripts(html);
 				return html.replace("<head>", "<head>" + boot);
 			},
