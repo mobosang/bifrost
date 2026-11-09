@@ -13,7 +13,7 @@ concurrency:
 jobs:
   publish:
     if: github.repository == 'mobosang/bifrost'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
       IMAGE: jjjjmo/bifrost
@@ -61,14 +61,16 @@ jobs:
           VERSION: ${{ steps.release.outputs.version }}
         run: bash .github/workflows/scripts/test-local-image.sh "$IMAGE:$VERSION-zh" "v$VERSION-zh"
 
-      - name: Test the built WebUI in Chromium
+      - name: Test the built WebUI in Chrome
+        timeout-minutes: 10
         working-directory: tests/e2e
         env:
           SKIP_WEB_SERVER: "1"
           BASE_URL: http://127.0.0.1:18080
+          PLAYWRIGHT_CHANNEL: chrome
         run: |
           npm ci --no-fund
-          npx playwright install --with-deps chromium
+          google-chrome --version
           npx playwright test --config=i18n.config.ts --workers=1
 
       - name: Push verified image to Docker Hub

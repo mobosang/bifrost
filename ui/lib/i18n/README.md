@@ -55,7 +55,7 @@ npx playwright test --config=i18n.config.ts
 - `DOCKER_USERNAME`：Docker ID，当前为 `jjjjmo`。
 - `DOCKER_PASSWORD`：具有 Read & Write 权限的 Docker Hub PAT。
 
-Actions 中手动运行 **Publish Chinese Docker image**（`dockerhub-zh.yml`）。该工作流只在本仓库运行，顺序为：翻译检查及单元测试 → 从当前提交构建完整镜像 → 在隔离数据卷测试从官方 v2.4.0 升级并保留已存储的配置元数据 → 校验运行时版本 → 用 Chromium 测试镜像中实际构建的 WebUI → 推送 Docker Hub。任何检查失败都不会进入推送步骤。
+Actions 中手动运行 **Publish Chinese Docker image**（`dockerhub-zh.yml`）。该工作流只在本仓库运行，顺序为：翻译检查及单元测试 → 从当前提交构建完整镜像 → 在隔离数据卷测试从官方 v2.4.0 升级并保留已存储的配置元数据 → 校验运行时版本 → 用执行环境预装的 Chrome 测试镜像中实际构建的 WebUI → 推送 Docker Hub。执行环境固定 Ubuntu 24.04，浏览器检查限时 10 分钟。任何检查失败都不会进入推送步骤。
 
 发布标签：`2.5.0-zh`、`2.5.0`、`latest` 和 `sha-<提交前12位>`。版本和镜像标签随 `transports/version` 更新；容器中显示 `v2.5.0-zh`。工作流汇总记录提交和镜像 digest，便于部署固定版本。
 
